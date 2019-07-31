@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_background">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_category_list"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginEnd="72dp"
+        app:tabIndicatorColor="#ED6B2D"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="#ED6B2D"
+        app:tabTextColor="@color/black" />
+
+    <ImageView
+        android:id="@+id/iv_sort"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_sort_gray_24dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/tl_category_list"
+        android:background="@color/common_divide_line" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tl_category_list">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_category_conts_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading_view"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:indicatorColor="#ff0000"
+        app:indicatorName="BallPulseIndicator" />
+</RelativeLayout>

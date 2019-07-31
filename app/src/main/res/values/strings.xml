@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PearVideoClient</string>
+    <string name="like_count">$1%s喜欢</string>
+    <string name="tv_modify_data">修改资料</string>
+    <string name="tv_login">登录</string>
+    <string name="tv_unregistered_hint">未注册手机验证后自动登录</string>
+    <string name="tv_enter_dynamic_passowrd">请输入密码</string>
+    <string name="tv_enter_tele_phone">请输入手机号/邮箱</string>
+    <string name="tv_get_var_code">获取动态密码</string>
+    <string name="tv_tele_quick_login">登录</string>
+    <string name="detail_up">收起</string>
+    <string name="detail_down">详情</string>
+</resources>

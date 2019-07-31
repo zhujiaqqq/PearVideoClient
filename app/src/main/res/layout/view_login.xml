@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login">
+
+    <TextView
+        android:id="@+id/tv_login_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:text="@string/tv_tele_quick_login"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_tele_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_login_hint"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="25dp"
+        android:background="@null"
+        android:hint="@string/tv_enter_tele_phone"
+        android:inputType="phone"
+        android:textColor="@color/white"
+        android:textColorHint="#999999" />
+
+    <View
+        android:id="@+id/view_guide_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/et_tele_num"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="#999999" />
+
+    <EditText
+        android:id="@+id/et_var_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_guide_line"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        android:background="@null"
+        android:hint="@string/tv_enter_dynamic_passowrd"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:textColor="@color/white"
+        android:textColorHint="#999999" />
+
+    <View
+        android:id="@+id/view_guide_line_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/et_var_code"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="#999999" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_guide_line_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/bg_transparent_round_white"
+        android:paddingStart="50dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="50dp"
+        android:paddingBottom="10dp"
+        android:text="@string/tv_login"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>

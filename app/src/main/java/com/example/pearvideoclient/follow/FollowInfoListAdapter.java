@@ -1,0 +1,32 @@
+package com.example.pearvideoclient.follow;
+
+import android.support.annotation.Nullable;
+import android.widget.ImageView;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.entity.bean.MyFollowCountListBean;
+
+import java.util.List;
+
+/**
+ * @author zhujiaqqq
+ * @date 2019-07-15
+ */
+public class FollowInfoListAdapter extends BaseQuickAdapter<MyFollowCountListBean.DataListBean, BaseViewHolder> {
+
+
+    public FollowInfoListAdapter(int layoutResId, @Nullable List<MyFollowCountListBean.DataListBean> data) {
+        super(layoutResId, data);
+    }
+
+    @Override
+    protected void convert(BaseViewHolder helper, MyFollowCountListBean.DataListBean item) {
+        helper.setText(R.id.tv_author_name, item.getContInfo().getUserInfo().getNickname())
+                .setText(R.id.tv_video_name, item.getContInfo().getName())
+                .setText(R.id.tv_like, String.format(mContext.getString(R.string.like_count), item.getContInfo().getCommentTimes()));
+        ImageView ivAuthorImg = helper.getView(R.id.iv_author_img);
+        ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
+    }
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_home"
+        android:title="首页"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/channel"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_channel"
+        android:title="频道"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/screen"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_screen"
+        android:title="爆料"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/follow"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_follow"
+        android:title="关注"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/mine"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_mine"
+        android:title="我的"
+        app:showAsAction="ifRoom" />
+
+
+</menu>
