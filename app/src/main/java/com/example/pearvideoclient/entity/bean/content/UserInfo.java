@@ -16,6 +16,15 @@ public class UserInfo {
     private String pic;
     private String level;
     private String signature;
+    private String isFollow;
+
+    public String getIsFollow() {
+        return isFollow;
+    }
+
+    public void setIsFollow(String isFollow) {
+        this.isFollow = isFollow;
+    }
 
     public String getSignature() {
         return signature;

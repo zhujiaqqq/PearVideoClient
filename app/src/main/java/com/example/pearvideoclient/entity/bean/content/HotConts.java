@@ -9,7 +9,7 @@ package com.example.pearvideoclient.entity.bean.content;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class HotConts {
+public class HotConts extends AbstractConts {
 
     private String contId;
     private String name;

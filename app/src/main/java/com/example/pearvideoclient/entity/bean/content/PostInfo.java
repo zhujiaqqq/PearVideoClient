@@ -19,7 +19,7 @@ public class PostInfo {
     private CommunityInfo communityInfo;
     private String isfavorited;
     private String postHtml;
-    private List<ChildList> childList;
+//    private List<ChildList> childList;
     private String moreCommentUrl;
     public void setPostId(String postId) {
          this.postId = postId;
@@ -70,12 +70,12 @@ public class PostInfo {
          return postHtml;
      }
 
-    public void setChildList(List<ChildList> childList) {
-         this.childList = childList;
-     }
-     public List<ChildList> getChildList() {
-         return childList;
-     }
+//    public void setChildList(List<ChildList> childList) {
+//         this.childList = childList;
+//     }
+//     public List<ChildList> getChildList() {
+//         return childList;
+//     }
 
     public void setMoreCommentUrl(String moreCommentUrl) {
          this.moreCommentUrl = moreCommentUrl;

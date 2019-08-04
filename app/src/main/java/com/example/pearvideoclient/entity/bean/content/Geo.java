@@ -1,6 +1,6 @@
 /**
-  * Copyright 2019 bejson.com 
-  */
+ * Copyright 2019 bejson.com
+ */
 package com.example.pearvideoclient.entity.bean.content;
 
 /**
@@ -16,55 +16,63 @@ public class Geo {
     private String address;
     private String loc;
     private String placeName;
-    private int longitude;
-    private int latitude;
+    private String longitude;
+    private String latitude;
+
     public void setNamePath(String namePath) {
-         this.namePath = namePath;
-     }
-     public String getNamePath() {
-         return namePath;
-     }
+        this.namePath = namePath;
+    }
+
+    public String getNamePath() {
+        return namePath;
+    }
 
     public void setShowName(String showName) {
-         this.showName = showName;
-     }
-     public String getShowName() {
-         return showName;
-     }
+        this.showName = showName;
+    }
+
+    public String getShowName() {
+        return showName;
+    }
 
     public void setAddress(String address) {
-         this.address = address;
-     }
-     public String getAddress() {
-         return address;
-     }
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
 
     public void setLoc(String loc) {
-         this.loc = loc;
-     }
-     public String getLoc() {
-         return loc;
-     }
+        this.loc = loc;
+    }
+
+    public String getLoc() {
+        return loc;
+    }
 
     public void setPlaceName(String placeName) {
-         this.placeName = placeName;
-     }
-     public String getPlaceName() {
-         return placeName;
-     }
+        this.placeName = placeName;
+    }
 
-    public void setLongitude(int longitude) {
-         this.longitude = longitude;
-     }
-     public int getLongitude() {
-         return longitude;
-     }
+    public String getPlaceName() {
+        return placeName;
+    }
 
-    public void setLatitude(int latitude) {
-         this.latitude = latitude;
-     }
-     public int getLatitude() {
-         return latitude;
-     }
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
 
 }

@@ -1,6 +1,6 @@
 /**
-  * Copyright 2019 bejson.com 
-  */
+ * Copyright 2019 bejson.com
+ */
 package com.example.pearvideoclient.entity.bean.content;
 
 /**
@@ -9,7 +9,7 @@ package com.example.pearvideoclient.entity.bean.content;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class RelateConts {
+public class RelateConts extends AbstractConts {
 
     private String contId;
     private String name;
@@ -25,102 +25,117 @@ public class RelateConts {
     private String liveStatus;
     private String praiseTimes;
     private String adExpMonitorUrl;
+
     public void setContId(String contId) {
-         this.contId = contId;
-     }
-     public String getContId() {
-         return contId;
-     }
+        this.contId = contId;
+    }
+
+    public String getContId() {
+        return contId;
+    }
 
     public void setName(String name) {
-         this.name = name;
-     }
-     public String getName() {
-         return name;
-     }
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public void setPic(String pic) {
-         this.pic = pic;
-     }
-     public String getPic() {
-         return pic;
-     }
+        this.pic = pic;
+    }
+
+    public String getPic() {
+        return pic;
+    }
 
     public void setUserInfo(UserInfo userInfo) {
-         this.userInfo = userInfo;
-     }
-     public UserInfo getUserInfo() {
-         return userInfo;
-     }
+        this.userInfo = userInfo;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
 
     public void setLink(String link) {
-         this.link = link;
-     }
-     public String getLink() {
-         return link;
-     }
+        this.link = link;
+    }
+
+    public String getLink() {
+        return link;
+    }
 
     public void setLinkType(String linkType) {
-         this.linkType = linkType;
-     }
-     public String getLinkType() {
-         return linkType;
-     }
+        this.linkType = linkType;
+    }
+
+    public String getLinkType() {
+        return linkType;
+    }
 
     public void setCornerLabel(String cornerLabel) {
-         this.cornerLabel = cornerLabel;
-     }
-     public String getCornerLabel() {
-         return cornerLabel;
-     }
+        this.cornerLabel = cornerLabel;
+    }
+
+    public String getCornerLabel() {
+        return cornerLabel;
+    }
 
     public void setCornerLabelDesc(String cornerLabelDesc) {
-         this.cornerLabelDesc = cornerLabelDesc;
-     }
-     public String getCornerLabelDesc() {
-         return cornerLabelDesc;
-     }
+        this.cornerLabelDesc = cornerLabelDesc;
+    }
+
+    public String getCornerLabelDesc() {
+        return cornerLabelDesc;
+    }
 
     public void setForwordType(String forwordType) {
-         this.forwordType = forwordType;
-     }
-     public String getForwordType() {
-         return forwordType;
-     }
+        this.forwordType = forwordType;
+    }
+
+    public String getForwordType() {
+        return forwordType;
+    }
 
     public void setVideoType(String videoType) {
-         this.videoType = videoType;
-     }
-     public String getVideoType() {
-         return videoType;
-     }
+        this.videoType = videoType;
+    }
+
+    public String getVideoType() {
+        return videoType;
+    }
 
     public void setDuration(String duration) {
-         this.duration = duration;
-     }
-     public String getDuration() {
-         return duration;
-     }
+        this.duration = duration;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
 
     public void setLiveStatus(String liveStatus) {
-         this.liveStatus = liveStatus;
-     }
-     public String getLiveStatus() {
-         return liveStatus;
-     }
+        this.liveStatus = liveStatus;
+    }
+
+    public String getLiveStatus() {
+        return liveStatus;
+    }
 
     public void setPraiseTimes(String praiseTimes) {
-         this.praiseTimes = praiseTimes;
-     }
-     public String getPraiseTimes() {
-         return praiseTimes;
-     }
+        this.praiseTimes = praiseTimes;
+    }
+
+    public String getPraiseTimes() {
+        return praiseTimes;
+    }
 
     public void setAdExpMonitorUrl(String adExpMonitorUrl) {
-         this.adExpMonitorUrl = adExpMonitorUrl;
-     }
-     public String getAdExpMonitorUrl() {
-         return adExpMonitorUrl;
-     }
+        this.adExpMonitorUrl = adExpMonitorUrl;
+    }
+
+    public String getAdExpMonitorUrl() {
+        return adExpMonitorUrl;
+    }
 
 }

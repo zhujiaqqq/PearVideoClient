@@ -2,10 +2,13 @@ package com.example.pearvideoclient;
 
 import com.example.pearvideoclient.entity.bean.CategoryBean;
 import com.example.pearvideoclient.entity.bean.CategoryContsBean;
+import com.example.pearvideoclient.entity.bean.ContPraise;
 import com.example.pearvideoclient.entity.bean.LoginBean;
 import com.example.pearvideoclient.entity.bean.LogoutBean;
 import com.example.pearvideoclient.entity.bean.MsgMarkBean;
 import com.example.pearvideoclient.entity.bean.MyReadHisListBean;
+import com.example.pearvideoclient.entity.bean.UserConts;
+import com.example.pearvideoclient.entity.bean.UserFollowBean;
 import com.example.pearvideoclient.entity.bean.UserHomeBean;
 import com.example.pearvideoclient.entity.bean.UserInfoBean;
 import com.example.pearvideoclient.entity.bean.content.ContentBean;
@@ -107,5 +110,35 @@ public interface Api {
      */
     @GET("clt/jsp/v4/content.jsp")
     Observable<ContentBean> getContent(@Query("contId") String contId);
+
+    /**
+     * 给视频star
+     *
+     * @return
+     */
+    @POST("clt/v4/contPraise.msp")
+    @FormUrlEncoded
+    Observable<ContPraise> toStar(@Field("contId") String contId);
+
+    /**
+     * 获取作者信息
+     *
+     * @param userId 用户ID
+     * @return 作者信息
+     */
+    @POST("clt/jsp/v4/getUserConts.jsp")
+    @FormUrlEncoded
+    Observable<UserConts> getUserConts(@Field("userId") String userId);
+
+    /**
+     * 关注/取关用户
+     *
+     * @param opt     1：关注 2：取关
+     * @param userIds 用户ID
+     * @return 返回结果
+     */
+    @POST("clt/v4/optUserFollow.msp")
+    @FormUrlEncoded
+    Observable<UserFollowBean> optUserFollow(@Field("opt") String opt, @Field("userIds") String userIds);
 
 }

@@ -5,6 +5,7 @@ import android.view.animation.Animation;
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
 import com.example.pearvideoclient.entity.bean.content.Content;
+import com.example.pearvideoclient.entity.bean.content.HotConts;
 import com.example.pearvideoclient.entity.bean.content.RelateConts;
 import com.example.pearvideoclient.entity.bean.content.Tags;
 import com.example.pearvideoclient.entity.bean.content.Videos;
@@ -41,6 +42,13 @@ public interface ContentContract {
         void showRelatedVideos(List<RelateConts> relateConts);
 
         /**
+         * 加载热门视频列表
+         *
+         * @param hotConts 热门视频列表
+         */
+        void showHotVideos(List<HotConts> hotConts);
+
+        /**
          * 加载标签列表
          *
          * @param tags 标签列表
@@ -62,10 +70,21 @@ public interface ContentContract {
         void showController(boolean isShow);
 
         /**
-         *
          * @param animation
          */
         void viewDoAnimation(Animation animation);
+
+        /**
+         * 显示star
+         *
+         * @param isStar 是否star
+         */
+        void showStar(boolean isStar);
+
+        /**
+         * 切换关注状态
+         */
+        void toggleAttention();
 
     }
 
@@ -78,7 +97,7 @@ public interface ContentContract {
         /**
          * 加Star
          */
-        void star();
+        void star(String contId);
 
         /**
          * 收藏
@@ -94,21 +113,6 @@ public interface ContentContract {
          * 关注
          */
         void attention();
-
-        /**
-         * 停止
-         */
-        void stop();
-
-        /**
-         * 暂停
-         */
-        void pause();
-
-        /**
-         * 播放
-         */
-        void play();
 
         /**
          * 全屏
@@ -129,5 +133,13 @@ public interface ContentContract {
          * 隐藏视频控制器
          */
         void hidePlayController();
+
+        /**
+         * 关注/取关
+         *
+         * @param opt    1：关注  2：取关
+         * @param userId 用户ID
+         */
+        void toOptUserFollow(String opt, String userId);
     }
 }

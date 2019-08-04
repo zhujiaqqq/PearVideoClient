@@ -29,18 +29,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/iv_stop"
+        android:layout_toStartOf="@+id/iv_full_screen"
         android:layout_toEndOf="@+id/tv_time" />
 
 
     <ImageView
-        android:id="@+id/iv_stop"
+        android:id="@+id/iv_full_screen"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:contentDescription="@null"
         android:paddingEnd="10dp"
-        android:src="@drawable/ic_stop_white_24dp" />
+        android:src="@drawable/ic_fullscreen_white_24dp" />
 
 </RelativeLayout>

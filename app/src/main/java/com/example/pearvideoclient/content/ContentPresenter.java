@@ -7,12 +7,17 @@ import android.view.animation.AnimationUtils;
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.entity.bean.ContPraise;
+import com.example.pearvideoclient.entity.bean.UserFollowBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.example.pearvideoclient.Constants.SUCCESS;
 
 /**
  * @Description: java类作用描述
@@ -22,12 +27,16 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ContentPresenter implements ContentContract.Presenter {
     public static final int MSG_HIDDEN_CONTROLLER = 0x99;
+    public static final String FOLLOW_USER = "1";
+    public static final String UN_FOLLOW_USER = "2";
     private ContentContract.View mView;
     private Handler mHandler;
     private CompositeDisposable mCompositeDisposable;
     private boolean isShowDetail;
     private boolean isShowController;
     private long time;
+
+    private boolean isStar;
 
     public ContentPresenter(ContentContract.View mView, Handler handler) {
         this.mView = mView;
@@ -49,6 +58,7 @@ public class ContentPresenter implements ContentContract.Presenter {
                             mView.showDetail(false);
                             mView.showVideoInfo(contentBean.getContent());
                             mView.showRelatedVideos(contentBean.getRelateConts());
+                            mView.showHotVideos(contentBean.getHotConts());
                             mView.showTags(contentBean.getContent().getTags());
                         },
                         throwable -> mView.cancelLoading(),
@@ -57,7 +67,23 @@ public class ContentPresenter implements ContentContract.Presenter {
     }
 
     @Override
-    public void star() {
+    public void star(String contId) {
+        if (isStar) {
+            return;
+        }
+        isStar = true;
+        Disposable disposable = RetrofitManager.getInstance().createReq(Api.class).toStar(contId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ContPraise>() {
+                    @Override
+                    public void accept(ContPraise contPraise) throws Exception {
+                        if (SUCCESS.equals(contPraise.getResultMsg())) {
+                            mView.showStar(true);
+                        }
+                    }
+                });
+        mCompositeDisposable.add(disposable);
 
     }
 
@@ -73,21 +99,6 @@ public class ContentPresenter implements ContentContract.Presenter {
 
     @Override
     public void attention() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void play() {
 
     }
 
@@ -120,6 +131,22 @@ public class ContentPresenter implements ContentContract.Presenter {
         mView.showController(false);
         Animation animation = AnimationUtils.loadAnimation(MyApplication.getInstance(), R.anim.move_bottom);
         mView.viewDoAnimation(animation);
+    }
+
+    @Override
+    public void toOptUserFollow(String opt, String userId) {
+        Disposable disposable = RetrofitManager.getInstance().createReq(Api.class).optUserFollow(opt, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<UserFollowBean>() {
+                    @Override
+                    public void accept(UserFollowBean userFollowBean) throws Exception {
+                        if (SUCCESS.equals(userFollowBean.getResultMsg())) {
+                            mView.toggleAttention();
+                        }
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 
     @Override

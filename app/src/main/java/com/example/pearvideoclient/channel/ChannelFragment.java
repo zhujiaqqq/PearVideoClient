@@ -94,6 +94,7 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
                 Intent intent = new Intent(getActivity(), ContentActivity.class);
                 String contId = bean.getContId();
                 intent.putExtra("contId", contId);
+                intent.putExtra("userId", bean.getUserInfo().getUserId());
                 startActivity(intent);
             }
         });

@@ -1,5 +1,6 @@
 package com.example.pearvideoclient.content;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -7,9 +8,11 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -19,10 +22,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.pearvideoclient.AuthorActivity;
 import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.bean.content.Content;
+import com.example.pearvideoclient.entity.bean.content.HotConts;
 import com.example.pearvideoclient.entity.bean.content.RelateConts;
 import com.example.pearvideoclient.entity.bean.content.Tags;
 import com.example.pearvideoclient.entity.bean.content.Videos;
@@ -34,7 +39,9 @@ import java.util.List;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
+import static com.example.pearvideoclient.content.ContentPresenter.FOLLOW_USER;
 import static com.example.pearvideoclient.content.ContentPresenter.MSG_HIDDEN_CONTROLLER;
+import static com.example.pearvideoclient.content.ContentPresenter.UN_FOLLOW_USER;
 
 /**
  * @Description: java类作用描述
@@ -43,6 +50,8 @@ import static com.example.pearvideoclient.content.ContentPresenter.MSG_HIDDEN_CO
  * @ClassName: ContentActivity
  */
 public class ContentActivity extends AppCompatActivity implements ContentContract.View, LocalHandler.IHandler {
+    private static final String TAG = "ContentActivity";
+
     public static final int MSG_REFRESH = 1001;
 
     private VideoPlayerIJK mVideoPlayer;
@@ -58,11 +67,14 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     private TextView mTvAttention;
     private ImageView mIvSmallUserImage;
     private RecyclerView mRvRelatedVideos;
+    private RecyclerView mRvHotVideos;
     private AVLoadingIndicatorView mLoadingView;
     private RelativeLayout mPlayBottomLayout;
     private ImageView mIvArrow;
     private NestedScrollView mNsvVideoInfo;
     private FlowLayout mFlowLayout;
+    private RelativeLayout mRlUserLayout;
+
 
     private ImageView mIvPlay;
     private ImageView mIvStop;
@@ -74,6 +86,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     private String contId;
 
     private RelatedVideoAdapter mRelatedVideoAdapter;
+    private RelatedVideoAdapter mHotVideoAdapter;
 
 
     private LocalHandler localHandler = new LocalHandler(this);
@@ -88,6 +101,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         @Override
         public void onCompletion(IMediaPlayer iMediaPlayer) {
             mIvPlay.setImageDrawable(getDrawable(R.drawable.ic_play_arrow_white_24dp));
+            Log.d(TAG, "onCompletion: ");
         }
 
         @Override
@@ -108,12 +122,12 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
         @Override
         public void onSeekComplete(IMediaPlayer iMediaPlayer) {
-            //
+            Log.d(TAG, "onSeekComplete: ");
         }
 
         @Override
         public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
-            //
+            Log.d(TAG, "onVideoSizeChanged: ");
         }
     };
 
@@ -132,7 +146,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             //停止拖动
-            mVideoPlayer.seekTo(mVideoPlayer.getDuration() * seekBar.getProgress() / 100);
+            mVideoPlayer.seekTo((long) (mVideoPlayer.getDuration() * seekBar.getProgress() / 100.0));
             localHandler.sendEmptyMessageDelayed(MSG_REFRESH, 100);
             localHandler.sendEmptyMessageDelayed(MSG_HIDDEN_CONTROLLER, 3000);
         }
@@ -146,13 +160,19 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
                     mPresenter.showPlayController();
                     break;
                 case R.id.iv_play:
-                    mPresenter.play();
+                    if (mVideoPlayer.isPlaying()) {
+                        mVideoPlayer.pause();
+                        mIvPlay.setImageDrawable(getDrawable(R.drawable.ic_play_arrow_white_24dp));
+                    } else {
+                        mVideoPlayer.start();
+                        mIvPlay.setImageDrawable(getDrawable(R.drawable.ic_pause_white_24dp));
+                    }
                     break;
-                case R.id.iv_stop:
-                    mPresenter.stop();
+                case R.id.iv_full_screen:
+
                     break;
                 case R.id.tv_star:
-                    mPresenter.star();
+                    mPresenter.star(contId);
                     break;
                 case R.id.tv_collect:
                     mPresenter.collect();
@@ -164,13 +184,25 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
                     mPresenter.toggleDetail();
                     break;
                 case R.id.tv_attention:
-                    mPresenter.attention();
+                    mPresenter.toOptUserFollow(isAttention ? UN_FOLLOW_USER : FOLLOW_USER, userId);
+                    isAttention = !isAttention;
+                    break;
+                case R.id.rl_user_layout:
+                    // TODO: 2019-08-04 跳转用户信息页面
+//                    Intent intent = new Intent(ContentActivity.this, AuthorActivity.class);
+//                    intent.putExtra("userId", userId);
+//                    startActivity(intent);
                     break;
                 default:
                     break;
             }
         }
     };
+    private String userId;
+    /**
+     * 是否关注作者
+     */
+    private boolean isAttention;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -195,14 +227,16 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mTvAttention = findViewById(R.id.tv_attention);
         mIvSmallUserImage = findViewById(R.id.iv_small_user_image);
         mRvRelatedVideos = findViewById(R.id.rv_related_videos);
+        mRvHotVideos = findViewById(R.id.rv_hot_videos);
         mLoadingView = findViewById(R.id.loading_view);
         mPlayBottomLayout = findViewById(R.id.play_bottom_layout);
         mNsvVideoInfo = findViewById(R.id.nsv_video_info);
         mIvArrow = findViewById(R.id.iv_arrow);
         mFlowLayout = findViewById(R.id.flow_layout);
+        mRlUserLayout = findViewById(R.id.rl_user_layout);
 
         mIvPlay = findViewById(R.id.iv_play);
-        mIvStop = findViewById(R.id.iv_stop);
+        mIvStop = findViewById(R.id.iv_full_screen);
         mSeekBar = findViewById(R.id.seek_bar);
         mTvTime = findViewById(R.id.tv_time);
 
@@ -218,6 +252,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         }
 
         contId = getIntent().getStringExtra("contId");
+        userId = getIntent().getStringExtra("userId");
         mVideoPlayer.setListener(playerListener);
         mSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
 
@@ -229,6 +264,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mIvStop.setOnClickListener(onClickListener);
         mIvPlay.setOnClickListener(onClickListener);
         mVideoPlayer.setOnClickListener(onClickListener);
+        mRlUserLayout.setOnClickListener(onClickListener);
 
         mRvRelatedVideos.setLayoutManager(new LinearLayoutManager(ContentActivity.this, LinearLayoutManager.VERTICAL, false));
         mRelatedVideoAdapter = new RelatedVideoAdapter(R.layout.adapter_related_video_item, null);
@@ -238,6 +274,15 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
             mNsvVideoInfo.scrollTo(0, 0);
         });
         mRvRelatedVideos.setAdapter(mRelatedVideoAdapter);
+
+        mRvHotVideos.setLayoutManager(new LinearLayoutManager(ContentActivity.this, LinearLayoutManager.VERTICAL, false));
+        mHotVideoAdapter = new RelatedVideoAdapter(R.layout.adapter_related_video_item, null);
+        mHotVideoAdapter.setListener(nextContId -> {
+            mPresenter.loadContent(nextContId);
+            //scrollerView滑动到顶部
+            mNsvVideoInfo.scrollTo(0, 0);
+        });
+        mRvHotVideos.setAdapter(mHotVideoAdapter);
     }
 
     @Override
@@ -275,6 +320,11 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
                         .diskCacheStrategy(DiskCacheStrategy.NONE))
                 .load(content.getUserInfo().getPic())
                 .into(mIvSmallUserImage);
+
+        if (content.getUserInfo().getIsFollow() != null && "1".equals(content.getUserInfo().getIsFollow())) {
+            isAttention = true;
+            toggleAttention();
+        }
     }
 
     @Override
@@ -289,15 +339,18 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     @Override
+    public void showHotVideos(List<HotConts> hotConts) {
+        mHotVideoAdapter.replaceData(hotConts);
+    }
+
+    @Override
     public void showTags(List<Tags> tags) {
+        mFlowLayout.removeAllViews();
         for (Tags tag : tags) {
             TextView tv = (TextView) LayoutInflater.from(this).inflate(R.layout.tag_layout, mFlowLayout, false);
             tv.setText(tag.getName());
-            tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println(tag.getTagId());
-                }
+            tv.setOnClickListener(v -> {
+                //
             });
             mFlowLayout.addView(tv);
         }
@@ -323,6 +376,32 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     @Override
     public void viewDoAnimation(Animation animation) {
         mPlayBottomLayout.startAnimation(animation);
+    }
+
+    @Override
+    public void showStar(boolean isStar) {
+        mTvStar.setText(starAdded());
+        mTvStar.setCompoundDrawablesWithIntrinsicBounds(
+                getDrawable(R.drawable.ic_favorite_red_24dp),
+                null, null, null);
+        mTvStar.startAnimation(AnimationUtils.loadAnimation(this, R.anim.to_star));
+    }
+
+    @Override
+    public void toggleAttention() {
+        mTvAttention.setText(isAttention ? "已关注" : "关注");
+        mTvAttention.setBackground(isAttention ?
+                getDrawable(R.drawable.bg_round_f2) : getDrawable(R.drawable.bg_round_yellow));
+    }
+
+    private String starAdded() {
+        String oldStar = mTvStar.getText().toString().trim();
+        try {
+            Integer old = Integer.valueOf(oldStar);
+            return String.valueOf(old + 1);
+        } catch (Exception e) {
+            return oldStar;
+        }
     }
 
     @Override
@@ -355,8 +434,8 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
             case MSG_REFRESH:
                 if (mVideoPlayer.isPlaying()) {
                     refresh();
-                    localHandler.sendEmptyMessageDelayed(MSG_REFRESH, 1000);
                 }
+                localHandler.sendEmptyMessageDelayed(MSG_REFRESH, 1000);
                 break;
             case MSG_HIDDEN_CONTROLLER:
                 mPresenter.hidePlayController();
@@ -373,7 +452,14 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         long currentMinute = current / 60;
         long totalSecond = duration % 60;
         long totalMinute = duration / 60;
-        String time = currentMinute + ":" + currentSecond + "/" + totalMinute + ":" + totalSecond;
+        String time =
+                (currentMinute > 9 ? currentMinute : ("0" + currentMinute)) +
+                        ":" +
+                        (currentSecond > 9 ? currentSecond : ("0" + currentSecond)) +
+                        "/" +
+                        (totalMinute > 9 ? totalMinute : ("0" + totalMinute)) +
+                        ":" +
+                        (totalSecond > 9 ? totalSecond : ("0" + totalSecond));
         mTvTime.setText(time);
         if (duration != 0) {
             mSeekBar.setProgress((int) (current * 100 / duration));

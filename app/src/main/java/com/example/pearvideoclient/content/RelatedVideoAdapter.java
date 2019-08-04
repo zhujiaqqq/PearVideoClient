@@ -1,8 +1,6 @@
 package com.example.pearvideoclient.content;
 
-import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -10,6 +8,8 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.entity.bean.content.AbstractConts;
+import com.example.pearvideoclient.entity.bean.content.HotConts;
 import com.example.pearvideoclient.entity.bean.content.RelateConts;
 
 import java.util.List;
@@ -20,32 +20,43 @@ import java.util.List;
  * @Date: 2019-07-29 21:45
  * @ClassName: RelatedVideoAdapter
  */
-public class RelatedVideoAdapter extends BaseQuickAdapter<RelateConts, BaseViewHolder> {
+public class RelatedVideoAdapter extends BaseQuickAdapter<AbstractConts, BaseViewHolder> {
     private MyListener listener;
 
     public void setListener(MyListener listener) {
         this.listener = listener;
     }
 
-    public RelatedVideoAdapter(int layoutResId, @Nullable List<RelateConts> data) {
+    public RelatedVideoAdapter(int layoutResId, @Nullable List<AbstractConts> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, RelateConts item) {
-        helper.setText(R.id.tv_video_name, item.getName());
-        helper.setText(R.id.tv_user_name, item.getUserInfo().getNickname());
-        ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-        Glide.with(mContext).load(item.getPic()).into(ivVideoImg);
-        RelativeLayout rlParent = helper.getView(R.id.rl_parent);
-        rlParent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    protected void convert(BaseViewHolder helper, AbstractConts item) {
+        if (item instanceof RelateConts) {
+            helper.setText(R.id.tv_video_name, ((RelateConts) item).getName());
+            helper.setText(R.id.tv_user_name, ((RelateConts) item).getUserInfo().getNickname());
+            ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
+            Glide.with(mContext).load(((RelateConts) item).getPic()).into(ivVideoImg);
+            RelativeLayout rlParent = helper.getView(R.id.rl_parent);
+            rlParent.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onClick(item.getContId());
+                    listener.onClick(((RelateConts) item).getContId());
                 }
-            }
-        });
+            });
+        } else if (item instanceof HotConts) {
+            helper.setText(R.id.tv_video_name, ((HotConts) item).getName());
+            helper.setText(R.id.tv_user_name, ((HotConts) item).getUserInfo().getNickname());
+            ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
+            Glide.with(mContext).load(((HotConts) item).getPic()).into(ivVideoImg);
+            RelativeLayout rlParent = helper.getView(R.id.rl_parent);
+            rlParent.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onClick(((HotConts) item).getContId());
+                }
+            });
+        }
+
     }
 
     public interface MyListener {
