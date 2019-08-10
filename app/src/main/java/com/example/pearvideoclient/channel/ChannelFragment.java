@@ -3,14 +3,12 @@ package com.example.pearvideoclient.channel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,16 +85,13 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
         mRvCategoryConts.setLayoutManager(new GridLayoutManager(mContext, 2));
         contListBeans = new ArrayList<>();
         mCategoryContsAdapter = new CategoryContsAdapter(R.layout.adapter_category_conts_item, contListBeans);
-        mCategoryContsAdapter.setListener(new CategoryContsAdapter.MyListener() {
-            @Override
-            public void onClick(CategoryContsBean.ContListBean bean) {
+        mCategoryContsAdapter.setListener(bean -> {
 
-                Intent intent = new Intent(getActivity(), ContentActivity.class);
-                String contId = bean.getContId();
-                intent.putExtra("contId", contId);
-                intent.putExtra("userId", bean.getUserInfo().getUserId());
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getActivity(), ContentActivity.class);
+            String contId = bean.getContId();
+            intent.putExtra("contId", contId);
+            intent.putExtra("userId", bean.getUserInfo().getUserId());
+            startActivity(intent);
         });
         mRvCategoryConts.setAdapter(mCategoryContsAdapter);
 
@@ -120,13 +115,10 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
         mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.loadCategoryContsRefresh());
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> mPresenter.loadCategoryContsMore());
 
-        mIvSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ReSortCategoryActivity.class);
-                intent.putParcelableArrayListExtra("categoryList", currentCategoryList);
-                startActivityForResult(intent, 1);
-            }
+        mIvSort.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, ReSortCategoryActivity.class);
+            intent.putParcelableArrayListExtra("categoryList", currentCategoryList);
+            startActivityForResult(intent, 1);
         });
     }
 

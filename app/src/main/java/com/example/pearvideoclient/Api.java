@@ -6,6 +6,7 @@ import com.example.pearvideoclient.entity.bean.ContPraise;
 import com.example.pearvideoclient.entity.bean.LoginBean;
 import com.example.pearvideoclient.entity.bean.LogoutBean;
 import com.example.pearvideoclient.entity.bean.MsgMarkBean;
+import com.example.pearvideoclient.entity.bean.MyFollowContBean;
 import com.example.pearvideoclient.entity.bean.MyReadHisListBean;
 import com.example.pearvideoclient.entity.bean.UserConts;
 import com.example.pearvideoclient.entity.bean.UserFollowBean;
@@ -140,5 +141,13 @@ public interface Api {
     @POST("clt/v4/optUserFollow.msp")
     @FormUrlEncoded
     Observable<UserFollowBean> optUserFollow(@Field("opt") String opt, @Field("userIds") String userIds);
+
+    /**
+     * 获取我关注的用户列表
+     *
+     * @return
+     */
+    @POST("clt/jsp/v4/myFollowContList.jsp")
+    Observable<MyFollowContBean> myFollowContList();
 
 }

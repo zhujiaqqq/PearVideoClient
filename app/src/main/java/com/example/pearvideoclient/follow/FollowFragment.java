@@ -1,6 +1,7 @@
 package com.example.pearvideoclient.follow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,21 +13,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.entity.bean.MyFollowContBean;
+
+import java.util.List;
 
 /**
  * @author zhujiaqqq
  * @date 2019-07-11
  */
-public class FollowFragment extends Fragment {
+public class FollowFragment extends Fragment implements FollowContract.View {
 
-    private View mView;
     private TextView mTvAddFollow;
     private RecyclerView mRvFollowInfoList;
+    private RecyclerView mRvFollowUserList;
 
     private Context mContext;
 
-    private FollowInfoListAdapter mAdapter;
+    private FollowInfoListAdapter mFollowInfoListAdapter;
+    private FollowUserListAdapter mFollowUserListAdapter;
+    private FollowContract.Presenter mPresenter;
 
     public static FollowFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -38,8 +45,7 @@ public class FollowFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_follow, container, false);
-        return mView;
+        return inflater.inflate(R.layout.fragment_follow, container, false);
     }
 
     @Override
@@ -54,16 +60,64 @@ public class FollowFragment extends Fragment {
     private void initData() {
         mContext = getActivity();
         mRvFollowInfoList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new FollowInfoListAdapter(R.layout.adapter_follow_info_item, null);
-        mRvFollowInfoList.setAdapter(mAdapter);
+        mFollowInfoListAdapter = new FollowInfoListAdapter(R.layout.adapter_follow_info_item, null);
+        mRvFollowInfoList.setAdapter(mFollowInfoListAdapter);
+
+        mRvFollowUserList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        mFollowUserListAdapter = new FollowUserListAdapter(R.layout.adapter_follow_user_item, null);
+        mFollowUserListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.rl_parent:
+                    if (adapter instanceof FollowUserListAdapter) {
+                        MyFollowContBean.FollowUserListBean userBean = ((FollowUserListAdapter) adapter).getData().get(position);
+                        String userId = userBean.getUserId();
+                        // TODO: 2019-08-04 跳转用户信息页面
+//                    Intent intent = new Intent(ContentActivity.this, AuthorActivity.class);
+//                    intent.putExtra("userId", userId);
+//                    mContent.startActivity(intent);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+        mRvFollowUserList.setAdapter(mFollowUserListAdapter);
 
         mTvAddFollow.setOnClickListener(v -> {
             // TODO: 2019-07-17 跳转添加关注页面
         });
+
+        mPresenter.loadMyFollowList();
     }
 
     private void initView(@NonNull View view) {
         mTvAddFollow = view.findViewById(R.id.tv_add_follow);
         mRvFollowInfoList = view.findViewById(R.id.rv_follow_info_list);
+        mRvFollowUserList = view.findViewById(R.id.rl_follow_user_list);
+    }
+
+    @Override
+    public void setPresenter(FollowContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void cancelLoading() {
+
+    }
+
+    @Override
+    public void showFollowUser(List<MyFollowContBean.FollowUserListBean> list) {
+        mFollowUserListAdapter.replaceData(list);
+    }
+
+    @Override
+    public void showFollowData(List<MyFollowContBean.DataListBean> list) {
+        mFollowInfoListAdapter.replaceData(list);
     }
 }

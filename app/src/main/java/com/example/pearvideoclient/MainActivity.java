@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import com.example.pearvideoclient.channel.ChannelFragment;
 import com.example.pearvideoclient.channel.ChannelPresenter;
 import com.example.pearvideoclient.follow.FollowFragment;
+import com.example.pearvideoclient.follow.FollowPresenter;
 import com.example.pearvideoclient.home.HomeFragment;
 import com.example.pearvideoclient.mine.MineFragment;
 import com.example.pearvideoclient.mine.MinePresenter;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private int lastIndex;
     private ChannelPresenter channelPresenter;
     private MinePresenter minePresenter;
+    private FollowPresenter followPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(screenFragment);
 
         FollowFragment followFragment = FollowFragment.newInstance();
+        followPresenter = new FollowPresenter(followFragment);
         mFragments.add(followFragment);
 
         MineFragment mineFragment = MineFragment.newInstance();
