@@ -49,10 +49,17 @@
         android:layout_below="@+id/rl_follow_user_list"
         android:background="@color/common_divide_line" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_follow_info_list"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_follow_user_list"
-        android:layout_marginTop="10dp" />
+        android:layout_below="@id/rl_follow_user_list">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_follow_info_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </RelativeLayout>

@@ -118,7 +118,7 @@ public class ChannelPresenter implements ChannelContract.Presenter {
 
     }
 
-    enum LoadType {
+    public enum LoadType {
         /**
          * 普通加载模式
          */

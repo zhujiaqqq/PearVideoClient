@@ -1,7 +1,6 @@
 package com.example.pearvideoclient.follow;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.bean.MyFollowContBean;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
@@ -28,6 +27,7 @@ public class FollowFragment extends Fragment implements FollowContract.View {
     private TextView mTvAddFollow;
     private RecyclerView mRvFollowInfoList;
     private RecyclerView mRvFollowUserList;
+    private SmartRefreshLayout mRefreshLayout;
 
     private Context mContext;
 
@@ -88,12 +88,20 @@ public class FollowFragment extends Fragment implements FollowContract.View {
         });
 
         mPresenter.loadMyFollowList();
+
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            mPresenter.loadMoreMyFollowList();
+        });
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            mPresenter.refreshMyFollowList();
+        });
     }
 
     private void initView(@NonNull View view) {
         mTvAddFollow = view.findViewById(R.id.tv_add_follow);
         mRvFollowInfoList = view.findViewById(R.id.rv_follow_info_list);
         mRvFollowUserList = view.findViewById(R.id.rl_follow_user_list);
+        mRefreshLayout = view.findViewById(R.id.refresh_layout);
     }
 
     @Override
@@ -119,5 +127,21 @@ public class FollowFragment extends Fragment implements FollowContract.View {
     @Override
     public void showFollowData(List<MyFollowContBean.DataListBean> list) {
         mFollowInfoListAdapter.replaceData(list);
+    }
+
+    @Override
+    public void loadMoreFinish(boolean isSuccess) {
+        mRefreshLayout.finishLoadMore(isSuccess);
+    }
+
+    @Override
+    public void loadRefreshFinish(boolean isSuccess) {
+        mRefreshLayout.finishRefresh(isSuccess);
+    }
+
+    @Override
+    public void loadMoreFollowData(MyFollowContBean bean) {
+        List<MyFollowContBean.DataListBean> dataList = bean.getDataList();
+        mFollowInfoListAdapter.addData(dataList);
     }
 }

@@ -145,9 +145,10 @@ public interface Api {
     /**
      * 获取我关注的用户列表
      *
-     * @return
+     * @param start 页码索引
+     * @return 返回关注列表
      */
     @POST("clt/jsp/v4/myFollowContList.jsp")
-    Observable<MyFollowContBean> myFollowContList();
+    Observable<MyFollowContBean> myFollowContList(@Query("start") String start);
 
 }

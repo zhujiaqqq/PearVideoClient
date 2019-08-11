@@ -1,6 +1,7 @@
 package com.example.pearvideoclient.follow;
 
 import com.example.pearvideoclient.Api;
+import com.example.pearvideoclient.channel.ChannelPresenter;
 import com.example.pearvideoclient.entity.bean.MyFollowContBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
@@ -21,15 +22,16 @@ public class FollowPresenter implements FollowContract.Presenter {
     public static final String MORE_USER = "more_user";
     private FollowContract.View mView;
     private CompositeDisposable mCompositeDisposable;
+    /**
+     * 我关注的页数索引
+     */
+    private String start;
 
 
     public FollowPresenter(FollowContract.View view) {
         this.mView = view;
         mCompositeDisposable = new CompositeDisposable();
         this.mView.setPresenter(this);
-    }
-
-    public FollowPresenter() {
     }
 
     @Override
@@ -45,16 +47,22 @@ public class FollowPresenter implements FollowContract.Presenter {
 
     @Override
     public void loadMyFollowList() {
-        mView.showLoading();
-        Disposable disposable = RetrofitManager.getInstance().createReq(Api.class).myFollowContList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(myFollowContBean -> {
-                            loadFollowUsers(myFollowContBean);
-                            loadFollowData(myFollowContBean);
-                            List<MyFollowContBean.HotUserListBean> hotUserList = myFollowContBean.getHotUserList();
-                        }, throwable -> mView.cancelLoading(),
-                        () -> mView.cancelLoading());
+        start = "0";
+        Disposable disposable = loadMyFollowList(start, ChannelPresenter.LoadType.COMMON);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void loadMoreMyFollowList() {
+        start = String.valueOf(Integer.valueOf(start) + 10);
+        Disposable disposable = loadMyFollowList(start, ChannelPresenter.LoadType.LOAD_MORE);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void refreshMyFollowList() {
+        start = "0";
+        Disposable disposable = loadMyFollowList(start, ChannelPresenter.LoadType.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
     }
 
@@ -71,5 +79,39 @@ public class FollowPresenter implements FollowContract.Presenter {
 
         followUserList.add(moreUser);
         mView.showFollowUser(followUserList);
+    }
+
+    private Disposable loadMyFollowList(String start, ChannelPresenter.LoadType loadType) {
+        mView.showLoading();
+        return RetrofitManager.getInstance().createReq(Api.class).myFollowContList(start)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        bean -> {
+                            if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH
+                                    || loadType == ChannelPresenter.LoadType.COMMON) {
+                                loadFollowUsers(bean);
+                                loadFollowData(bean);
+                            } else if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                                mView.loadMoreFollowData(bean);
+                            }
+                        },
+                        throwable -> {
+                            mView.cancelLoading();
+                            if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                                mView.loadMoreFinish(false);
+                            } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                                mView.loadRefreshFinish(false);
+                            }
+                        },
+                        () -> {
+                            mView.cancelLoading();
+                            if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                                mView.loadMoreFinish(true);
+                            } else if (
+                                    loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                                mView.loadRefreshFinish(true);
+                            }
+                        });
     }
 }

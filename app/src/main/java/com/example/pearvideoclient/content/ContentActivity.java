@@ -1,6 +1,5 @@
 package com.example.pearvideoclient.content;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.pearvideoclient.AuthorActivity;
 import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;

@@ -27,6 +27,27 @@ public interface FollowContract {
          * @param list 关注的用户的视频列表
          */
         void showFollowData(List<MyFollowContBean.DataListBean> list);
+
+        /**
+         * 加载更多完成
+         *
+         * @param isSuccess 成功
+         */
+        void loadMoreFinish(boolean isSuccess);
+
+        /**
+         * 刷新完成
+         *
+         * @param isSuccess 成功
+         */
+        void loadRefreshFinish(boolean isSuccess);
+
+        /**
+         * 加载更多数据
+         *
+         * @param bean 数据
+         */
+        void loadMoreFollowData(MyFollowContBean bean);
     }
 
     interface Presenter extends BasePresenter {
@@ -34,5 +55,15 @@ public interface FollowContract {
          * 获取我关注的用户信息
          */
         void loadMyFollowList();
+
+        /**
+         * 加载更多我的关注
+         */
+        void loadMoreMyFollowList();
+
+        /**
+         * 刷新我的关注
+         */
+        void refreshMyFollowList();
     }
 }
