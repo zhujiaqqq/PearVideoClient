@@ -3,10 +3,15 @@ package com.example.pearvideoclient.content;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.ChangeBounds;
+import android.transition.ChangeTransform;
+import android.transition.Fade;
+import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -201,6 +206,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
      * 是否关注作者
      */
     private boolean isAttention;
+    private boolean mBackPressed;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -238,21 +244,22 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mSeekBar = findViewById(R.id.seek_bar);
         mTvTime = findViewById(R.id.tv_time);
 
+        ViewCompat.setTransitionName(mTvVideoName, "textView");
+        getWindow().setEnterTransition(new Fade());
+        getWindow().setExitTransition(new Fade());
+
+        TransitionSet transitionSet = new TransitionSet();
+        transitionSet.addTransition(new ChangeBounds());
+        transitionSet.addTransition(new ChangeTransform());
+        transitionSet.addTarget(mTvVideoName);
+        getWindow().setSharedElementEnterTransition(transitionSet);
+        getWindow().setSharedElementExitTransition(transitionSet);
     }
 
     private void initData() {
-        //加载so文件
-        try {
-            IjkMediaPlayer.loadLibrariesOnce(null);
-            IjkMediaPlayer.native_profileBegin("libijkplayer.so");
-        } catch (Exception e) {
-            this.finish();
-        }
 
         contId = getIntent().getStringExtra("contId");
         userId = getIntent().getStringExtra("userId");
-        mVideoPlayer.setListener(playerListener);
-        mSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
 
         mTvDetail.setOnClickListener(onClickListener);
         mTvStar.setOnClickListener(onClickListener);
@@ -284,10 +291,25 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //加载so文件
+        try {
+            IjkMediaPlayer.loadLibrariesOnce(null);
+            IjkMediaPlayer.native_profileBegin("libijkplayer.so");
+        } catch (Exception e) {
+            this.finish();
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         mPresenter.subscribe();
         mPresenter.loadContent(this.contId);
+
+        mVideoPlayer.setListener(playerListener);
+        mSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
     }
 
     @Override
@@ -409,21 +431,23 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     @Override
-    protected void onStop() {
-        IjkMediaPlayer.native_profileEnd();
-        localHandler.removeCallbacksAndMessages(null);
-        super.onStop();
-
+    public void onBackPressed() {
+        mBackPressed = true;
+        super.onBackPressed();
     }
 
     @Override
-    protected void onDestroy() {
-        if (mVideoPlayer != null) {
+    protected void onStop() {
+        if (mBackPressed && mVideoPlayer != null) {
             mVideoPlayer.stop();
             mVideoPlayer.release();
             mVideoPlayer = null;
         }
-        super.onDestroy();
+
+        IjkMediaPlayer.native_profileEnd();
+        localHandler.removeCallbacksAndMessages(null);
+        super.onStop();
+
     }
 
     @Override
@@ -445,19 +469,14 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     private void refresh() {
         long current = mVideoPlayer.getCurrentPosition() / 1000;
-        long duration = mVideoPlayer.getDuration() / 1000;
         long currentSecond = current % 60;
         long currentMinute = current / 60;
+        long duration = mVideoPlayer.getDuration() / 1000;
         long totalSecond = duration % 60;
         long totalMinute = duration / 60;
-        String time =
-                (currentMinute > 9 ? currentMinute : ("0" + currentMinute)) +
-                        ":" +
-                        (currentSecond > 9 ? currentSecond : ("0" + currentSecond)) +
-                        "/" +
-                        (totalMinute > 9 ? totalMinute : ("0" + totalMinute)) +
-                        ":" +
-                        (totalSecond > 9 ? totalSecond : ("0" + totalSecond));
+
+        String time = String.format("%02d:%02d/%02d:%02d", currentMinute, currentSecond, totalMinute, totalSecond);
+
         mTvTime.setText(time);
         if (duration != 0) {
             mSeekBar.setProgress((int) (current * 100 / duration));

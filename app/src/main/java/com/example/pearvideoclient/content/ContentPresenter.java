@@ -89,22 +89,22 @@ public class ContentPresenter implements ContentContract.Presenter {
 
     @Override
     public void collect() {
-
+        //
     }
 
     @Override
     public void download() {
-
+        //
     }
 
     @Override
     public void attention() {
-
+        //
     }
 
     @Override
     public void fullScreen() {
-
+        //
     }
 
     @Override
@@ -156,6 +156,6 @@ public class ContentPresenter implements ContentContract.Presenter {
 
     @Override
     public void unsubscribe() {
-
+        //
     }
 }

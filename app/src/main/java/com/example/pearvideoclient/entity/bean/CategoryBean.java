@@ -3,6 +3,8 @@ package com.example.pearvideoclient.entity.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,16 +156,6 @@ public class CategoryBean {
             this.isLifeCircle = isLifeCircle;
         }
 
-        @Override
-        public String toString() {
-            return "LocalChannelInfoBean{" +
-                    "channelCode='" + channelCode + '\'' +
-                    ", name='" + name + '\'' +
-                    ", aliasName='" + aliasName + '\'' +
-                    ", isLocal='" + isLocal + '\'' +
-                    ", isLifeCircle='" + isLifeCircle + '\'' +
-                    '}';
-        }
     }
 
     public static class AutoLocalChannelInfoBean {

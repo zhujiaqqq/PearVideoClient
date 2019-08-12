@@ -1,6 +1,7 @@
 package com.example.pearvideoclient.follow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.author.AuthorActivity;
+import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.bean.MyFollowContBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -59,6 +62,7 @@ public class FollowFragment extends Fragment implements FollowContract.View {
 
     private void initData() {
         mContext = getActivity();
+
         mRvFollowInfoList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mFollowInfoListAdapter = new FollowInfoListAdapter(R.layout.adapter_follow_info_item, null);
         mRvFollowInfoList.setAdapter(mFollowInfoListAdapter);
@@ -72,9 +76,9 @@ public class FollowFragment extends Fragment implements FollowContract.View {
                         MyFollowContBean.FollowUserListBean userBean = ((FollowUserListAdapter) adapter).getData().get(position);
                         String userId = userBean.getUserId();
                         // TODO: 2019-08-04 跳转用户信息页面
-//                    Intent intent = new Intent(ContentActivity.this, AuthorActivity.class);
-//                    intent.putExtra("userId", userId);
-//                    mContent.startActivity(intent);
+                        Intent intent = new Intent(mContext, AuthorActivity.class);
+                        intent.putExtra("userId", userId);
+                        mContext.startActivity(intent);
                     }
                     break;
                 default:

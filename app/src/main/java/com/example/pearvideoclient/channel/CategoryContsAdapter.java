@@ -1,18 +1,23 @@
 package com.example.pearvideoclient.channel;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.entity.bean.CategoryBean;
+import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.bean.CategoryContsBean;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,11 +50,23 @@ public class CategoryContsAdapter
             helper.getView(R.id.tv_single_broadcast).setVisibility(View.GONE);
         }
 
+        TextView textView = helper.getView(R.id.tv_video_name);
+        textView.setTransitionName("textView");
+
         helper.getView(R.id.rl_parent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
                     listener.onClick(item);
+
+                    Intent intent = new Intent(mContext, ContentActivity.class);
+                    intent.putExtra("contId", item.getContId());
+                    intent.putExtra("userId", item.getUserInfo().getUserId());
+                    Pair<View, String> namePair = new Pair<>(textView, ViewCompat.getTransitionName(textView));
+
+                    ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            (Activity) mContext, namePair);
+                    mContext.startActivity(intent, option.toBundle());
                 }
             }
         });

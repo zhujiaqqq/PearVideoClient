@@ -30,6 +30,9 @@
             android:name=".content.ContentActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".author.AuthorActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

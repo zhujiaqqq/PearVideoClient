@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +36,6 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
 
     private ChannelContract.Presenter mPresenter;
 
-    private View mView;
     private Context mContext;
 
     private AVLoadingIndicatorView mLoadingView;
@@ -58,8 +58,7 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_channel, container, false);
-        return mView;
+       return inflater.inflate(R.layout.fragment_channel, container, false);
     }
 
     @Override
@@ -87,11 +86,6 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
         mCategoryContsAdapter = new CategoryContsAdapter(R.layout.adapter_category_conts_item, contListBeans);
         mCategoryContsAdapter.setListener(bean -> {
 
-            Intent intent = new Intent(getActivity(), ContentActivity.class);
-            String contId = bean.getContId();
-            intent.putExtra("contId", contId);
-            intent.putExtra("userId", bean.getUserInfo().getUserId());
-            startActivity(intent);
         });
         mRvCategoryConts.setAdapter(mCategoryContsAdapter);
 

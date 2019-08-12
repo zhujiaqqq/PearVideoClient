@@ -8,13 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.http.RetrofitManager;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author zhujiaqqq
@@ -22,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
-    private View mView;
+
 
     public static HomeFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -30,11 +24,11 @@ public class HomeFragment extends Fragment {
         homeFragment.setArguments(bundle);
         return homeFragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_home, container, false);
-        return mView;
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
