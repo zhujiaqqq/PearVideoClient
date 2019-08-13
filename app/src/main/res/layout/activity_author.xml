@@ -5,6 +5,7 @@
     android:id="@+id/detail_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_background"
     android:fitsSystemWindows="true"
     tools:context=".author.AuthorActivity">
 
@@ -33,41 +34,29 @@
                 app:layout_collapseParallaxMultiplier="0.7" />
 
             <ImageView
-                android:id="@+id/tv_user_img"
+                android:id="@+id/iv_user_img"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                app:layout_collapseParallaxMultiplier="0.7"
-                android:src="@drawable/user_img"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@null"
-                app:layout_collapseMode="parallax" />
-
-            <TextView
-                android:id="@+id/tv_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:layout_collapseParallaxMultiplier="0.7"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
                 app:layout_collapseMode="parallax"
-                android:text="二更" />
+                app:layout_collapseParallaxMultiplier="0.7" />
 
             <TextView
+                android:id="@+id/tv_user_signature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginStart="15dp"
-                app:layout_collapseParallaxMultiplier="0.7"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="50dp"
                 android:gravity="center"
                 android:lines="1"
                 android:textColor="@color/white"
                 app:layout_collapseMode="parallax"
-                android:text="发现身边不知道的美" />
+                app:layout_collapseParallaxMultiplier="0.7"
+                tools:text="发现身边不知道的美" />
 
             <TextView
                 android:id="@+id/tv_attention"
@@ -90,9 +79,12 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -101,14 +93,28 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tl_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="center_horizontal" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/common_divide_line" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
-
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

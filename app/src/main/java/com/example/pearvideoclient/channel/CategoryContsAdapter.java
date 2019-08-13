@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
@@ -28,6 +31,8 @@ public class CategoryContsAdapter
         extends BaseQuickAdapter<CategoryContsBean.ContListBean, BaseViewHolder> {
 
     private MyListener listener;
+    private RequestOptions placeholder;
+    private final DrawableCrossFadeFactory drawableCrossFadeFactory;
 
     public void setListener(MyListener listener) {
         this.listener = listener;
@@ -35,12 +40,18 @@ public class CategoryContsAdapter
 
     public CategoryContsAdapter(int layoutResId, @Nullable List<CategoryContsBean.ContListBean> data) {
         super(layoutResId, data);
+        placeholder = new RequestOptions().placeholder(R.drawable.ic_placeholder);
+        drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
     }
 
     @Override
     protected void convert(BaseViewHolder helper, CategoryContsBean.ContListBean item) {
         ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-        Glide.with(mContext).load(item.getPic()).into(ivVideoImg);
+        Glide.with(mContext)
+                .load(item.getPic())
+                .apply(placeholder)
+                .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
+                .into(ivVideoImg);
         helper.setText(R.id.tv_video_name, item.getName());
         helper.setText(R.id.tv_video_author_duration, item.getUserInfo().getNickname() + " | " + item.getDuration());
         if (!TextUtils.isEmpty(item.getCornerLabelDesc())) {

@@ -54,6 +54,7 @@ dependencies {
 
     implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
 
+    implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

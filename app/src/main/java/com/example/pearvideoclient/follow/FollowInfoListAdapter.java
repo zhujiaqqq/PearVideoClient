@@ -6,7 +6,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.MyApplication;
@@ -21,9 +23,14 @@ import java.util.List;
  */
 public class FollowInfoListAdapter extends BaseQuickAdapter<MyFollowContBean.DataListBean, BaseViewHolder> {
 
+    private RequestOptions placeholder;
+    private final DrawableCrossFadeFactory drawableCrossFadeFactory;
 
     public FollowInfoListAdapter(int layoutResId, @Nullable List<MyFollowContBean.DataListBean> data) {
         super(layoutResId, data);
+
+        placeholder = new RequestOptions().placeholder(R.drawable.ic_placeholder);
+        drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
     }
 
     @Override
@@ -36,9 +43,14 @@ public class FollowInfoListAdapter extends BaseQuickAdapter<MyFollowContBean.Dat
 
         Glide.with(mContext).asBitmap()
                 .apply(RequestOptions.bitmapTransform(new CircleCrop())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)).load(item.getContInfo().getUserInfo().getPic())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE))
+                .load(item.getContInfo().getUserInfo().getPic())
                 .into(ivAuthorImg);
 
-        Glide.with(mContext).load(item.getContInfo().getPic()).into(ivVideoImg);
+        Glide.with(mContext)
+                .load(item.getContInfo().getPic())
+                .apply(placeholder)
+                .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
+                .into(ivVideoImg);
     }
 }

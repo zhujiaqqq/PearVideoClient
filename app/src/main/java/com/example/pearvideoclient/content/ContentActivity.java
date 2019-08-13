@@ -1,5 +1,6 @@
 package com.example.pearvideoclient.content;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -29,6 +30,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.bean.content.Content;
 import com.example.pearvideoclient.entity.bean.content.HotConts;
 import com.example.pearvideoclient.entity.bean.content.RelateConts;
@@ -191,10 +193,9 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
                     isAttention = !isAttention;
                     break;
                 case R.id.rl_user_layout:
-                    // TODO: 2019-08-04 跳转用户信息页面
-//                    Intent intent = new Intent(ContentActivity.this, AuthorActivity.class);
-//                    intent.putExtra("userId", userId);
-//                    startActivity(intent);
+                    Intent intent = new Intent(ContentActivity.this, AuthorActivity.class);
+                    intent.putExtra("userId", userId);
+                    startActivity(intent);
                     break;
                 default:
                     break;
