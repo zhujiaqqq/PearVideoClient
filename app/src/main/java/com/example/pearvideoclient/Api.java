@@ -1,5 +1,6 @@
 package com.example.pearvideoclient;
 
+import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
 import com.example.pearvideoclient.entity.bean.CategoryBean;
 import com.example.pearvideoclient.entity.bean.CategoryContsBean;
 import com.example.pearvideoclient.entity.bean.ContPraise;
@@ -69,10 +70,12 @@ public interface Api {
      * 获取用户主页信息
      *
      * @param userId
+     * @param start
      * @return
      */
     @POST("/clt/jsp/v4/userHome.jsp")
-    Observable<UserHomeBean> getUserHome(@Field("userId") String userId);
+    @FormUrlEncoded
+    Observable<AuthorHomeBean> getUserHome(@Query("start") String start, @Field("userId") String userId);
 
     /**
      * 登出

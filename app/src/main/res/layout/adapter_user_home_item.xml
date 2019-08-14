@@ -24,7 +24,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="@null"
         android:src="@drawable/author_img_logo" />
 
@@ -32,12 +32,23 @@
         android:id="@+id/tv_author_name"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
+
         android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:layout_toEndOf="@id/iv_author_img"
         android:gravity="center_vertical"
-        android:textColor="#676767"
+        android:textColor="@color/black"
         tools:text="阿斗带你看电影" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        tools:text="@string/upload_time"
+        android:id="@+id/tv_upload_time"
+        android:layout_toEndOf="@id/iv_author_img"
+        android:layout_marginStart="5dp"
+        android:textSize="11sp"
+        android:layout_below="@id/tv_author_name"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tv_video_name"
@@ -45,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_author_img"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"

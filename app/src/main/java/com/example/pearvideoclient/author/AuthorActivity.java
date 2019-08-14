@@ -29,6 +29,7 @@ import com.example.pearvideoclient.author.fragment.UserAlbumsFragment;
 import com.example.pearvideoclient.author.fragment.UserContsFragment;
 import com.example.pearvideoclient.author.fragment.UserHomeFragment;
 import com.example.pearvideoclient.author.fragment.UserPostFragment;
+import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
 import com.example.pearvideoclient.entity.bean.UserInfoBean;
 import com.example.pearvideoclient.utils.StatusBarUtil;
 
@@ -65,6 +66,10 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     private AuthorContract.Presenter mPresenter;
     private String userId;
+    private UserContsFragment userContsFragment;
+    private UserHomeFragment userHomeFragment;
+    private UserPostFragment userPostFragment;
+    private UserAlbumsFragment userAlbumsFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,7 +166,9 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
             @Override
             public void onPageSelected(int i) {
-                //
+                if (i == 0) {
+                    mPresenter.loadUserHomeInfo(userId);
+                }
             }
 
             @Override
@@ -169,7 +176,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
                 //
             }
         });
-        mVpPager.setCurrentItem(0);
+        mVpPager.setCurrentItem(1);
     }
 
     @Override
@@ -190,23 +197,25 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
         for (String s : mTitle) {
             switch (s) {
                 case "视频":
-                    mFragments.add(UserContsFragment.newInstance());
+                    userContsFragment = UserContsFragment.newInstance();
+                    mFragments.add(userContsFragment);
                     break;
                 case "动态":
-                    mFragments.add(UserHomeFragment.newInstance());
+                    userHomeFragment = UserHomeFragment.newInstance();
+                    mFragments.add(userHomeFragment);
                     break;
                 case "评论":
-                    mFragments.add(UserPostFragment.newInstance());
+                    userPostFragment = UserPostFragment.newInstance();
+                    mFragments.add(userPostFragment);
                     break;
                 case "专辑":
-                    mFragments.add(UserAlbumsFragment.newInstance());
+                    userAlbumsFragment = UserAlbumsFragment.newInstance();
+                    mFragments.add(userAlbumsFragment);
                     break;
                 default:
                     break;
             }
         }
-
-        mHandler.sendEmptyMessage(MSG_INIT_VIEWPAGER);
     }
 
     @Override
@@ -222,6 +231,50 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     }
 
     @Override
+    public void setUserHomeData(List<AuthorHomeBean.DataListBean> dataList) {
+        userHomeFragment.loadDataList(dataList);
+    }
+
+    @Override
+    public void loadMoreUserHomeData(List<AuthorHomeBean.DataListBean> dataList) {
+        userHomeFragment.loadMoreDataList(dataList);
+    }
+
+    @Override
+    public void loadMoreFinish(AuthorPresenter.PageType type, boolean isSuccess) {
+        switch (type) {
+            case HOME:
+                userHomeFragment.loadMoreFinish(isSuccess);
+                break;
+            case POST:
+                break;
+            case CONTS:
+                break;
+            case ALBUMS:
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void loadRefreshFinish(AuthorPresenter.PageType type, boolean isSuccess) {
+        switch (type) {
+            case HOME:
+                userHomeFragment.loadRefreshFinish(isSuccess);
+                break;
+            case ALBUMS:
+                break;
+            case CONTS:
+                break;
+            case POST:
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
     public void setPresenter(AuthorContract.Presenter presenter) {
         this.mPresenter = presenter;
     }
@@ -234,5 +287,13 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     @Override
     public void cancelLoading() {
 
+    }
+
+    public void userHomeRefresh() {
+        mPresenter.refreshUserHomeList();
+    }
+
+    public void userHomeLoadMore() {
+        mPresenter.loadMoreUserHomeList();
     }
 }
