@@ -3,12 +3,16 @@ package com.example.pearvideoclient.mine;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -71,6 +75,8 @@ public class MineFragment extends Fragment implements MineContract.View {
                 break;
         }
     };
+    private BottomSheetBehavior<View> mViewBottomSheetBehavior;
+    private NestedScrollView mScrollView;
 
     public static MineFragment newInstance() {
         Bundle args = new Bundle();
@@ -101,6 +107,10 @@ public class MineFragment extends Fragment implements MineContract.View {
     }
 
     private void initView(View view) {
+        mScrollView = view.findViewById(R.id.scroll_view);
+        mViewBottomSheetBehavior = BottomSheetBehavior.from(mScrollView);
+        mScrollView.getViewTreeObserver().addOnGlobalLayoutListener(() -> mViewBottomSheetBehavior.setPeekHeight(mScrollView.getHeight()));
+
         mTvUserName = view.findViewById(R.id.tv_user_name);
         mTvUserSingle = view.findViewById(R.id.tv_user_single);
         mTvLogin = view.findViewById(R.id.tv_login);
@@ -133,10 +143,21 @@ public class MineFragment extends Fragment implements MineContract.View {
     }
 
     private void showPopWindow() {
-        if (window == null) {
-            window = new MenuPopWindow(getActivity(), windowListener);
+
+//        if (window == null) {
+//            window = new MenuPopWindow(getActivity(), windowListener);
+//        }
+//        window.showAtLocation(mRlMainContent, Gravity.BOTTOM, 0, 0);
+    }
+
+    private void showBottom() {
+        mViewBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        //根据状态不同显示隐藏
+        if (mViewBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+            mViewBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else if (mViewBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            mViewBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
-        window.showAtLocation(mRlMainContent, Gravity.BOTTOM, 0, 0);
     }
 
     private void initData() {
@@ -146,7 +167,7 @@ public class MineFragment extends Fragment implements MineContract.View {
                         mEtVarCode.getText().toString().trim()));
 
         mIvClose.setOnClickListener(
-                v -> showPopWindow());
+                v -> showBottom());
 
 
         mLlEdit.setOnClickListener(new View.OnClickListener() {
