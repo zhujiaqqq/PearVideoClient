@@ -15,9 +15,6 @@ import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -31,8 +28,6 @@ public class UserHomeFragment extends Fragment {
 
     private SmartRefreshLayout mRefreshLayout;
     private RecyclerView mRvUserHomeList;
-
-    private Context mContext;
 
     private UserHomeAdapter mUserHomeAdapter;
 
@@ -63,10 +58,10 @@ public class UserHomeFragment extends Fragment {
     }
 
     private void initData() {
-        mContext = getActivity();
+        Context context = getActivity();
 
         mRvUserHomeList.setLayoutManager(new LinearLayoutManager(
-                mContext, LinearLayoutManager.VERTICAL, false
+                context, LinearLayoutManager.VERTICAL, false
         ));
         mUserHomeAdapter = new UserHomeAdapter(R.layout.adapter_user_home_item, null);
         mRvUserHomeList.setAdapter(mUserHomeAdapter);

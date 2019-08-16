@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
-import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.bean.MyFollowContBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -70,19 +69,14 @@ public class FollowFragment extends Fragment implements FollowContract.View {
         mRvFollowUserList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         mFollowUserListAdapter = new FollowUserListAdapter(R.layout.adapter_follow_user_item, null);
         mFollowUserListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            switch (view.getId()) {
-                case R.id.rl_parent:
-                    if (adapter instanceof FollowUserListAdapter) {
-                        MyFollowContBean.FollowUserListBean userBean = ((FollowUserListAdapter) adapter).getData().get(position);
-                        String userId = userBean.getUserId();
-                        // TODO: 2019-08-04 跳转用户信息页面
-                        Intent intent = new Intent(mContext, AuthorActivity.class);
-                        intent.putExtra("userId", userId);
-                        mContext.startActivity(intent);
-                    }
-                    break;
-                default:
-                    break;
+            if (view.getId() == R.id.rl_parent) {
+                if (adapter instanceof FollowUserListAdapter) {
+                    MyFollowContBean.FollowUserListBean userBean = ((FollowUserListAdapter) adapter).getData().get(position);
+                    String userId = userBean.getUserId();
+                    Intent intent = new Intent(mContext, AuthorActivity.class);
+                    intent.putExtra("userId", userId);
+                    mContext.startActivity(intent);
+                }
             }
         });
         mRvFollowUserList.setAdapter(mFollowUserListAdapter);
@@ -93,12 +87,8 @@ public class FollowFragment extends Fragment implements FollowContract.View {
 
         mPresenter.loadMyFollowList();
 
-        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            mPresenter.loadMoreMyFollowList();
-        });
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            mPresenter.refreshMyFollowList();
-        });
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> mPresenter.loadMoreMyFollowList());
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.refreshMyFollowList());
     }
 
     private void initView(@NonNull View view) {
@@ -115,12 +105,12 @@ public class FollowFragment extends Fragment implements FollowContract.View {
 
     @Override
     public void showLoading() {
-
+        //
     }
 
     @Override
     public void cancelLoading() {
-
+        //
     }
 
     @Override

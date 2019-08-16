@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -142,6 +143,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         printWriter.close();
         String result = writer.toString();
         sb.append(result);
+        FileOutputStream fos = null;
         try {
             long timestamp = System.currentTimeMillis();
             String time = sdf.format(new Date());
@@ -152,12 +154,20 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                FileOutputStream fos = new FileOutputStream(path + fileName);
+                fos = new FileOutputStream(path + fileName);
                 fos.write(sb.toString().getBytes());
-                fos.close();
+
             }
         } catch (Exception e) {
             Log.e(TAG, "an error occured while writing file...", e);
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "saveCrashInfo2File: " + e.getMessage());
+            }
         }
     }
 }

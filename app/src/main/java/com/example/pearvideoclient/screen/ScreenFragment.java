@@ -16,8 +16,6 @@ import com.example.pearvideoclient.R;
  */
 public class ScreenFragment extends Fragment {
 
-    private View mView;
-
     public static ScreenFragment newInstance() {
         Bundle bundle = new Bundle();
         ScreenFragment fragment = new ScreenFragment();
@@ -28,12 +26,12 @@ public class ScreenFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_screen, container, false);
-        return mView;
+        return inflater.inflate(R.layout.fragment_screen, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //
     }
 }

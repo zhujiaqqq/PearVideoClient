@@ -15,7 +15,6 @@ import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.bean.UserConts;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -33,8 +32,6 @@ public class UserContsFragment extends Fragment {
 
     private UserContsAdapter mHotAdapter;
     private UserContsAdapter mNewAdapter;
-
-    private Context mContext;
 
     public static UserContsFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -64,13 +61,13 @@ public class UserContsFragment extends Fragment {
     }
 
     private void initData() {
-        mContext = getActivity();
+        Context context = getActivity();
 
-        mRvHotList.setLayoutManager(new GridLayoutManager(mContext, 2));
+        mRvHotList.setLayoutManager(new GridLayoutManager(context, 2));
         mHotAdapter = new UserContsAdapter(R.layout.adapter_category_conts_item, null);
         mRvHotList.setAdapter(mHotAdapter);
 
-        mRvNewList.setLayoutManager(new GridLayoutManager(mContext, 2));
+        mRvNewList.setLayoutManager(new GridLayoutManager(context, 2));
         mNewAdapter = new UserContsAdapter(R.layout.adapter_category_conts_item, null);
         mRvNewList.setAdapter(mNewAdapter);
         mRefreshLayout.setEnableRefresh(false);

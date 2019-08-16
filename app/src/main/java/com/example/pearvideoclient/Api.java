@@ -11,7 +11,6 @@ import com.example.pearvideoclient.entity.bean.MyFollowContBean;
 import com.example.pearvideoclient.entity.bean.MyReadHisListBean;
 import com.example.pearvideoclient.entity.bean.UserConts;
 import com.example.pearvideoclient.entity.bean.UserFollowBean;
-import com.example.pearvideoclient.entity.bean.UserHomeBean;
 import com.example.pearvideoclient.entity.bean.UserInfoBean;
 import com.example.pearvideoclient.entity.bean.content.ContentBean;
 

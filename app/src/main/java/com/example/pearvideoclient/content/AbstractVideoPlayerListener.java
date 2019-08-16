@@ -9,8 +9,8 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
  * @Date: 2019-07-28 11:13
  * @ClassName: AbstractVideoPlayerListener
  */
-public abstract class AbstractVideoPlayerListener
-        implements IMediaPlayer.OnBufferingUpdateListener,
+public interface AbstractVideoPlayerListener
+        extends IMediaPlayer.OnBufferingUpdateListener,
         IMediaPlayer.OnCompletionListener,
         IMediaPlayer.OnPreparedListener,
         IMediaPlayer.OnInfoListener,

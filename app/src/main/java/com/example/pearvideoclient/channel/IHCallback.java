@@ -14,7 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 public class IHCallback extends ItemTouchHelper.Callback {
     private CategoryListAdapter mCategoryListAdapter;
 
-    public IHCallback(CategoryListAdapter categoryListAdapter) {
+    IHCallback(CategoryListAdapter categoryListAdapter) {
         this.mCategoryListAdapter = categoryListAdapter;
     }
 
@@ -42,14 +42,5 @@ public class IHCallback extends ItemTouchHelper.Callback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         mCategoryListAdapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
-//
-//    @Override
-//    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-//        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-//        if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-//            //滑动时改变Item的透明度
-//            final float alpha = 1 - Math.abs(dX) / (float)viewHolder.itemView.getWidth();
-//            viewHolder.itemView.setAlpha(alpha);
-//        }
-//    }
+
 }

@@ -15,7 +15,6 @@ import com.example.pearvideoclient.R;
  * @date 2019-07-11
  */
 public class HomeFragment extends Fragment {
-    private static final String TAG = "HomeFragment";
 
 
     public static HomeFragment newInstance() {
@@ -29,15 +28,5 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 }

@@ -1,7 +1,5 @@
 package com.example.pearvideoclient.entity.bean;
 
-import java.util.List;
-
 /**
  * @Description: java类作用描述
  * @Author: jiazhu

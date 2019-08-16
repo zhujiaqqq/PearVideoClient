@@ -9,12 +9,9 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,14 +65,14 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     private List<Fragment> mFragments;
     private List<String> mTitle;
 
-    private LocalHandler mHandler = new LocalHandler(this);
+    private LocalHandler mLocalHandler = new LocalHandler(this);
 
     private AuthorContract.Presenter mPresenter;
     private String userId;
-    private UserContsFragment userContsFragment;
-    private UserHomeFragment userHomeFragment;
-    private UserPostFragment userPostFragment;
-    private UserAlbumsFragment userAlbumsFragment;
+    private UserContsFragment mUserContsFragment;
+    private UserHomeFragment mUserHomeFragment;
+    private UserPostFragment mUserPostFragment;
+    private UserAlbumsFragment mUserAlbumsFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,7 +112,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
         }
         userId = intent.getStringExtra("userId");
 
-        new AuthorPresenter(this, mHandler, userId);
+        new AuthorPresenter(this, mLocalHandler, userId);
 
         mTvAttention.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,20 +207,20 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
         for (String s : mTitle) {
             switch (s) {
                 case "视频":
-                    userContsFragment = UserContsFragment.newInstance();
-                    mFragments.add(userContsFragment);
+                    mUserContsFragment = UserContsFragment.newInstance();
+                    mFragments.add(mUserContsFragment);
                     break;
                 case "动态":
-                    userHomeFragment = UserHomeFragment.newInstance();
-                    mFragments.add(userHomeFragment);
+                    mUserHomeFragment = UserHomeFragment.newInstance();
+                    mFragments.add(mUserHomeFragment);
                     break;
                 case "评论":
-                    userPostFragment = UserPostFragment.newInstance();
-                    mFragments.add(userPostFragment);
+                    mUserPostFragment = UserPostFragment.newInstance();
+                    mFragments.add(mUserPostFragment);
                     break;
                 case "专辑":
-                    userAlbumsFragment = UserAlbumsFragment.newInstance();
-                    mFragments.add(userAlbumsFragment);
+                    mUserAlbumsFragment = UserAlbumsFragment.newInstance();
+                    mFragments.add(mUserAlbumsFragment);
                     break;
                 default:
                     break;
@@ -245,24 +242,24 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     @Override
     public void setUserHomeData(List<AuthorHomeBean.DataListBean> dataList) {
-        userHomeFragment.loadDataList(dataList);
+        mUserHomeFragment.loadDataList(dataList);
     }
 
     @Override
     public void loadMoreUserHomeData(List<AuthorHomeBean.DataListBean> dataList) {
-        userHomeFragment.loadMoreDataList(dataList);
+        mUserHomeFragment.loadMoreDataList(dataList);
     }
 
     @Override
     public void loadMoreFinish(@AuthorPresenter.PageType String type, boolean isSuccess) {
         switch (type) {
             case HOME:
-                userHomeFragment.loadMoreFinish(isSuccess);
+                mUserHomeFragment.loadMoreFinish(isSuccess);
                 break;
             case POST:
                 break;
             case CONTS:
-                userContsFragment.loadMoreFinish(isSuccess);
+                mUserContsFragment.loadMoreFinish(isSuccess);
                 break;
             case ALBUMS:
                 break;
@@ -275,12 +272,12 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     public void loadRefreshFinish(@AuthorPresenter.PageType String type, boolean isSuccess) {
         switch (type) {
             case HOME:
-                userHomeFragment.loadRefreshFinish(isSuccess);
+                mUserHomeFragment.loadRefreshFinish(isSuccess);
                 break;
             case ALBUMS:
                 break;
             case CONTS:
-                userContsFragment.loadRefreshFinish(isSuccess);
+                mUserContsFragment.loadRefreshFinish(isSuccess);
                 break;
             case POST:
                 break;
@@ -291,17 +288,17 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     @Override
     public void setHotConts(List<UserConts.ContListBean> hotList) {
-        userContsFragment.loadHotConts(hotList);
+        mUserContsFragment.loadHotConts(hotList);
     }
 
     @Override
     public void setNewConts(List<UserConts.ContListBean> contList) {
-        userContsFragment.loadNewConts(contList);
+        mUserContsFragment.loadNewConts(contList);
     }
 
     @Override
     public void loadMoreNewConts(List<UserConts.ContListBean> contList) {
-        userContsFragment.loadMoreNewConts(contList);
+        mUserContsFragment.loadMoreNewConts(contList);
     }
 
     @Override
@@ -311,12 +308,12 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     @Override
     public void showLoading() {
-
+        //
     }
 
     @Override
     public void cancelLoading() {
-
+        //
     }
 
     public void userHomeRefresh() {
