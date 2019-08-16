@@ -1,12 +1,17 @@
 package com.example.pearvideoclient.author;
 
+import android.support.annotation.StringDef;
+
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.channel.ChannelPresenter;
 import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
+import com.example.pearvideoclient.entity.bean.UserConts;
 import com.example.pearvideoclient.entity.bean.UserInfoBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +38,8 @@ public class AuthorPresenter implements AuthorContract.Presenter {
     private CompositeDisposable mCompositeDisposable;
 
     private String userId;
-    private String start;
+    private String userHomeStart;
+    private String userContsStart;
 
 
     public AuthorPresenter(AuthorContract.View view, LocalHandler handler, String userId) {
@@ -74,22 +80,43 @@ public class AuthorPresenter implements AuthorContract.Presenter {
 
     @Override
     public void loadUserHomeInfo(String authorId) {
-        start = "0";
-        Disposable disposable = loadUserHomeInfo(start, userId, ChannelPresenter.LoadType.COMMON);
+        userHomeStart = "0";
+        Disposable disposable = loadUserHomeInfo(userHomeStart, userId, ChannelPresenter.LoadType.COMMON);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void refreshUserHomeList() {
-        start = "0";
-        Disposable disposable = loadUserHomeInfo(start, userId, ChannelPresenter.LoadType.LOAD_REFRESH);
+        userHomeStart = "0";
+        Disposable disposable = loadUserHomeInfo(userHomeStart, userId, ChannelPresenter.LoadType.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void loadMoreUserHomeList() {
-        start = String.valueOf(Integer.valueOf(start) + 10);
-        Disposable disposable = loadUserHomeInfo(start, userId, ChannelPresenter.LoadType.LOAD_MORE);
+        userHomeStart = String.valueOf(Integer.valueOf(userHomeStart) + 10);
+        Disposable disposable = loadUserHomeInfo(userHomeStart, userId, ChannelPresenter.LoadType.LOAD_MORE);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void loadUserContsInfo(String authorId) {
+        userContsStart = "0";
+        Disposable disposable = loadUserContsInfo(userContsStart, authorId, ChannelPresenter.LoadType.COMMON);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void refreshUserContsList() {
+        userContsStart = "0";
+        Disposable disposable = loadUserContsInfo(userContsStart, userId, ChannelPresenter.LoadType.LOAD_REFRESH);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void loadMoreUserContsList() {
+        userContsStart = String.valueOf(Integer.valueOf(userContsStart) + 10);
+        Disposable disposable = loadUserContsInfo(userContsStart, userId, ChannelPresenter.LoadType.LOAD_MORE);
         mCompositeDisposable.add(disposable);
     }
 
@@ -106,37 +133,80 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                 .getUserHome(start, authorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<AuthorHomeBean>() {
-                    @Override
-                    public void accept(AuthorHomeBean authorHomeBean) throws Exception {
-                        List<AuthorHomeBean.DataListBean> dataList = authorHomeBean.getDataList();
-                        if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH || loadType == ChannelPresenter.LoadType.COMMON) {
-                            mView.setUserHomeData(dataList);
-                        } else if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
-                            mView.loadMoreUserHomeData(dataList);
-                        }
+                .subscribe(authorHomeBean -> {
+                    List<AuthorHomeBean.DataListBean> dataList = authorHomeBean.getDataList();
+                    if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH || loadType == ChannelPresenter.LoadType.COMMON) {
+                        mView.setUserHomeData(dataList);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        mView.loadMoreUserHomeData(dataList);
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
-                            mView.loadMoreFinish(PageType.HOME, false);
-                        } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
-                            mView.loadRefreshFinish(PageType.HOME, false);
-                        }
+                }, throwable -> {
+                    if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        mView.loadMoreFinish(HOME, false);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                        mView.loadRefreshFinish(HOME, false);
                     }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
-                            mView.loadMoreFinish(PageType.HOME, true);
-                        } else if (
-                                loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
-                            mView.loadRefreshFinish(PageType.HOME, true);
-                        }
+                }, () -> {
+                    if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        mView.loadMoreFinish(HOME, true);
+                    } else if (
+                            loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                        mView.loadRefreshFinish(HOME, true);
                     }
                 });
 
+    }
+
+    /**
+     * 加载视频fragment数据
+     *
+     * @param start    索引
+     * @param authorId id
+     * @param loadType 加载类型
+     * @return
+     */
+    private Disposable loadUserContsInfo(String start, String authorId, ChannelPresenter.LoadType loadType) {
+        return RetrofitManager.getInstance().createReq(Api.class)
+                .getUserConts(start, authorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userConts -> {
+                    if (loadType == ChannelPresenter.LoadType.COMMON) {
+                        setHotConts(userConts);
+                        setNewConts(userConts);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                        setNewConts(userConts);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        loadMoreNewConts(userConts);
+                    }
+                }, throwable -> {
+                    if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        mView.loadMoreFinish(CONTS, false);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                        mView.loadRefreshFinish(CONTS, false);
+                    }
+                }, () -> {
+                    if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        mView.loadMoreFinish(CONTS, true);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                        mView.loadRefreshFinish(CONTS, true);
+                    }
+                });
+    }
+
+    private void loadMoreNewConts(UserConts userConts) {
+        List<UserConts.ContListBean> contList = userConts.getContList();
+        mView.loadMoreNewConts(contList);
+    }
+
+    private void setNewConts(UserConts userConts) {
+        List<UserConts.ContListBean> contList = userConts.getContList();
+        mView.setNewConts(contList);
+    }
+
+    private void setHotConts(UserConts userConts) {
+        List<UserConts.ContListBean> hotList = userConts.getHotList();
+        mView.setHotConts(hotList);
     }
 
     private void setUserInfo(UserInfoBean userInfoBean) {
@@ -168,23 +238,16 @@ public class AuthorPresenter implements AuthorContract.Presenter {
         mCompositeDisposable.clear();
     }
 
-    enum PageType {
-        /**
-         * 动态
-         */
-        HOME,
-        /**
-         * 视频
-         */
-        CONTS,
-        /**
-         * 专辑
-         */
-        ALBUMS,
-        /**
-         * 评论
-         */
-        POST
+
+    @Retention(value = RetentionPolicy.SOURCE)
+    @StringDef(value = {HOME, CONTS, ALBUMS, POST})
+    @interface PageType {
+
     }
+
+    static final String HOME = "动态";
+    static final String CONTS = "视频";
+    static final String ALBUMS = "专辑";
+    static final String POST = "评论";
 
 }

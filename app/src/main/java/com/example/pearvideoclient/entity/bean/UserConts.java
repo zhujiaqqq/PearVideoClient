@@ -26,7 +26,7 @@ public class UserConts {
     private String systemTime;
     private UserInfoBean userInfo;
     private String nextUrl;
-    private List<HotListBean> hotList;
+    private List<ContListBean> hotList;
     private List<ContListBean> contList;
 
     public String getResultCode() {
@@ -77,11 +77,11 @@ public class UserConts {
         this.nextUrl = nextUrl;
     }
 
-    public List<HotListBean> getHotList() {
+    public List<ContListBean> getHotList() {
         return hotList;
     }
 
-    public void setHotList(List<HotListBean> hotList) {
+    public void setHotList(List<ContListBean> hotList) {
         this.hotList = hotList;
     }
 
@@ -235,7 +235,7 @@ public class UserConts {
         }
     }
 
-    public static class HotListBean {
+    public static class ContListBean {
         /**
          * contId : 1584296
          * name : 日本批准第一例人兽杂交胚胎实验！
@@ -391,208 +391,6 @@ public class UserConts {
         }
 
         public static class UserInfoBeanX {
-            /**
-             * userId : 11549091
-             * nickname : 眼镜儿
-             * pic : http://image.pearvideo.com/node/19-10027896-logo.jpg
-             * level : 2
-             */
-
-            private String userId;
-            private String nickname;
-            private String pic;
-            private String level;
-
-            public String getUserId() {
-                return userId;
-            }
-
-            public void setUserId(String userId) {
-                this.userId = userId;
-            }
-
-            public String getNickname() {
-                return nickname;
-            }
-
-            public void setNickname(String nickname) {
-                this.nickname = nickname;
-            }
-
-            public String getPic() {
-                return pic;
-            }
-
-            public void setPic(String pic) {
-                this.pic = pic;
-            }
-
-            public String getLevel() {
-                return level;
-            }
-
-            public void setLevel(String level) {
-                this.level = level;
-            }
-        }
-    }
-
-    public static class ContListBean {
-        /**
-         * contId : 1585750
-         * name : 新研究：“挠痒疗法”有助减缓衰老
-         * pic : http://image.pearvideo.com/cont/20190802/cont-1585750-12069417.jpg
-         * userInfo : {"userId":"11549091","nickname":"眼镜儿","pic":"http://image.pearvideo.com/node/19-10027896-logo.jpg","level":"2"}
-         * link : http://
-         * linkType : 0
-         * cornerLabel :
-         * cornerLabelDesc :
-         * forwordType : 1
-         * videoType : 1
-         * duration : 01'18"
-         * liveStatus :
-         * liveStartTime :
-         * isAppoint : 0
-         * praiseTimes : 251
-         */
-
-        private String contId;
-        private String name;
-        private String pic;
-        private UserInfoBeanXX userInfo;
-        private String link;
-        private String linkType;
-        private String cornerLabel;
-        private String cornerLabelDesc;
-        private String forwordType;
-        private String videoType;
-        private String duration;
-        private String liveStatus;
-        private String liveStartTime;
-        private String isAppoint;
-        private String praiseTimes;
-
-        public String getContId() {
-            return contId;
-        }
-
-        public void setContId(String contId) {
-            this.contId = contId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPic() {
-            return pic;
-        }
-
-        public void setPic(String pic) {
-            this.pic = pic;
-        }
-
-        public UserInfoBeanXX getUserInfo() {
-            return userInfo;
-        }
-
-        public void setUserInfo(UserInfoBeanXX userInfo) {
-            this.userInfo = userInfo;
-        }
-
-        public String getLink() {
-            return link;
-        }
-
-        public void setLink(String link) {
-            this.link = link;
-        }
-
-        public String getLinkType() {
-            return linkType;
-        }
-
-        public void setLinkType(String linkType) {
-            this.linkType = linkType;
-        }
-
-        public String getCornerLabel() {
-            return cornerLabel;
-        }
-
-        public void setCornerLabel(String cornerLabel) {
-            this.cornerLabel = cornerLabel;
-        }
-
-        public String getCornerLabelDesc() {
-            return cornerLabelDesc;
-        }
-
-        public void setCornerLabelDesc(String cornerLabelDesc) {
-            this.cornerLabelDesc = cornerLabelDesc;
-        }
-
-        public String getForwordType() {
-            return forwordType;
-        }
-
-        public void setForwordType(String forwordType) {
-            this.forwordType = forwordType;
-        }
-
-        public String getVideoType() {
-            return videoType;
-        }
-
-        public void setVideoType(String videoType) {
-            this.videoType = videoType;
-        }
-
-        public String getDuration() {
-            return duration;
-        }
-
-        public void setDuration(String duration) {
-            this.duration = duration;
-        }
-
-        public String getLiveStatus() {
-            return liveStatus;
-        }
-
-        public void setLiveStatus(String liveStatus) {
-            this.liveStatus = liveStatus;
-        }
-
-        public String getLiveStartTime() {
-            return liveStartTime;
-        }
-
-        public void setLiveStartTime(String liveStartTime) {
-            this.liveStartTime = liveStartTime;
-        }
-
-        public String getIsAppoint() {
-            return isAppoint;
-        }
-
-        public void setIsAppoint(String isAppoint) {
-            this.isAppoint = isAppoint;
-        }
-
-        public String getPraiseTimes() {
-            return praiseTimes;
-        }
-
-        public void setPraiseTimes(String praiseTimes) {
-            this.praiseTimes = praiseTimes;
-        }
-
-        public static class UserInfoBeanXX {
             /**
              * userId : 11549091
              * nickname : 眼镜儿

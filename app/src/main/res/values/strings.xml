@@ -14,4 +14,6 @@
     <string name="tv_share">分享</string>
     <string name="tv_like">喜欢</string>
     <string name="tv_commit">评论</string>
+    <string name="tv_hot">最热</string>
+    <string name="tv_new">最新</string>
 </resources>

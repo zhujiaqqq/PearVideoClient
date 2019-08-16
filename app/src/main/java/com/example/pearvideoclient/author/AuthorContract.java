@@ -3,6 +3,7 @@ package com.example.pearvideoclient.author;
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
 import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
+import com.example.pearvideoclient.entity.bean.UserConts;
 import com.example.pearvideoclient.entity.bean.UserInfoBean;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public interface AuthorContract {
          * @param type      页面类型
          * @param isSuccess 成功
          */
-        void loadMoreFinish(AuthorPresenter.PageType type, boolean isSuccess);
+        void loadMoreFinish(@AuthorPresenter.PageType String type, boolean isSuccess);
 
         /**
          * 刷新完成
@@ -58,7 +59,14 @@ public interface AuthorContract {
          * @param type      页面类型
          * @param isSuccess 成功
          */
-        void loadRefreshFinish(AuthorPresenter.PageType type, boolean isSuccess);
+        void loadRefreshFinish(@AuthorPresenter.PageType String type, boolean isSuccess);
+
+        void setHotConts(List<UserConts.ContListBean> hotList);
+
+        void setNewConts(List<UserConts.ContListBean> contList);
+
+        void loadMoreNewConts(List<UserConts.ContListBean> contList);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -85,6 +93,23 @@ public interface AuthorContract {
          * 加载更多动态fragment页面数据
          */
         void loadMoreUserHomeList();
+
+        /**
+         * 加载视频fragment页面数据
+         *
+         * @param authorId 作者ID
+         */
+        void loadUserContsInfo(String authorId);
+
+        /**
+         * 刷新视频fragment页面数据
+         */
+        void refreshUserContsList();
+
+        /**
+         * 加载更多视频fragment页面数据
+         */
+        void loadMoreUserContsList();
     }
 
 }

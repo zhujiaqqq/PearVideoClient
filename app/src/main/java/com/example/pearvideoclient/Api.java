@@ -132,7 +132,7 @@ public interface Api {
      */
     @POST("clt/jsp/v4/getUserConts.jsp")
     @FormUrlEncoded
-    Observable<UserConts> getUserConts(@Field("userId") String userId);
+    Observable<UserConts> getUserConts(@Field("start") String start, @Field("userId") String userId);
 
     /**
      * 关注/取关用户

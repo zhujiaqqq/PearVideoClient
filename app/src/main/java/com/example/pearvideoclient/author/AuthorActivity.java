@@ -30,11 +30,17 @@ import com.example.pearvideoclient.author.fragment.UserContsFragment;
 import com.example.pearvideoclient.author.fragment.UserHomeFragment;
 import com.example.pearvideoclient.author.fragment.UserPostFragment;
 import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
+import com.example.pearvideoclient.entity.bean.UserConts;
 import com.example.pearvideoclient.entity.bean.UserInfoBean;
 import com.example.pearvideoclient.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.pearvideoclient.author.AuthorPresenter.ALBUMS;
+import static com.example.pearvideoclient.author.AuthorPresenter.CONTS;
+import static com.example.pearvideoclient.author.AuthorPresenter.HOME;
+import static com.example.pearvideoclient.author.AuthorPresenter.POST;
 
 /**
  * @Description: java类作用描述
@@ -166,8 +172,15 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
             @Override
             public void onPageSelected(int i) {
-                if (i == 0) {
-                    mPresenter.loadUserHomeInfo(userId);
+                switch (i) {
+                    case 0:
+                        mPresenter.loadUserHomeInfo(userId);
+                        break;
+                    case 1:
+                        mPresenter.loadUserContsInfo(userId);
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -241,7 +254,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     }
 
     @Override
-    public void loadMoreFinish(AuthorPresenter.PageType type, boolean isSuccess) {
+    public void loadMoreFinish(@AuthorPresenter.PageType String type, boolean isSuccess) {
         switch (type) {
             case HOME:
                 userHomeFragment.loadMoreFinish(isSuccess);
@@ -249,6 +262,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
             case POST:
                 break;
             case CONTS:
+                userContsFragment.loadMoreFinish(isSuccess);
                 break;
             case ALBUMS:
                 break;
@@ -258,7 +272,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     }
 
     @Override
-    public void loadRefreshFinish(AuthorPresenter.PageType type, boolean isSuccess) {
+    public void loadRefreshFinish(@AuthorPresenter.PageType String type, boolean isSuccess) {
         switch (type) {
             case HOME:
                 userHomeFragment.loadRefreshFinish(isSuccess);
@@ -266,12 +280,28 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
             case ALBUMS:
                 break;
             case CONTS:
+                userContsFragment.loadRefreshFinish(isSuccess);
                 break;
             case POST:
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void setHotConts(List<UserConts.ContListBean> hotList) {
+        userContsFragment.loadHotConts(hotList);
+    }
+
+    @Override
+    public void setNewConts(List<UserConts.ContListBean> contList) {
+        userContsFragment.loadNewConts(contList);
+    }
+
+    @Override
+    public void loadMoreNewConts(List<UserConts.ContListBean> contList) {
+        userContsFragment.loadMoreNewConts(contList);
     }
 
     @Override
@@ -295,5 +325,13 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     public void userHomeLoadMore() {
         mPresenter.loadMoreUserHomeList();
+    }
+
+    public void userContsRefresh() {
+        mPresenter.refreshUserContsList();
+    }
+
+    public void userContsLoadMore() {
+        mPresenter.loadMoreUserContsList();
     }
 }
