@@ -2,9 +2,10 @@ package com.example.pearvideoclient.author;
 
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
-import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
-import com.example.pearvideoclient.entity.bean.UserConts;
-import com.example.pearvideoclient.entity.bean.UserInfoBean;
+import com.example.pearvideoclient.entity.AuthorHomeBean;
+import com.example.pearvideoclient.entity.UserAlbumsBean;
+import com.example.pearvideoclient.entity.UserConts;
+import com.example.pearvideoclient.entity.UserInfoBean;
 
 import java.util.List;
 
@@ -61,12 +62,40 @@ public interface AuthorContract {
          */
         void loadRefreshFinish(@AuthorPresenter.PageType String type, boolean isSuccess);
 
+        /**
+         * 加载最热视频列表
+         *
+         * @param hotList 最热视频列表
+         */
         void setHotConts(List<UserConts.ContListBean> hotList);
 
+        /**
+         * 加载最新视频列表
+         *
+         * @param contList 最新视频列表
+         */
         void setNewConts(List<UserConts.ContListBean> contList);
 
+        /**
+         * 加载更多最新视频列表
+         *
+         * @param contList 最新视频列表
+         */
         void loadMoreNewConts(List<UserConts.ContListBean> contList);
 
+        /**
+         * 加载专辑列表
+         *
+         * @param albumList 专辑列表
+         */
+        void setAlbumsList(List<UserAlbumsBean.AlbumListBean> albumList);
+
+        /**
+         * 加载更多专辑列表
+         *
+         * @param albumList 专辑列表
+         */
+        void loadMoreUserAlbums(List<UserAlbumsBean.AlbumListBean> albumList);
     }
 
     interface Presenter extends BasePresenter {
@@ -110,6 +139,23 @@ public interface AuthorContract {
          * 加载更多视频fragment页面数据
          */
         void loadMoreUserContsList();
+
+        /**
+         * 加载专辑 fragment 页面数据
+         *
+         * @param authorId 作者ID
+         */
+        void loadUserAlbumsInfo(String authorId);
+
+        /**
+         * 刷新专辑 fragment页面数据
+         */
+        void refreshUserAlbumsList();
+
+        /**
+         * 加载更多专辑fragment页面数据
+         */
+        void loadMoreUserAlbumsList();
     }
 
 }

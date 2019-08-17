@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
-import com.example.pearvideoclient.entity.bean.UserConts;
+import com.example.pearvideoclient.entity.UserConts;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.List;

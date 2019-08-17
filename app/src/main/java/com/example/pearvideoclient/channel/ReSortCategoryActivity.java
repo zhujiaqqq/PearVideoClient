@@ -7,12 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.support.v7.widget.helper.ItemTouchHelper.Callback;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.entity.bean.CategoryBean;
+import com.example.pearvideoclient.entity.CategoryBean;
 
 import java.util.ArrayList;
 

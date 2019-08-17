@@ -2,7 +2,7 @@ package com.example.pearvideoclient.follow;
 
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
-import com.example.pearvideoclient.entity.bean.MyFollowContBean;
+import com.example.pearvideoclient.entity.MyFollowContBean;
 
 import java.util.List;
 

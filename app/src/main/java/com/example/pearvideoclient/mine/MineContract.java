@@ -2,8 +2,8 @@ package com.example.pearvideoclient.mine;
 
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
-import com.example.pearvideoclient.entity.bean.LoginBean;
-import com.example.pearvideoclient.entity.bean.UserInfoBean;
+import com.example.pearvideoclient.entity.LoginBean;
+import com.example.pearvideoclient.entity.UserInfoBean;
 
 /**
  * @Description: java类作用描述

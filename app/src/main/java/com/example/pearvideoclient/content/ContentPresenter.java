@@ -7,8 +7,8 @@ import android.view.animation.AnimationUtils;
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.entity.bean.ContPraise;
-import com.example.pearvideoclient.entity.bean.UserFollowBean;
+import com.example.pearvideoclient.entity.ContPraise;
+import com.example.pearvideoclient.entity.UserFollowBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

@@ -8,9 +8,9 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.entity.bean.content.AbstractConts;
-import com.example.pearvideoclient.entity.bean.content.HotConts;
-import com.example.pearvideoclient.entity.bean.content.RelateConts;
+import com.example.pearvideoclient.entity.content.AbstractConts;
+import com.example.pearvideoclient.entity.content.HotConts;
+import com.example.pearvideoclient.entity.content.RelateConts;
 
 import java.util.List;
 

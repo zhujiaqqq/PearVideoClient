@@ -1,18 +1,19 @@
 package com.example.pearvideoclient;
 
-import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
-import com.example.pearvideoclient.entity.bean.CategoryBean;
-import com.example.pearvideoclient.entity.bean.CategoryContsBean;
-import com.example.pearvideoclient.entity.bean.ContPraise;
-import com.example.pearvideoclient.entity.bean.LoginBean;
-import com.example.pearvideoclient.entity.bean.LogoutBean;
-import com.example.pearvideoclient.entity.bean.MsgMarkBean;
-import com.example.pearvideoclient.entity.bean.MyFollowContBean;
-import com.example.pearvideoclient.entity.bean.MyReadHisListBean;
-import com.example.pearvideoclient.entity.bean.UserConts;
-import com.example.pearvideoclient.entity.bean.UserFollowBean;
-import com.example.pearvideoclient.entity.bean.UserInfoBean;
-import com.example.pearvideoclient.entity.bean.content.ContentBean;
+import com.example.pearvideoclient.entity.AuthorHomeBean;
+import com.example.pearvideoclient.entity.CategoryBean;
+import com.example.pearvideoclient.entity.CategoryContsBean;
+import com.example.pearvideoclient.entity.ContPraise;
+import com.example.pearvideoclient.entity.LoginBean;
+import com.example.pearvideoclient.entity.LogoutBean;
+import com.example.pearvideoclient.entity.MsgMarkBean;
+import com.example.pearvideoclient.entity.MyFollowContBean;
+import com.example.pearvideoclient.entity.MyReadHisListBean;
+import com.example.pearvideoclient.entity.UserAlbumsBean;
+import com.example.pearvideoclient.entity.UserConts;
+import com.example.pearvideoclient.entity.UserFollowBean;
+import com.example.pearvideoclient.entity.UserInfoBean;
+import com.example.pearvideoclient.entity.content.ContentBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -126,12 +127,24 @@ public interface Api {
     /**
      * 获取作者信息
      *
+     * @param start  索引
      * @param userId 用户ID
      * @return 作者信息
      */
     @POST("clt/jsp/v4/getUserConts.jsp")
     @FormUrlEncoded
     Observable<UserConts> getUserConts(@Field("start") String start, @Field("userId") String userId);
+
+    /**
+     * 获取作者专辑列表
+     *
+     * @param start  索引
+     * @param userId 用户ID
+     * @return 专辑列表
+     */
+    @POST("clt/jsp/v4/getUserAlbums.jsp")
+    @FormUrlEncoded
+    Observable<UserAlbumsBean> getUserAlbums(@Field("start") String start, @Field("userId") String userId);
 
     /**
      * 关注/取关用户

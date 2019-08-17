@@ -12,7 +12,7 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.entity.bean.MyFollowContBean;
+import com.example.pearvideoclient.entity.MyFollowContBean;
 
 import java.util.List;
 

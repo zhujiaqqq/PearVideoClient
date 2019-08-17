@@ -2,7 +2,7 @@ package com.example.pearvideoclient.follow;
 
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.channel.ChannelPresenter;
-import com.example.pearvideoclient.entity.bean.MyFollowContBean;
+import com.example.pearvideoclient.entity.MyFollowContBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import java.util.List;

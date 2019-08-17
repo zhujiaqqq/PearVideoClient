@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
-import com.example.pearvideoclient.entity.bean.MyFollowContBean;
+import com.example.pearvideoclient.entity.MyFollowContBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;

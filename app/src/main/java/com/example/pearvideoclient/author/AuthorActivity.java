@@ -26,9 +26,10 @@ import com.example.pearvideoclient.author.fragment.UserAlbumsFragment;
 import com.example.pearvideoclient.author.fragment.UserContsFragment;
 import com.example.pearvideoclient.author.fragment.UserHomeFragment;
 import com.example.pearvideoclient.author.fragment.UserPostFragment;
-import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
-import com.example.pearvideoclient.entity.bean.UserConts;
-import com.example.pearvideoclient.entity.bean.UserInfoBean;
+import com.example.pearvideoclient.entity.AuthorHomeBean;
+import com.example.pearvideoclient.entity.UserAlbumsBean;
+import com.example.pearvideoclient.entity.UserConts;
+import com.example.pearvideoclient.entity.UserInfoBean;
 import com.example.pearvideoclient.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -176,6 +177,12 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
                     case 1:
                         mPresenter.loadUserContsInfo(userId);
                         break;
+                    case 2:
+                        if (mFragments.size() == 4) {
+                            mPresenter.loadUserAlbumsInfo(userId);
+                        } else {
+                            //
+                        }
                     default:
                         break;
                 }
@@ -256,12 +263,13 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
             case HOME:
                 mUserHomeFragment.loadMoreFinish(isSuccess);
                 break;
-            case POST:
+            case ALBUMS:
+                mUserAlbumsFragment.loadMoreFinish(isSuccess);
                 break;
             case CONTS:
                 mUserContsFragment.loadMoreFinish(isSuccess);
                 break;
-            case ALBUMS:
+            case POST:
                 break;
             default:
                 break;
@@ -275,6 +283,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
                 mUserHomeFragment.loadRefreshFinish(isSuccess);
                 break;
             case ALBUMS:
+                mUserAlbumsFragment.loadRefreshFinish(isSuccess);
                 break;
             case CONTS:
                 mUserContsFragment.loadRefreshFinish(isSuccess);
@@ -299,6 +308,16 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     @Override
     public void loadMoreNewConts(List<UserConts.ContListBean> contList) {
         mUserContsFragment.loadMoreNewConts(contList);
+    }
+
+    @Override
+    public void setAlbumsList(List<UserAlbumsBean.AlbumListBean> albumList) {
+        mUserAlbumsFragment.loadAlbumsList(albumList);
+    }
+
+    @Override
+    public void loadMoreUserAlbums(List<UserAlbumsBean.AlbumListBean> albumList) {
+        mUserAlbumsFragment.loadMoreAlbumsList(albumList);
     }
 
     @Override
@@ -330,5 +349,13 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     public void userContsLoadMore() {
         mPresenter.loadMoreUserContsList();
+    }
+
+    public void userAlbumsLoadMore() {
+        mPresenter.loadMoreUserAlbumsList();
+    }
+
+    public void userAlbumsRefresh() {
+        mPresenter.refreshUserAlbumsList();
     }
 }

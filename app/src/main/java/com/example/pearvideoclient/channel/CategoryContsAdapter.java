@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.content.ContentActivity;
-import com.example.pearvideoclient.entity.bean.CategoryContsBean;
+import com.example.pearvideoclient.entity.CategoryContsBean;
 
 import java.util.List;
 

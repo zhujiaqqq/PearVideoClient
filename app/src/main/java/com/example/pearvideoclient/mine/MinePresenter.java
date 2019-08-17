@@ -7,7 +7,7 @@ import android.util.Log;
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.utils.Md5Util;
 import com.example.pearvideoclient.utils.SharedPreferencesHelper;
-import com.example.pearvideoclient.entity.bean.LoginBean;
+import com.example.pearvideoclient.entity.LoginBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

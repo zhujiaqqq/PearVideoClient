@@ -5,9 +5,10 @@ import android.support.annotation.StringDef;
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.channel.ChannelPresenter;
-import com.example.pearvideoclient.entity.bean.AuthorHomeBean;
-import com.example.pearvideoclient.entity.bean.UserConts;
-import com.example.pearvideoclient.entity.bean.UserInfoBean;
+import com.example.pearvideoclient.entity.AuthorHomeBean;
+import com.example.pearvideoclient.entity.UserAlbumsBean;
+import com.example.pearvideoclient.entity.UserConts;
+import com.example.pearvideoclient.entity.UserInfoBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import java.lang.annotation.Retention;
@@ -40,6 +41,7 @@ public class AuthorPresenter implements AuthorContract.Presenter {
     private String userId;
     private String userHomeStart;
     private String userContsStart;
+    private String userAlbumsStast;
 
 
     public AuthorPresenter(AuthorContract.View view, LocalHandler handler, String userId) {
@@ -120,6 +122,27 @@ public class AuthorPresenter implements AuthorContract.Presenter {
         mCompositeDisposable.add(disposable);
     }
 
+    @Override
+    public void loadUserAlbumsInfo(String authorId) {
+        userAlbumsStast = "0";
+        Disposable disposable = loadUserAlbumsInfo(userAlbumsStast, authorId, ChannelPresenter.LoadType.COMMON);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void refreshUserAlbumsList() {
+        userAlbumsStast = "0";
+        Disposable disposable = loadUserAlbumsInfo(userAlbumsStast, userId, ChannelPresenter.LoadType.LOAD_REFRESH);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void loadMoreUserAlbumsList() {
+        userAlbumsStast = String.valueOf(Integer.valueOf(userAlbumsStast) + 10);
+        Disposable disposable = loadUserAlbumsInfo(userAlbumsStast, userId, ChannelPresenter.LoadType.LOAD_MORE);
+        mCompositeDisposable.add(disposable);
+    }
+
     /**
      * 加载动态fragment数据
      *
@@ -190,6 +213,43 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                         mView.loadMoreFinish(CONTS, true);
                     } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
                         mView.loadRefreshFinish(CONTS, true);
+                    }
+                });
+    }
+
+    /**
+     * 加载专辑fragment数据
+     *
+     * @param start    索引
+     * @param authorId ID
+     * @param loadType 加载类型
+     * @return
+     */
+    private Disposable loadUserAlbumsInfo(String start, String authorId, ChannelPresenter.LoadType loadType) {
+        return RetrofitManager.getInstance().createReq(Api.class)
+                .getUserAlbums(start, authorId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userAlbumsBean -> {
+                    List<UserAlbumsBean.AlbumListBean> albumList = userAlbumsBean.getAlbumList();
+
+                    if (loadType == ChannelPresenter.LoadType.COMMON ||
+                            loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                        mView.setAlbumsList(albumList);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        mView.loadMoreUserAlbums(albumList);
+                    }
+                }, throwable -> {
+                    if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        mView.loadMoreFinish(ALBUMS, false);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                        mView.loadRefreshFinish(ALBUMS, false);
+                    }
+                }, () -> {
+                    if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                        mView.loadMoreFinish(ALBUMS, true);
+                    } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                        mView.loadRefreshFinish(ALBUMS, true);
                     }
                 });
     }

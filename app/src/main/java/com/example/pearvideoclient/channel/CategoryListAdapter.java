@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.entity.bean.CategoryBean;
+import com.example.pearvideoclient.entity.CategoryBean;
 
 import java.util.Collections;
 import java.util.List;

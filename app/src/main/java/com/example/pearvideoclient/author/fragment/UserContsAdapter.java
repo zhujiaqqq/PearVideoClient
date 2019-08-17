@@ -12,7 +12,7 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.entity.bean.UserConts;
+import com.example.pearvideoclient.entity.UserConts;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class UserContsAdapter extends
     @Override
     protected void convert(BaseViewHolder helper, UserConts.ContListBean item) {
         helper.setText(R.id.tv_video_name, item.getName())
-                .setText(R.id.tv_video_author_duration, item.getUserInfo().getNickname() + "|" + item.getDuration());
+                .setText(R.id.tv_video_author_duration, item.getUserInfo().getNickname() + " | " + item.getDuration());
         if (!TextUtils.isEmpty(item.getCornerLabelDesc())) {
             helper.setText(R.id.tv_single_broadcast, item.getCornerLabelDesc());
             helper.getView(R.id.tv_single_broadcast).setVisibility(View.VISIBLE);

@@ -122,15 +122,15 @@ public class ChannelPresenter implements ChannelContract.Presenter {
         /**
          * 普通加载模式
          */
-        COMMON(),
+        COMMON,
         /**
          * 加载更多模式
          */
-        LOAD_MORE(),
+        LOAD_MORE,
         /**
          * 重新加载模式
          */
-        LOAD_REFRESH()
+        LOAD_REFRESH
     }
 
 }

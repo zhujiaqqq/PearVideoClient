@@ -4,11 +4,11 @@ import android.view.animation.Animation;
 
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
-import com.example.pearvideoclient.entity.bean.content.Content;
-import com.example.pearvideoclient.entity.bean.content.HotConts;
-import com.example.pearvideoclient.entity.bean.content.RelateConts;
-import com.example.pearvideoclient.entity.bean.content.Tags;
-import com.example.pearvideoclient.entity.bean.content.Videos;
+import com.example.pearvideoclient.entity.content.Content;
+import com.example.pearvideoclient.entity.content.HotConts;
+import com.example.pearvideoclient.entity.content.RelateConts;
+import com.example.pearvideoclient.entity.content.Tags;
+import com.example.pearvideoclient.entity.content.Videos;
 
 import java.util.List;
 

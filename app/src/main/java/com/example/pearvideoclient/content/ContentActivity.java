@@ -31,11 +31,11 @@ import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
-import com.example.pearvideoclient.entity.bean.content.Content;
-import com.example.pearvideoclient.entity.bean.content.HotConts;
-import com.example.pearvideoclient.entity.bean.content.RelateConts;
-import com.example.pearvideoclient.entity.bean.content.Tags;
-import com.example.pearvideoclient.entity.bean.content.Videos;
+import com.example.pearvideoclient.entity.content.Content;
+import com.example.pearvideoclient.entity.content.HotConts;
+import com.example.pearvideoclient.entity.content.RelateConts;
+import com.example.pearvideoclient.entity.content.Tags;
+import com.example.pearvideoclient.entity.content.Videos;
 import com.example.pearvideoclient.view.FlowLayout;
 import com.wang.avi.AVLoadingIndicatorView;
 
