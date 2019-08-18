@@ -16,4 +16,5 @@
     <string name="tv_commit">评论</string>
     <string name="tv_hot">最热</string>
     <string name="tv_new">最新</string>
+    <string name="tv_add_post">发表话题...</string>
 </resources>

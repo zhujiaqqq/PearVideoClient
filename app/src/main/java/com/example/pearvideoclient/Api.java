@@ -13,6 +13,7 @@ import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.entity.UserConts;
 import com.example.pearvideoclient.entity.UserFollowBean;
 import com.example.pearvideoclient.entity.UserInfoBean;
+import com.example.pearvideoclient.entity.UserPostsBean;
 import com.example.pearvideoclient.entity.content.ContentBean;
 
 import io.reactivex.Observable;
@@ -165,5 +166,9 @@ public interface Api {
      */
     @POST("clt/jsp/v4/myFollowContList.jsp")
     Observable<MyFollowContBean> myFollowContList(@Query("start") String start);
+
+    @POST("clt/jsp/v4/getUserPosts.jsp")
+    @FormUrlEncoded
+    Observable<UserPostsBean> getUserPosts(@Field("start") String start, @Field("userId") String userId, @Field("score") String score);
 
 }

@@ -6,6 +6,7 @@ import com.example.pearvideoclient.entity.AuthorHomeBean;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.entity.UserConts;
 import com.example.pearvideoclient.entity.UserInfoBean;
+import com.example.pearvideoclient.entity.UserPostsBean;
 
 import java.util.List;
 
@@ -96,6 +97,20 @@ public interface AuthorContract {
          * @param albumList 专辑列表
          */
         void loadMoreUserAlbums(List<UserAlbumsBean.AlbumListBean> albumList);
+
+        /**
+         * 加载评论列表
+         *
+         * @param postsList 评论列表
+         */
+        void setPostsList(List<UserPostsBean.PostListBean> postsList);
+
+        /**
+         * 加载更多评论列表
+         *
+         * @param postsList 评论列表
+         */
+        void loadMorePostsList(List<UserPostsBean.PostListBean> postsList);
     }
 
     interface Presenter extends BasePresenter {
@@ -156,6 +171,23 @@ public interface AuthorContract {
          * 加载更多专辑fragment页面数据
          */
         void loadMoreUserAlbumsList();
+
+        /**
+         * 加载评论fragment 页面数据
+         *
+         * @param authorId 作者ID
+         */
+        void loadUserPostsInfo(String authorId);
+
+        /**
+         * 刷新评论fragment页面数据
+         */
+        void refreshUserPostsList();
+
+        /**
+         * 加载更多评论fragment页面数据
+         */
+        void loadMoreUserPostsList();
     }
 
 }

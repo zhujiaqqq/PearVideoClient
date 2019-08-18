@@ -1,7 +1,7 @@
 package com.example.pearvideoclient.follow;
 
 import com.example.pearvideoclient.Api;
-import com.example.pearvideoclient.channel.ChannelPresenter;
+import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.entity.MyFollowContBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
@@ -48,21 +48,21 @@ public class FollowPresenter implements FollowContract.Presenter {
     @Override
     public void loadMyFollowList() {
         start = "0";
-        Disposable disposable = loadMyFollowList(start, ChannelPresenter.LoadType.COMMON);
+        Disposable disposable = loadMyFollowList(start, Constants.COMMON);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void loadMoreMyFollowList() {
         start = String.valueOf(Integer.valueOf(start) + 10);
-        Disposable disposable = loadMyFollowList(start, ChannelPresenter.LoadType.LOAD_MORE);
+        Disposable disposable = loadMyFollowList(start, Constants.LOAD_MORE);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void refreshMyFollowList() {
         start = "0";
-        Disposable disposable = loadMyFollowList(start, ChannelPresenter.LoadType.LOAD_REFRESH);
+        Disposable disposable = loadMyFollowList(start, Constants.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
     }
 
@@ -81,35 +81,35 @@ public class FollowPresenter implements FollowContract.Presenter {
         mView.showFollowUser(followUserList);
     }
 
-    private Disposable loadMyFollowList(String start, ChannelPresenter.LoadType loadType) {
+    private Disposable loadMyFollowList(String start, @Constants.LoadType int loadType) {
         mView.showLoading();
         return RetrofitManager.getInstance().createReq(Api.class).myFollowContList(start)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         bean -> {
-                            if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH
-                                    || loadType == ChannelPresenter.LoadType.COMMON) {
+                            if (loadType == Constants.LOAD_REFRESH
+                                    || loadType == Constants.COMMON) {
                                 loadFollowUsers(bean);
                                 loadFollowData(bean);
-                            } else if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                            } else if (loadType == Constants.LOAD_MORE) {
                                 mView.loadMoreFollowData(bean);
                             }
                         },
                         throwable -> {
                             mView.cancelLoading();
-                            if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                            if (loadType == Constants.LOAD_MORE) {
                                 mView.loadMoreFinish(false);
-                            } else if (loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                            } else if (loadType == Constants.LOAD_REFRESH) {
                                 mView.loadRefreshFinish(false);
                             }
                         },
                         () -> {
                             mView.cancelLoading();
-                            if (loadType == ChannelPresenter.LoadType.LOAD_MORE) {
+                            if (loadType == Constants.LOAD_MORE) {
                                 mView.loadMoreFinish(true);
                             } else if (
-                                    loadType == ChannelPresenter.LoadType.LOAD_REFRESH) {
+                                    loadType == Constants.LOAD_REFRESH) {
                                 mView.loadRefreshFinish(true);
                             }
                         });

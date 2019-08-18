@@ -30,6 +30,7 @@ import com.example.pearvideoclient.entity.AuthorHomeBean;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.entity.UserConts;
 import com.example.pearvideoclient.entity.UserInfoBean;
+import com.example.pearvideoclient.entity.UserPostsBean;
 import com.example.pearvideoclient.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -318,6 +319,16 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     @Override
     public void loadMoreUserAlbums(List<UserAlbumsBean.AlbumListBean> albumList) {
         mUserAlbumsFragment.loadMoreAlbumsList(albumList);
+    }
+
+    @Override
+    public void setPostsList(List<UserPostsBean.PostListBean> postsList) {
+
+    }
+
+    @Override
+    public void loadMorePostsList(List<UserPostsBean.PostListBean> postsList) {
+
     }
 
     @Override

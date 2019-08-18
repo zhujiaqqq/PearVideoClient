@@ -1,6 +1,7 @@
 package com.example.pearvideoclient.channel;
 
 import com.example.pearvideoclient.Api;
+import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,7 +48,7 @@ public class ChannelPresenter implements ChannelContract.Presenter {
         Disposable disposable = loadCategoryConts(hotPageidx,
                 currentCategoryId,
                 currentIndex,
-                LoadType.COMMON);
+                Constants.COMMON);
         mCompositeDisposable.add(disposable);
     }
 
@@ -57,7 +58,7 @@ public class ChannelPresenter implements ChannelContract.Presenter {
         Disposable disposable = loadCategoryConts("",
                 currentCategoryId,
                 currentIndex,
-                LoadType.LOAD_MORE);
+                Constants.LOAD_MORE);
         mCompositeDisposable.add(disposable);
     }
 
@@ -67,7 +68,7 @@ public class ChannelPresenter implements ChannelContract.Presenter {
         Disposable disposable = loadCategoryConts("1",
                 currentCategoryId,
                 currentIndex,
-                LoadType.LOAD_REFRESH);
+                Constants.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
     }
 
@@ -85,7 +86,7 @@ public class ChannelPresenter implements ChannelContract.Presenter {
     private Disposable loadCategoryConts(String hotPageidx,
                                          String categoryId,
                                          String start,
-                                         LoadType type) {
+                                         @Constants.LoadType int type) {
         mView.showLoading();
         return RetrofitManager.getInstance()
                 .createReq(Api.class)
@@ -93,44 +94,29 @@ public class ChannelPresenter implements ChannelContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(categoryContsBean -> {
-                    if (type == LoadType.COMMON || type == LoadType.LOAD_REFRESH) {
+                    if (type == Constants.COMMON || type == Constants.LOAD_REFRESH) {
 //                            如果是普通情况或者刷新的情况
                         mView.showList(categoryContsBean.getContList());
-                    } else if (type == LoadType.LOAD_MORE) {
+                    } else if (type == Constants.LOAD_MORE) {
 //                            如果是加载更多的情况
                         mView.loadMoreList(categoryContsBean.getContList());
                     }
                 }, throwable -> {
                     mView.cancelLoading();
-                    if (type == LoadType.LOAD_MORE) {
+                    if (type == Constants.LOAD_MORE) {
                         mView.loadMoreFinish(false);
-                    } else if (type == LoadType.LOAD_REFRESH) {
+                    } else if (type == Constants.LOAD_REFRESH) {
                         mView.loadRefreshFinish(false);
                     }
                 }, () -> {
                     mView.cancelLoading();
-                    if (type == LoadType.LOAD_MORE) {
+                    if (type == Constants.LOAD_MORE) {
                         mView.loadMoreFinish(true);
-                    } else if (type == LoadType.LOAD_REFRESH) {
+                    } else if (type == Constants.LOAD_REFRESH) {
                         mView.loadRefreshFinish(true);
                     }
                 });
 
-    }
-
-    public enum LoadType {
-        /**
-         * 普通加载模式
-         */
-        COMMON,
-        /**
-         * 加载更多模式
-         */
-        LOAD_MORE,
-        /**
-         * 重新加载模式
-         */
-        LOAD_REFRESH
     }
 
 }
