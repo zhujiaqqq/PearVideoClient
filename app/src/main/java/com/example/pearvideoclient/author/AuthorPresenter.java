@@ -43,6 +43,8 @@ public class AuthorPresenter implements AuthorContract.Presenter {
     private String userHomeStart;
     private String userContsStart;
     private String userAlbumsStast;
+    private String userPostsStart;
+    private String mPostsNextUrl;
 
 
     public AuthorPresenter(AuthorContract.View view, LocalHandler handler, String userId) {
@@ -146,17 +148,24 @@ public class AuthorPresenter implements AuthorContract.Presenter {
 
     @Override
     public void loadUserPostsInfo(String authorId) {
-
+        userPostsStart = "0";
+        Disposable disposable = loadUserPostsInfo(userPostsStart, authorId, null, Constants.COMMON);
+        mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void refreshUserPostsList() {
-
+        userPostsStart = "0";
+        Disposable disposable = loadUserPostsInfo(userPostsStart, userId, null, Constants.LOAD_REFRESH);
+        mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void loadMoreUserPostsList() {
-
+        userPostsStart = String.valueOf(Integer.valueOf(userPostsStart) + 10);
+        String score = mPostsNextUrl.substring(mPostsNextUrl.indexOf("score=") + 6);
+        Disposable disposable = loadUserPostsInfo(userPostsStart, userId, score, Constants.LOAD_MORE);
+        mCompositeDisposable.add(disposable);
     }
 
     /**
@@ -164,7 +173,7 @@ public class AuthorPresenter implements AuthorContract.Presenter {
      *
      * @param start    索引
      * @param authorId id
-     * @return
+     * @return disposable
      */
     private Disposable loadUserHomeInfo(String start, String authorId, @Constants.LoadType int loadType) {
         return RetrofitManager.getInstance().createReq(Api.class)
@@ -201,7 +210,7 @@ public class AuthorPresenter implements AuthorContract.Presenter {
      * @param start    索引
      * @param authorId id
      * @param loadType 加载类型
-     * @return
+     * @return disposable
      */
     private Disposable loadUserContsInfo(String start, String authorId, @Constants.LoadType int loadType) {
         return RetrofitManager.getInstance().createReq(Api.class)
@@ -238,7 +247,7 @@ public class AuthorPresenter implements AuthorContract.Presenter {
      * @param start    索引
      * @param authorId ID
      * @param loadType 加载类型
-     * @return
+     * @return disposable
      */
     private Disposable loadUserAlbumsInfo(String start, String authorId, @Constants.LoadType int loadType) {
         return RetrofitManager.getInstance().createReq(Api.class)
@@ -269,25 +278,34 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                 });
     }
 
-    private Disposable loadUserPostsInfo(String start, String userId, String score, @Constants.LoadType int loadType) {
+    private Disposable loadUserPostsInfo(String start,
+                                         String userId,
+                                         String score,
+                                         @Constants.LoadType int loadType) {
         return RetrofitManager.getInstance().createReq(Api.class)
                 .getUserPosts(start, userId, score)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<UserPostsBean>() {
-                    @Override
-                    public void accept(UserPostsBean userPostsBean) throws Exception {
+                .subscribe(userPostsBean -> {
+                    mPostsNextUrl = userPostsBean.getNextUrl();
+                    List<UserPostsBean.PostListBean> postList = userPostsBean.getPostList();
 
+                    if (loadType == Constants.COMMON || loadType == Constants.LOAD_REFRESH) {
+                        mView.setPostsList(postList);
+                    } else if (loadType == Constants.LOAD_MORE) {
+                        mView.loadMorePostsList(postList);
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
+                }, throwable -> {
+                    if (loadType == Constants.LOAD_REFRESH) {
+                        mView.loadRefreshFinish(POST, false);
+                    } else if (loadType == Constants.LOAD_MORE) {
+                        mView.loadMoreFinish(POST, false);
                     }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-
+                }, () -> {
+                    if (loadType == Constants.LOAD_REFRESH) {
+                        mView.loadRefreshFinish(POST, true);
+                    } else if (loadType == Constants.LOAD_MORE) {
+                        mView.loadMoreFinish(POST, true);
                     }
                 });
     }

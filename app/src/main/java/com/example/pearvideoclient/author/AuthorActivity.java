@@ -182,8 +182,12 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
                         if (mFragments.size() == 4) {
                             mPresenter.loadUserAlbumsInfo(userId);
                         } else {
-                            //
+                            mPresenter.loadUserPostsInfo(userId);
                         }
+                        break;
+                    case 3:
+                        mPresenter.loadUserPostsInfo(userId);
+                        break;
                     default:
                         break;
                 }
@@ -271,6 +275,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
                 mUserContsFragment.loadMoreFinish(isSuccess);
                 break;
             case POST:
+                mUserPostFragment.loadMoreFinish(isSuccess);
                 break;
             default:
                 break;
@@ -290,6 +295,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
                 mUserContsFragment.loadRefreshFinish(isSuccess);
                 break;
             case POST:
+                mUserPostFragment.loadRefreshFinish(isSuccess);
                 break;
             default:
                 break;
@@ -323,12 +329,12 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     @Override
     public void setPostsList(List<UserPostsBean.PostListBean> postsList) {
-
+        mUserPostFragment.loadPostsList(postsList);
     }
 
     @Override
     public void loadMorePostsList(List<UserPostsBean.PostListBean> postsList) {
-
+        mUserPostFragment.loadMorePostsList(postsList);
     }
 
     @Override
@@ -368,5 +374,13 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     public void userAlbumsRefresh() {
         mPresenter.refreshUserAlbumsList();
+    }
+
+    public void userPostsRefresh() {
+        mPresenter.refreshUserPostsList();
+    }
+
+    public void userPostsLoadMore() {
+        mPresenter.loadMoreUserPostsList();
     }
 }

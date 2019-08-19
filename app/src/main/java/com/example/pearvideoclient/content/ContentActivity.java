@@ -301,16 +301,29 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         } catch (Exception e) {
             this.finish();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         mPresenter.subscribe();
         mPresenter.loadContent(this.contId);
 
         mVideoPlayer.setListener(playerListener);
         mSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mBackPressed = true;
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        mPresenter.unsubscribe();
+        mVideoPlayer.stop();
+        mVideoPlayer.release();
+
+        IjkMediaPlayer.native_profileEnd();
+        localHandler.removeCallbacksAndMessages(null);
+        super.onStop();
+
     }
 
     @Override
@@ -423,32 +436,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         } catch (Exception e) {
             return oldStar;
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPresenter.unsubscribe();
-    }
-
-    @Override
-    public void onBackPressed() {
-        mBackPressed = true;
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onStop() {
-        if (mBackPressed && mVideoPlayer != null) {
-            mVideoPlayer.stop();
-            mVideoPlayer.release();
-            mVideoPlayer = null;
-        }
-
-        IjkMediaPlayer.native_profileEnd();
-        localHandler.removeCallbacksAndMessages(null);
-        super.onStop();
-
     }
 
     @Override

@@ -13,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.author.AuthorActivity;
+import com.example.pearvideoclient.entity.UserPostsBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Description: java类作用描述
@@ -60,7 +63,8 @@ public class UserPostFragment extends Fragment {
         mRvUserPostList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mUserPostAdapter = new UserPostAdapter(R.layout.adapter_user_post_item, new ArrayList<>());
         mRvUserPostList.setAdapter(mUserPostAdapter);
-
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> ((AuthorActivity) getActivity()).userPostsLoadMore());
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> ((AuthorActivity) getActivity()).userPostsRefresh());
         addHeadView();
 
     }
@@ -75,5 +79,21 @@ public class UserPostFragment extends Fragment {
             }
         });
         mUserPostAdapter.addHeaderView(headView);
+    }
+
+    public void loadPostsList(List<UserPostsBean.PostListBean> postsList) {
+        mUserPostAdapter.replaceData(postsList);
+    }
+
+    public void loadMorePostsList(List<UserPostsBean.PostListBean> postsList) {
+        mUserPostAdapter.addData(postsList);
+    }
+
+    public void loadRefreshFinish(boolean isSuccess) {
+        mRefreshLayout.finishRefresh(isSuccess);
+    }
+
+    public void loadMoreFinish(boolean isSuccess) {
+        mRefreshLayout.finishLoadMore(isSuccess);
     }
 }
