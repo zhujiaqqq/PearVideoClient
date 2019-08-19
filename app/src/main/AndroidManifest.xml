@@ -29,6 +29,7 @@
         <activity
             android:name=".content.ContentActivity"
             android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".author.AuthorActivity"

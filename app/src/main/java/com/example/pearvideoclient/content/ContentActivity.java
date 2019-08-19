@@ -215,6 +215,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
      */
     private boolean isAttention;
     private boolean mBackPressed;
+    private RelativeLayout mVideoView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -251,7 +252,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mIvStop = findViewById(R.id.iv_full_screen);
         mSeekBar = findViewById(R.id.seek_bar);
         mTvTime = findViewById(R.id.tv_time);
-
+        mVideoView = findViewById(R.id.video_view);
         ViewCompat.setTransitionName(mTvVideoName, "textView");
         getWindow().setEnterTransition(new Fade());
         getWindow().setExitTransition(new Fade());
@@ -406,17 +407,20 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mTvDetail.setText(isShow ? getString(R.string.detail_up) : getString(R.string.detail_down));
     }
 
+
     @Override
-    public void showController(boolean isShow) {
+    public void showOrHideController() {
+        boolean isShow = mPlayBottomLayout.getVisibility() == View.GONE;
         mSeekBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
         mIvPlay.setVisibility(isShow ? View.VISIBLE : View.GONE);
         mIvStop.setVisibility(isShow ? View.VISIBLE : View.GONE);
         mTvTime.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        mPlayBottomLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void viewDoAnimation(Animation animation) {
-        mPlayBottomLayout.startAnimation(animation);
+//        mPlayBottomLayout.startAnimation(animation);
     }
 
     @Override
@@ -473,36 +477,21 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // 当前为横屏，设置为竖屏
-            //动态改变布局
-            setFullScreenVisible(false);
-        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // 当前为竖屏，设置为横屏
-            //动态改变布局
-            setFullScreenVisible(true);
-        }
-    }
-
     private void setFullScreenVisible(boolean b) {
         if (b) {
-            mNsvVideoInfo.setVisibility(View.VISIBLE);
-            mLoadingView.setVisibility(View.VISIBLE);
-            mPlayBottomLayout.setVisibility(View.VISIBLE);
-
-            ViewGroup.LayoutParams layoutParams1 = mVideoPlayer.getLayoutParams();
-            layoutParams1.height = dip2px(this, 200);
-            mVideoPlayer.setLayoutParams(layoutParams1);
-        } else {
             mNsvVideoInfo.setVisibility(View.GONE);
             mLoadingView.setVisibility(View.GONE);
             mPlayBottomLayout.setVisibility(View.GONE);
-            ViewGroup.LayoutParams layoutParams1 = mVideoPlayer.getLayoutParams();
-            layoutParams1.height=dip2px(this, 600);
-            mVideoPlayer.setLayoutParams(layoutParams1);
+            ViewGroup.LayoutParams layoutParams1 = mVideoView.getLayoutParams();
+            layoutParams1.height= ViewGroup.LayoutParams.MATCH_PARENT;
+            mVideoView.setLayoutParams(layoutParams1);
+        } else {
+            mNsvVideoInfo.setVisibility(View.VISIBLE);
+
+
+            ViewGroup.LayoutParams layoutParams1 = mVideoView.getLayoutParams();
+            layoutParams1.height = dip2px(this, 200);
+            mVideoView.setLayoutParams(layoutParams1);
         }
     }
 
@@ -512,7 +501,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     private void initFullScreen() {
-        setFullScreenVisible(isLandScreen());
         if (!isLandScreen()) {
             //横屏提前设置参数充满整个屏幕（只有提前设置在横竖屏切换时才会生效）
             //定义全屏参数
@@ -526,6 +514,12 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         } else {
             //切换竖屏（横屏头部返回键）
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            //切换为竖屏显示（提前设置无效，只有现用现设置）
+            int flagBack = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            //获得当前窗体对象
+            Window windowBack = this.getWindow();
+            //设置当前窗体为全屏显示
+            windowBack.clearFlags(flagBack);
         }
     }
 
@@ -567,6 +561,20 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mTvTime.setText(time);
         if (duration != 0) {
             mSeekBar.setProgress((int) (current * 100 / duration));
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // 当前为横屏，设置为竖屏
+            //动态改变布局
+            setFullScreenVisible(true);
+        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // 当前为竖屏，设置为横屏
+            //动态改变布局
+            setFullScreenVisible(false);
         }
     }
 }

@@ -67,7 +67,7 @@ public interface ContentContract {
          *
          * @param isShow
          */
-        void showController(boolean isShow);
+        void showOrHideController();
 
         /**
          * @param animation
@@ -85,7 +85,6 @@ public interface ContentContract {
          * 切换关注状态
          */
         void toggleAttention();
-
     }
 
     interface Presenter extends BasePresenter {
@@ -141,5 +140,6 @@ public interface ContentContract {
          * @param userId 用户ID
          */
         void toOptUserFollow(String opt, String userId);
+
     }
 }

@@ -115,12 +115,7 @@ public class ContentPresenter implements ContentContract.Presenter {
 
     @Override
     public void showPlayController() {
-        if (!isShowController) {
-            isShowController = true;
-            mView.showController(true);
-            Animation animation = AnimationUtils.loadAnimation(MyApplication.getInstance(), R.anim.show_bottom);
-            mView.viewDoAnimation(animation);
-        }
+        mView.showOrHideController();
         mHandler.removeMessages(MSG_HIDDEN_CONTROLLER);
         mHandler.sendEmptyMessageDelayed(MSG_HIDDEN_CONTROLLER, 3000);
     }
@@ -128,7 +123,7 @@ public class ContentPresenter implements ContentContract.Presenter {
     @Override
     public void hidePlayController() {
         isShowController = false;
-        mView.showController(false);
+        mView.showOrHideController();
         Animation animation = AnimationUtils.loadAnimation(MyApplication.getInstance(), R.anim.move_bottom);
         mView.viewDoAnimation(animation);
     }
@@ -158,4 +153,5 @@ public class ContentPresenter implements ContentContract.Presenter {
     public void unsubscribe() {
         //
     }
+
 }
