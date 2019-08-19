@@ -1,6 +1,9 @@
 package com.example.pearvideoclient.content;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -14,8 +17,12 @@ import android.transition.ChangeTransform;
 import android.transition.Fade;
 import android.transition.TransitionSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -174,7 +181,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
                     }
                     break;
                 case R.id.iv_full_screen:
-
+                    initFullScreen();
                     break;
                 case R.id.tv_star:
                     mPresenter.star(contId);
@@ -466,6 +473,87 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // 当前为横屏，设置为竖屏
+            //动态改变布局
+            setFullScreenVisible(false);
+        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // 当前为竖屏，设置为横屏
+            //动态改变布局
+            setFullScreenVisible(true);
+        }
+    }
+
+    private void setFullScreenVisible(boolean b) {
+        if (b) {
+            mNsvVideoInfo.setVisibility(View.VISIBLE);
+            mLoadingView.setVisibility(View.VISIBLE);
+            mPlayBottomLayout.setVisibility(View.VISIBLE);
+
+            ViewGroup.LayoutParams layoutParams1 = mVideoPlayer.getLayoutParams();
+            layoutParams1.height = dip2px(this, 200);
+            mVideoPlayer.setLayoutParams(layoutParams1);
+        } else {
+            mNsvVideoInfo.setVisibility(View.GONE);
+            mLoadingView.setVisibility(View.GONE);
+            mPlayBottomLayout.setVisibility(View.GONE);
+            ViewGroup.LayoutParams layoutParams1 = mVideoPlayer.getLayoutParams();
+            layoutParams1.height=dip2px(this, 600);
+            mVideoPlayer.setLayoutParams(layoutParams1);
+        }
+    }
+
+    public static int dip2px(Context context, float dipValue) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5F);
+    }
+
+    private void initFullScreen() {
+        setFullScreenVisible(isLandScreen());
+        if (!isLandScreen()) {
+            //横屏提前设置参数充满整个屏幕（只有提前设置在横竖屏切换时才会生效）
+            //定义全屏参数
+            int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            //获得当前窗体对象
+            Window window = getWindow();
+            //设置当前窗体为全屏显示
+            window.setFlags(flag, flag);
+            //改变屏幕方向（设置为横屏）
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            //切换竖屏（横屏头部返回键）
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //按返回键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 检测屏幕的方向：纵向或横向
+            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                //当前为横屏，切换至竖屏
+                this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                //当前为竖屏，按退出键后就结束当前activity
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 是否为横屏
+     *
+     * @return true 横屏
+     */
+    private boolean isLandScreen() {
+        return this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
     private void refresh() {
         long current = mVideoPlayer.getCurrentPosition() / 1000;
         long currentSecond = current % 60;

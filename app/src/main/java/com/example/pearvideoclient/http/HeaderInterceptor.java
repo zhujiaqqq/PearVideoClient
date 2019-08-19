@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 
 import com.example.pearvideoclient.MyApplication;
+import com.example.pearvideoclient.utils.SharedPreferencesHelper;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +24,13 @@ import okhttp3.Response;
  * @date 2019-07-17
  */
 public class HeaderInterceptor implements Interceptor {
+
+    private SharedPreferencesHelper helper;
+
+    public HeaderInterceptor() {
+        this.helper = new SharedPreferencesHelper(MyApplication.getInstance(), "user_info");
+    }
+
     @NotNull
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
@@ -37,7 +45,7 @@ public class HeaderInterceptor implements Interceptor {
         builder.addHeader("X-Long-Token", "");
         builder.addHeader("X-Platform-Version", getSystemVersion());
         builder.addHeader("X-Client-Hash", "c0e36761d546f84c3c89f80c1462ebab");
-        builder.addHeader("X-User-ID", "");
+        builder.addHeader("X-User-ID", gerUserId());
         builder.addHeader("X-Platform-Type", "2");
         builder.addHeader("X-Client-ID", getDeviceId(MyApplication.getInstance()));
         builder.addHeader("X-Serial-Num", "1561166399");
@@ -46,6 +54,14 @@ public class HeaderInterceptor implements Interceptor {
         request = builder.build();
 
         return chain.proceed(request);
+    }
+
+    private String gerUserId() {
+        Integer userId = (Integer) helper.getSharedPreference("userId", 0);
+        if (userId == 0) {
+            return "";
+        }
+        return String.valueOf(userId);
     }
 
     private static String getDeviceId(Context ctx) {
