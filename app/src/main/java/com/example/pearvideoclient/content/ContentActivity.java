@@ -86,6 +86,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     private NestedScrollView mNsvVideoInfo;
     private FlowLayout mFlowLayout;
     private RelativeLayout mRlUserLayout;
+    private ImageView mIvVideoImg;
 
 
     private ImageView mIvPlay;
@@ -128,6 +129,8 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
         @Override
         public void onPrepared(IMediaPlayer iMediaPlayer) {
+//            当播放时，视频占位图隐藏
+            mIvVideoImg.setVisibility(View.GONE);
             iMediaPlayer.start();
             mIvPlay.setImageDrawable(getDrawable(R.drawable.ic_pause_white_24dp));
         }
@@ -247,6 +250,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mIvArrow = findViewById(R.id.iv_arrow);
         mFlowLayout = findViewById(R.id.flow_layout);
         mRlUserLayout = findViewById(R.id.rl_user_layout);
+        mIvVideoImg = findViewById(R.id.iv_video_img);
 
         mIvPlay = findViewById(R.id.iv_play);
         mIvStop = findViewById(R.id.iv_full_screen);
@@ -357,6 +361,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mTvDetailInfo.setText(content.getSummary());
         mTvUserName.setText(content.getUserInfo().getNickname());
         mTvUserSingle.setText(content.getUserInfo().getSignature());
+        Glide.with(MyApplication.getInstance()).load(content.getPic()).into(mIvVideoImg);
         Glide.with(MyApplication.getInstance()).asBitmap()
                 .apply(RequestOptions.bitmapTransform(new CircleCrop())
                         .diskCacheStrategy(DiskCacheStrategy.NONE))
@@ -419,11 +424,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     @Override
-    public void viewDoAnimation(Animation animation) {
-//        mPlayBottomLayout.startAnimation(animation);
-    }
-
-    @Override
     public void showStar(boolean isStar) {
         mTvStar.setText(starAdded());
         mTvStar.setCompoundDrawablesWithIntrinsicBounds(
@@ -483,7 +483,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
             mLoadingView.setVisibility(View.GONE);
             mPlayBottomLayout.setVisibility(View.GONE);
             ViewGroup.LayoutParams layoutParams1 = mVideoView.getLayoutParams();
-            layoutParams1.height= ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams1.height = ViewGroup.LayoutParams.MATCH_PARENT;
             mVideoView.setLayoutParams(layoutParams1);
         } else {
             mNsvVideoInfo.setVisibility(View.VISIBLE);
@@ -548,6 +548,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     private boolean isLandScreen() {
         return this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
+
     private void refresh() {
         long current = mVideoPlayer.getCurrentPosition() / 1000;
         long currentSecond = current % 60;

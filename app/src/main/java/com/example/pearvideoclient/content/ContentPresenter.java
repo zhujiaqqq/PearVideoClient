@@ -124,8 +124,6 @@ public class ContentPresenter implements ContentContract.Presenter {
     public void hidePlayController() {
         isShowController = false;
         mView.showOrHideController();
-        Animation animation = AnimationUtils.loadAnimation(MyApplication.getInstance(), R.anim.move_bottom);
-        mView.viewDoAnimation(animation);
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
@@ -29,6 +30,7 @@ public class UserContsFragment extends Fragment {
     private RecyclerView mRvHotList;
     private RecyclerView mRvNewList;
     private RefreshLayout mRefreshLayout;
+    private TextView mTvHot;
 
     private UserContsAdapter mHotAdapter;
     private UserContsAdapter mNewAdapter;
@@ -58,6 +60,7 @@ public class UserContsFragment extends Fragment {
         mRvHotList = view.findViewById(R.id.rv_hot_list);
         mRvNewList = view.findViewById(R.id.rv_new_list);
         mRefreshLayout = view.findViewById(R.id.refresh_layout);
+        mTvHot = view.findViewById(R.id.tv_hot);
     }
 
     private void initData() {
@@ -76,6 +79,11 @@ public class UserContsFragment extends Fragment {
     }
 
     public void loadHotConts(List<UserConts.ContListBean> hotList) {
+        if (hotList.isEmpty()) {
+            mRvHotList.setVisibility(View.GONE);
+            mTvHot.setVisibility(View.GONE);
+            return;
+        }
         mHotAdapter.replaceData(hotList);
     }
 

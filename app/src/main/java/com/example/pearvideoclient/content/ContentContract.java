@@ -64,15 +64,8 @@ public interface ContentContract {
 
         /**
          * 显示视频控制器
-         *
-         * @param isShow
          */
         void showOrHideController();
-
-        /**
-         * @param animation
-         */
-        void viewDoAnimation(Animation animation);
 
         /**
          * 显示star

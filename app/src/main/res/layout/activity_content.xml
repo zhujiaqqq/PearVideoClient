@@ -5,24 +5,14 @@
     android:layout_height="match_parent"
     android:background="@color/common_background">
 
-    <RelativeLayout
-        android:id="@+id/video_view"
+    <include layout="@layout/video_layout"
+        android:id="@+id/video_view"/>
+
+    <ImageView
+        android:id="@+id/iv_video_img"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-        <com.example.pearvideoclient.content.VideoPlayerIJK
-            android:id="@+id/video_player"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black" />
-
-        <include
-            android:id="@+id/play_bottom_layout"
-            layout="@layout/include_play_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true" />
-    </RelativeLayout>
+        android:layout_height="200dp"
+        android:contentDescription="@null" />
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nsv_video_info"
