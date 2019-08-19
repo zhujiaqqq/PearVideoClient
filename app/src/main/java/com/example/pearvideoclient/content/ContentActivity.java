@@ -455,6 +455,17 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        contId = intent.getStringExtra("contId");
+        userId = intent.getStringExtra("userId");
+
+        mPresenter.subscribe();
+        mPresenter.loadContent(this.contId);
+
+    }
+
     private void refresh() {
         long current = mVideoPlayer.getCurrentPosition() / 1000;
         long currentSecond = current % 60;

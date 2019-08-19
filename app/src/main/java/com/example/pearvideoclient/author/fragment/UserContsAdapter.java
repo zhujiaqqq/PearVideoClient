@@ -1,9 +1,15 @@
 package com.example.pearvideoclient.author.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -12,6 +18,7 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.UserConts;
 
 import java.util.List;
@@ -53,5 +60,19 @@ public class UserContsAdapter extends
                 .apply(placeholder)
                 .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
                 .into(ivVideoImg);
+
+        TextView textView = helper.getView(R.id.tv_video_name);
+        textView.setTransitionName("textView");
+
+        helper.getView(R.id.rl_parent).setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, ContentActivity.class);
+            intent.putExtra("contId", item.getContId());
+            intent.putExtra("userId", item.getUserInfo().getUserId());
+            Pair<View, String> namePair = new Pair<>(textView, ViewCompat.getTransitionName(textView));
+
+            ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    (Activity) mContext, namePair);
+            mContext.startActivity(intent, option.toBundle());
+        });
     }
 }

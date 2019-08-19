@@ -1,7 +1,12 @@
 package com.example.pearvideoclient.author.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,6 +22,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
 
 import java.util.ArrayList;
@@ -143,6 +149,19 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
                     .apply(placeholder)
                     .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
                     .into(holder.ivVideoImg);
+
+            holder.tvVideoName.setTransitionName("textView");
+            holder.rlParent.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, ContentActivity.class);
+                intent.putExtra("contId", cont.getContId());
+                intent.putExtra("userId", cont.getUserInfo().getUserId());
+                Pair<View, String> namePair = new Pair<>(holder.tvVideoName, ViewCompat.getTransitionName(holder.tvVideoName));
+
+                ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        (Activity) mContext, namePair);
+                mContext.startActivity(intent, option.toBundle());
+            });
+
         }
 
         @Override
@@ -164,6 +183,7 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
             TextView tvVideoName;
             TextView tvVideoAuthorDuration;
             TextView tvSingleBroadcast;
+            RelativeLayout rlParent;
 
             InnerVideoHolder(@NonNull View itemView) {
                 super(itemView);
@@ -171,6 +191,7 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
                 tvVideoName = itemView.findViewById(R.id.tv_video_name);
                 tvVideoAuthorDuration = itemView.findViewById(R.id.tv_video_author_duration);
                 tvSingleBroadcast = itemView.findViewById(R.id.tv_single_broadcast);
+                rlParent = itemView.findViewById(R.id.rl_parent);
             }
         }
 
