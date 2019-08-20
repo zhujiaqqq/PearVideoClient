@@ -3,16 +3,19 @@ package com.example.pearvideoclient.follow;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.MyFollowContBean;
@@ -24,8 +27,9 @@ import java.util.List;
  * @author zhujiaqqq
  * @date 2019-07-11
  */
-public class FollowFragment extends Fragment implements FollowContract.View {
-
+public class FollowFragment extends Fragment implements FollowContract.View, LocalHandler.IHandler {
+    private static final String TAG = "FollowFragment";
+    public static final int MSG_SET_PLAY = 0x11;
     private TextView mTvAddFollow;
     private RecyclerView mRvFollowInfoList;
     private RecyclerView mRvFollowUserList;
@@ -36,6 +40,12 @@ public class FollowFragment extends Fragment implements FollowContract.View {
     private FollowInfoListAdapter mFollowInfoListAdapter;
     private FollowUserListAdapter mFollowUserListAdapter;
     private FollowContract.Presenter mPresenter;
+    private LinearLayoutManager mLayoutManager;
+
+    private int mPlayPosition = 0;
+
+    private LocalHandler mHandler = new LocalHandler(this);
+    private boolean mIdleState;
 
     public static FollowFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -62,7 +72,8 @@ public class FollowFragment extends Fragment implements FollowContract.View {
     private void initData() {
         mContext = getActivity();
 
-        mRvFollowInfoList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRvFollowInfoList.setLayoutManager(mLayoutManager);
         mFollowInfoListAdapter = new FollowInfoListAdapter(R.layout.adapter_follow_info_item, null);
         mRvFollowInfoList.setAdapter(mFollowInfoListAdapter);
 
@@ -89,6 +100,66 @@ public class FollowFragment extends Fragment implements FollowContract.View {
 
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> mPresenter.loadMoreMyFollowList());
         mRefreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.refreshMyFollowList());
+
+        mRvFollowInfoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    mIdleState = true;
+                } else {
+                    mIdleState = false;
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (mLayoutManager != null) {
+                    int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
+                    View firstView = mLayoutManager.findViewByPosition(firstVisibleItem);
+                    if (null != firstView) {
+                        if (dy > 0) {
+                            if (firstView.getHeight() + firstView.getTop() <= firstView.getHeight() / 3) {
+                                if (mLayoutManager.getChildCount() < 2) {
+                                    return;
+                                }
+                                if (mPlayPosition == firstVisibleItem + 1) {
+                                    return;
+                                }
+                                mPlayPosition = firstVisibleItem + 1;
+                            } else {
+                                if (mPlayPosition == firstVisibleItem) {
+                                    return;
+                                }
+                                mPlayPosition = firstVisibleItem;
+                            }
+                        }
+                        if (dy < 0) {
+                            if (firstView.getHeight() + firstView.getTop() >= firstView.getHeight() / 3) {
+                                if (mLayoutManager.getChildCount() < 2) {
+                                    return;
+                                }
+                                if (mPlayPosition == firstVisibleItem) {
+                                    return;
+                                }
+                                mPlayPosition = firstVisibleItem;
+                            } else {
+                                if (mPlayPosition == firstVisibleItem + 1) {
+                                    return;
+                                }
+                                mPlayPosition = firstVisibleItem + 1;
+                            }
+                        }
+                        Message message = mHandler.obtainMessage();
+                        message.arg1 = mPlayPosition;
+                        message.what = MSG_SET_PLAY;
+                        mHandler.sendMessageDelayed(message,500);
+                        Log.i(TAG, "onScrolled: " + mPlayPosition);
+                    }
+                }
+            }
+        });
     }
 
     private void initView(@NonNull View view) {
@@ -137,5 +208,13 @@ public class FollowFragment extends Fragment implements FollowContract.View {
     public void loadMoreFollowData(MyFollowContBean bean) {
         List<MyFollowContBean.DataListBean> dataList = bean.getDataList();
         mFollowInfoListAdapter.addData(dataList);
+    }
+
+    @Override
+    public void handlerMessage(Message msg) {
+        if (MSG_SET_PLAY == msg.what && mIdleState) {
+            mFollowInfoListAdapter.setPlay(msg.arg1);
+            mHandler.removeMessages(MSG_SET_PLAY);
+        }
     }
 }

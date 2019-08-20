@@ -1,6 +1,7 @@
 package com.example.pearvideoclient.follow;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -22,6 +23,42 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
  * @date 2019-07-15
  */
 public class FollowInfoListAdapter extends BaseQuickAdapter<MyFollowContBean.DataListBean, BaseViewHolder> {
+    private int mPlay = 0;
+    AbstractVideoPlayerListener listener = new AbstractVideoPlayerListener() {
+        @Override
+        public void onBufferingUpdate(IMediaPlayer iMediaPlayer, int i) {
+            //
+        }
+
+        @Override
+        public void onCompletion(IMediaPlayer iMediaPlayer) {
+        }
+
+        @Override
+        public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
+            return false;
+        }
+
+        @Override
+        public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
+            return false;
+        }
+
+        @Override
+        public void onPrepared(IMediaPlayer iMediaPlayer) {
+            iMediaPlayer.start();
+        }
+
+        @Override
+        public void onSeekComplete(IMediaPlayer iMediaPlayer) {
+
+        }
+
+        @Override
+        public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
+
+        }
+    };
 
     public FollowInfoListAdapter(int layoutResId, @Nullable List<MyFollowContBean.DataListBean> data) {
         super(layoutResId, data);
@@ -40,47 +77,10 @@ public class FollowInfoListAdapter extends BaseQuickAdapter<MyFollowContBean.Dat
         GlideUtils.loadWithPlaceHolder(item.getContInfo().getPic(), ivVideoImg, null, null);
 
         VideoPlayerIJK videoPlayer = helper.getView(R.id.video_player);
-        ImageView ivPlay = helper.getView(R.id.iv_play);
-        final boolean[] isPrepared = {false};
-        final IMediaPlayer[] mMediaPlayer = new IMediaPlayer[1];
-        videoPlayer.setListener(new AbstractVideoPlayerListener() {
-            @Override
-            public void onBufferingUpdate(IMediaPlayer iMediaPlayer, int i) {
-                //
-            }
 
-            @Override
-            public void onCompletion(IMediaPlayer iMediaPlayer) {
-                ivPlay.setImageDrawable(mContext.getDrawable(R.drawable.ic_play_arrow_white_24dp));
-            }
 
-            @Override
-            public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
-                return false;
-            }
+        videoPlayer.setListener(listener);
 
-            @Override
-            public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
-                return false;
-            }
-
-            @Override
-            public void onPrepared(IMediaPlayer iMediaPlayer) {
-                mMediaPlayer[0] = iMediaPlayer;
-                iMediaPlayer.pause();
-                isPrepared[0] = true;
-            }
-
-            @Override
-            public void onSeekComplete(IMediaPlayer iMediaPlayer) {
-
-            }
-
-            @Override
-            public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
-
-            }
-        });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -98,18 +98,18 @@ public class FollowInfoListAdapter extends BaseQuickAdapter<MyFollowContBean.Dat
             }
         });
 
-        videoPlayer.setVideoPath(item.getContInfo().getVideos().get(0).getUrl());
-        ivVideoImg.setVisibility(View.VISIBLE);
-        ivVideoImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ivVideoImg.getVisibility() == View.VISIBLE && isPrepared[0]) {
-                    ivVideoImg.setVisibility(View.GONE);
-                    mMediaPlayer[0].start();
-                    ivPlay.setImageDrawable(mContext.getDrawable(R.drawable.ic_pause_white_24dp));
-                }
-            }
-        });
+        if (mPlay == helper.getAdapterPosition()) {
+            videoPlayer.setVideoPath(item.getContInfo().getVideos().get(0).getUrl());
+            ivVideoImg.setVisibility(View.GONE);
+        } else {
+            videoPlayer.reset();
+            ivVideoImg.setVisibility(View.VISIBLE);
+        }
 
+    }
+
+    public void setPlay(int playPosition) {
+        this.mPlay = playPosition;
+        notifyDataSetChanged();
     }
 }
