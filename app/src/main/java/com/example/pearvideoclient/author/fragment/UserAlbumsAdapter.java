@@ -17,13 +17,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
+import com.example.pearvideoclient.utils.GlideUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,17 +108,9 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
         private Context mContext;
         private List<UserAlbumsBean.AlbumListBean.ContListBean> mList;
 
-
-        private final DrawableCrossFadeFactory drawableCrossFadeFactory;
-        private final RequestOptions placeholder;
-
         public InnerVideoAdapter(Context context, List<UserAlbumsBean.AlbumListBean.ContListBean> list) {
             mContext = context;
             mList = list;
-
-            placeholder = new RequestOptions().placeholder(R.drawable.ic_placeholder);
-            drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
-
         }
 
         @NonNull
@@ -144,11 +133,8 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
             } else {
                 holder.tvSingleBroadcast.setVisibility(View.GONE);
             }
-            Glide.with(mContext)
-                    .load(cont.getPic())
-                    .apply(placeholder)
-                    .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
-                    .into(holder.ivVideoImg);
+
+            GlideUtils.loadWithPlaceHolder(cont.getPic(), holder.ivVideoImg, null, null);
 
             holder.tvVideoName.setTransitionName("textView");
             holder.rlParent.setOnClickListener(v -> {

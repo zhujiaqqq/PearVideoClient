@@ -11,15 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.UserConts;
+import com.example.pearvideoclient.utils.GlideUtils;
 
 import java.util.List;
 
@@ -32,15 +29,8 @@ import java.util.List;
 public class UserContsAdapter extends
         BaseQuickAdapter<UserConts.ContListBean, BaseViewHolder> {
 
-
-    private final DrawableCrossFadeFactory drawableCrossFadeFactory;
-    private final RequestOptions placeholder;
-
     public UserContsAdapter(int layoutResId, @Nullable List<UserConts.ContListBean> data) {
         super(layoutResId, data);
-        placeholder = new RequestOptions().placeholder(R.drawable.ic_placeholder);
-        drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
-
     }
 
     @Override
@@ -55,11 +45,7 @@ public class UserContsAdapter extends
         }
 
         ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-        Glide.with(mContext)
-                .load(item.getPic())
-                .apply(placeholder)
-                .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
-                .into(ivVideoImg);
+        GlideUtils.loadWithPlaceHolder(item.getPic(), ivVideoImg, null, null);
 
         TextView textView = helper.getView(R.id.tv_video_name);
         textView.setTransitionName("textView");

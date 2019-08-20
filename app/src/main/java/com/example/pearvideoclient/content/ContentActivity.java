@@ -23,19 +23,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.pearvideoclient.LocalHandler;
-import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.content.Content;
@@ -43,6 +37,7 @@ import com.example.pearvideoclient.entity.content.HotConts;
 import com.example.pearvideoclient.entity.content.RelateConts;
 import com.example.pearvideoclient.entity.content.Tags;
 import com.example.pearvideoclient.entity.content.Videos;
+import com.example.pearvideoclient.utils.GlideUtils;
 import com.example.pearvideoclient.view.FlowLayout;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -90,7 +85,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
 
     private ImageView mIvPlay;
-    private ImageView mIvStop;
+    private ImageView mIvFullScreen;
     private SeekBar mSeekBar;
     private TextView mTvTime;
 
@@ -114,7 +109,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         @Override
         public void onCompletion(IMediaPlayer iMediaPlayer) {
             mIvPlay.setImageDrawable(getDrawable(R.drawable.ic_play_arrow_white_24dp));
-            Log.d(TAG, "onCompletion: ");
         }
 
         @Override
@@ -253,7 +247,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mIvVideoImg = findViewById(R.id.iv_video_img);
 
         mIvPlay = findViewById(R.id.iv_play);
-        mIvStop = findViewById(R.id.iv_full_screen);
+        mIvFullScreen = findViewById(R.id.iv_full_screen);
         mSeekBar = findViewById(R.id.seek_bar);
         mTvTime = findViewById(R.id.tv_time);
         mVideoView = findViewById(R.id.video_view);
@@ -279,7 +273,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mTvCollect.setOnClickListener(onClickListener);
         mTvDownload.setOnClickListener(onClickListener);
         mTvAttention.setOnClickListener(onClickListener);
-        mIvStop.setOnClickListener(onClickListener);
+        mIvFullScreen.setOnClickListener(onClickListener);
         mIvPlay.setOnClickListener(onClickListener);
         mVideoPlayer.setOnClickListener(onClickListener);
         mRlUserLayout.setOnClickListener(onClickListener);
@@ -361,12 +355,8 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mTvDetailInfo.setText(content.getSummary());
         mTvUserName.setText(content.getUserInfo().getNickname());
         mTvUserSingle.setText(content.getUserInfo().getSignature());
-        Glide.with(MyApplication.getInstance()).load(content.getPic()).into(mIvVideoImg);
-        Glide.with(MyApplication.getInstance()).asBitmap()
-                .apply(RequestOptions.bitmapTransform(new CircleCrop())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE))
-                .load(content.getUserInfo().getPic())
-                .into(mIvSmallUserImage);
+        GlideUtils.load(content.getPic(), mIvVideoImg);
+        GlideUtils.loadCircleImage(content.getUserInfo().getPic(), mIvSmallUserImage);
 
         if (content.getUserInfo().getIsFollow() != null && "1".equals(content.getUserInfo().getIsFollow())) {
             isAttention = true;
@@ -418,7 +408,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         boolean isShow = mPlayBottomLayout.getVisibility() == View.GONE;
         mSeekBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
         mIvPlay.setVisibility(isShow ? View.VISIBLE : View.GONE);
-        mIvStop.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        mIvFullScreen.setVisibility(isShow ? View.VISIBLE : View.GONE);
         mTvTime.setVisibility(isShow ? View.VISIBLE : View.GONE);
         mPlayBottomLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }

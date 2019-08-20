@@ -3,16 +3,14 @@ package com.example.pearvideoclient.follow;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.MyFollowContBean;
+import com.example.pearvideoclient.utils.GlideUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.pearvideoclient.follow.FollowPresenter.MORE_USER;
 
@@ -32,15 +30,9 @@ public class FollowUserListAdapter extends BaseQuickAdapter<MyFollowContBean.Fol
         helper.setText(R.id.tv_user_name, item.getNickname());
         ImageView ivUserImage = helper.getView(R.id.iv_user_img);
         if (MORE_USER.equals(item.getUserId())) {
-            Glide.with(mContext)
-                    .load(mContext.getDrawable(R.drawable.ic_arrow_right))
-                    .into(ivUserImage);
-
+            GlideUtils.load(Objects.requireNonNull(mContext.getDrawable(R.drawable.ic_arrow_right)), ivUserImage);
         } else {
-            Glide.with(mContext).asBitmap()
-                    .apply(RequestOptions.bitmapTransform(new CircleCrop())
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)).load(item.getPic())
-                    .into(ivUserImage);
+            GlideUtils.loadCircleImage(item.getPic(), ivUserImage);
         }
 
         helper.addOnClickListener(R.id.rl_parent);

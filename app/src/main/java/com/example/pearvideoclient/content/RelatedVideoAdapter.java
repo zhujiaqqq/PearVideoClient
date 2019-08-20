@@ -11,6 +11,7 @@ import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.content.AbstractConts;
 import com.example.pearvideoclient.entity.content.HotConts;
 import com.example.pearvideoclient.entity.content.RelateConts;
+import com.example.pearvideoclient.utils.GlideUtils;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class RelatedVideoAdapter extends BaseQuickAdapter<AbstractConts, BaseVie
             helper.setText(R.id.tv_video_name, ((RelateConts) item).getName());
             helper.setText(R.id.tv_user_name, ((RelateConts) item).getUserInfo().getNickname());
             ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-            Glide.with(mContext).load(((RelateConts) item).getPic()).into(ivVideoImg);
+            GlideUtils.load(((RelateConts) item).getPic(), ivVideoImg);
             RelativeLayout rlParent = helper.getView(R.id.rl_parent);
             rlParent.setOnClickListener(v -> {
                 if (listener != null) {
@@ -48,7 +49,7 @@ public class RelatedVideoAdapter extends BaseQuickAdapter<AbstractConts, BaseVie
             helper.setText(R.id.tv_video_name, ((HotConts) item).getName());
             helper.setText(R.id.tv_user_name, ((HotConts) item).getUserInfo().getNickname());
             ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-            Glide.with(mContext).load(((HotConts) item).getPic()).into(ivVideoImg);
+            GlideUtils.load(((HotConts) item).getPic(), ivVideoImg);
             RelativeLayout rlParent = helper.getView(R.id.rl_parent);
             rlParent.setOnClickListener(v -> {
                 if (listener != null) {

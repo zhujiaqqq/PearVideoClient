@@ -16,14 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.LoginBean;
 import com.example.pearvideoclient.entity.UserInfoBean;
+import com.example.pearvideoclient.utils.GlideUtils;
 import com.example.pearvideoclient.view.MenuPopWindow;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -200,20 +196,14 @@ public class MineFragment extends Fragment implements MineContract.View {
     public void showUserInfo(LoginBean.UserInfoBean userInfoBean) {
         mTvUserName.setText(userInfoBean.getNickname());
         mTvUserSingle.setText(userInfoBean.getSignature());
-        Glide.with(MyApplication.getInstance()).asBitmap()
-                .apply(RequestOptions.bitmapTransform(new CircleCrop())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)).load(userInfoBean.getImages().get(0).getFilePath())
-                .into(mIvUserImg);
+        GlideUtils.loadCircleImage(userInfoBean.getImages().get(0).getFilePath(), mIvUserImg);
     }
 
     @Override
     public void showUserInfo(UserInfoBean userInfoBean) {
         mTvUserName.setText(userInfoBean.getUserInfo().getNickname());
         mTvUserSingle.setText(userInfoBean.getUserInfo().getSignature());
-        Glide.with(MyApplication.getInstance()).asBitmap()
-                .apply(RequestOptions.bitmapTransform(new CircleCrop())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)).load(userInfoBean.getUserInfo().getPic())
-                .into(mIvUserImg);
+        GlideUtils.loadCircleImage(userInfoBean.getUserInfo().getPic(), mIvUserImg);
     }
 
     @Override

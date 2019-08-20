@@ -3,14 +3,11 @@ package com.example.pearvideoclient.author.fragment;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.UserPostsBean;
+import com.example.pearvideoclient.utils.GlideUtils;
 
 import java.util.List;
 
@@ -32,11 +29,6 @@ public class UserPostAdapter extends BaseQuickAdapter<UserPostsBean.PostListBean
                 .setText(R.id.tv_user_name, item.getUserInfo().getNickname())
                 .setText(R.id.tv_pub_time, item.getPubTime());
         ImageView ivUserImg = helper.getView(R.id.iv_user_img);
-
-        Glide.with(mContext).asBitmap()
-                .apply(RequestOptions.bitmapTransform(new CircleCrop())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE))
-                .load(item.getUserInfo().getPic())
-                .into(ivUserImg);
+        GlideUtils.loadCircleImage(item.getUserInfo().getPic(), ivUserImg);
     }
 }

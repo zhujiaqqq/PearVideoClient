@@ -16,10 +16,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.fragment.UserAlbumsFragment;
@@ -31,6 +27,7 @@ import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.entity.UserConts;
 import com.example.pearvideoclient.entity.UserInfoBean;
 import com.example.pearvideoclient.entity.UserPostsBean;
+import com.example.pearvideoclient.utils.GlideUtils;
 import com.example.pearvideoclient.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -244,12 +241,9 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     public void setAuthorTitle(UserInfoBean.InfoBean infoBean) {
         mToolbarLayout.setTitle(infoBean.getNickname());
         mTvUserSignature.setText(infoBean.getSignature());
-        Glide.with(this).load(infoBean.getBackgroundImg()).into(mIvUserBackgroud);
+        GlideUtils.load(infoBean.getBackgroundImg(), mIvUserBackgroud);
         mIvUserBackgroud.setImageAlpha(150);
-        Glide.with(this).asBitmap()
-                .apply(RequestOptions.bitmapTransform(new CircleCrop())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)).load(infoBean.getPic())
-                .into(mIvUserImg);
+        GlideUtils.loadCircleImage(infoBean.getPic(), mIvUserImg);
     }
 
     @Override
