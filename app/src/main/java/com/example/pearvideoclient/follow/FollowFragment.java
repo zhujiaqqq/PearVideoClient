@@ -106,9 +106,11 @@ public class FollowFragment extends Fragment implements FollowContract.View, Loc
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    mIdleState = true;
-                } else {
-                    mIdleState = false;
+                    Log.i(TAG, "onScrollStateChanged: 停止");
+                    Message message = mHandler.obtainMessage();
+                    message.arg1 = mPlayPosition;
+                    message.what = MSG_SET_PLAY;
+                    mHandler.sendMessage(message);
                 }
             }
 
@@ -119,6 +121,7 @@ public class FollowFragment extends Fragment implements FollowContract.View, Loc
                     int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
                     View firstView = mLayoutManager.findViewByPosition(firstVisibleItem);
                     if (null != firstView) {
+                        mIdleState = true;
                         if (dy > 0) {
                             if (firstView.getHeight() + firstView.getTop() <= firstView.getHeight() / 3) {
                                 if (mLayoutManager.getChildCount() < 2) {
@@ -151,12 +154,12 @@ public class FollowFragment extends Fragment implements FollowContract.View, Loc
                                 mPlayPosition = firstVisibleItem + 1;
                             }
                         }
-                        Message message = mHandler.obtainMessage();
-                        message.arg1 = mPlayPosition;
-                        message.what = MSG_SET_PLAY;
-                        mHandler.sendMessageDelayed(message,500);
                         Log.i(TAG, "onScrolled: " + mPlayPosition);
+                    } else {
+                        mIdleState = false;
                     }
+                } else {
+                    mIdleState = false;
                 }
             }
         });
