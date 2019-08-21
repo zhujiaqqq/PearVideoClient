@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 
 import com.example.pearvideoclient.channel.ChannelFragment;
 import com.example.pearvideoclient.channel.ChannelPresenter;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Fragment> mFragments;
     private int mLastIndex;
+    private BottomNavigationView mBvNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        BottomNavigationView bvNavigation = findViewById(R.id.bv_navigation);
+        mBvNavigation = findViewById(R.id.bv_navigation);
 
-        bvNavigation.setItemIconTintList(null);
-        bvNavigation.setOnNavigationItemSelectedListener(menuItem -> {
+        mBvNavigation.setItemIconTintList(null);
+        mBvNavigation.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.home:
                     setFragmentPosition(0);
@@ -100,5 +102,23 @@ public class MainActivity extends AppCompatActivity {
         }
         transaction.show(currentFragment);
         transaction.commit();
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mLastIndex != 0) {
+                mBvNavigation.setSelectedItemId(R.id.home);
+                return true;
+            } else {
+                return super.onKeyDown(keyCode, event);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

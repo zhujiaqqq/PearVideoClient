@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,12 +24,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".channel.ReSortCategoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".content.ContentActivity"
-            android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".author.AuthorActivity"

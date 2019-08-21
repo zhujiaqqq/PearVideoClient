@@ -78,7 +78,6 @@ public class FollowInfoListAdapter extends BaseQuickAdapter<MyFollowContBean.Dat
 
         VideoPlayerIJK videoPlayer = helper.getView(R.id.video_player);
 
-
         videoPlayer.setListener(listener);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -99,11 +98,15 @@ public class FollowInfoListAdapter extends BaseQuickAdapter<MyFollowContBean.Dat
         });
 
         if (mPlay == helper.getAdapterPosition()) {
-            videoPlayer.setVideoPath(item.getContInfo().getVideos().get(0).getUrl());
+            if (!videoPlayer.isPlaying()) {
+                videoPlayer.setVideoPath(item.getContInfo().getVideos().get(0).getUrl());
+            }
             ivVideoImg.setVisibility(View.GONE);
         } else {
-            videoPlayer.reset();
-            ivVideoImg.setVisibility(View.VISIBLE);
+            if (videoPlayer.isPlaying()) {
+                videoPlayer.reset();
+                ivVideoImg.setVisibility(View.VISIBLE);
+            }
         }
 
     }

@@ -103,22 +103,23 @@ public class VideoPlayerIJK extends FrameLayout {
     private class LmnSurfaceCallback implements SurfaceHolder.Callback {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
+            //
         }
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             //surfaceview创建成功后，加载视频
-            if(init == false){
+            if (!init) {
                 load();
                 init = true;
             }
-
 
 
         }
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
+            //
         }
     }
 
@@ -151,9 +152,8 @@ public class VideoPlayerIJK extends FrameLayout {
         IjkMediaPlayer ijkMediaPlayer = new IjkMediaPlayer();
         IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG);
 
-//        //开启硬解码
+        //开启硬解码
         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1);
-
 
 
         mMediaPlayer = ijkMediaPlayer;
@@ -165,10 +165,6 @@ public class VideoPlayerIJK extends FrameLayout {
             mMediaPlayer.setOnBufferingUpdateListener(listener);
             mMediaPlayer.setOnErrorListener(listener);
         }
-
-
-
-
     }
 
     public void setListener(AbstractVideoPlayerListener listener) {
@@ -240,13 +236,12 @@ public class VideoPlayerIJK extends FrameLayout {
         }
     }
 
-    public boolean isPlaying(){
+    public boolean isPlaying() {
         if (mMediaPlayer != null) {
             return mMediaPlayer.isPlaying();
         }
         return false;
     }
 
-    
 
 }

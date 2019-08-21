@@ -17,4 +17,6 @@
     <string name="tv_hot">最热</string>
     <string name="tv_new">最新</string>
     <string name="tv_add_post">发表话题...</string>
+    <string name="tv_jump">%ds跳过</string>
+    <string name="tv_topping">置顶</string>
 </resources>

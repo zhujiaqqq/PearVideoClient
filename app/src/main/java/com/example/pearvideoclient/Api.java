@@ -9,6 +9,7 @@ import com.example.pearvideoclient.entity.LogoutBean;
 import com.example.pearvideoclient.entity.MsgMarkBean;
 import com.example.pearvideoclient.entity.MyFollowContBean;
 import com.example.pearvideoclient.entity.MyReadHisListBean;
+import com.example.pearvideoclient.entity.NewsBean;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.entity.UserConts;
 import com.example.pearvideoclient.entity.UserFollowBean;
@@ -170,5 +171,26 @@ public interface Api {
     @POST("clt/jsp/v4/getUserPosts.jsp")
     @FormUrlEncoded
     Observable<UserPostsBean> getUserPosts(@Field("start") String start, @Field("userId") String userId, @Field("score") String score);
+
+    /**
+     * 获取万象页面数据
+     * http://app.pearvideo.com/clt/jsp/v4/getNewsList.jsp?filterIds=100001430,100001428,100001426,100001425&start=10&pstart=6
+     *
+     * @param filterIds 过滤置顶数据
+     * @param start     索引
+     * @param pstart    索引2
+     * @return
+     */
+    @GET("clt/jsp/v4/getNewsList.jsp")
+    Observable<NewsBean> getNewsList(@Query("filterIds") String filterIds, @Query("start") int start, @Query("pstart") int pstart);
+
+    /**
+     * 获取万象页面数据
+     * http://app.pearvideo.com/clt/jsp/v4/getNewsList.jsp
+     * @return
+     */
+    @GET("clt/jsp/v4/getNewsList.jsp")
+    Observable<NewsBean> getNewsList();
+
 
 }
