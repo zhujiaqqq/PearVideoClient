@@ -135,7 +135,7 @@ public class HomePresenter implements HomeContract.Presenter {
     public void loadMoreRecommendList() {
         recommendStart += 10;
         Disposable disposable = RetrofitManager.getInstance().createReq(Api.class)
-                .getHome(1, "110100", recommendStart)
+                .getHome(1, "320100", recommendStart)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(this::convertRecommendData)
@@ -156,7 +156,7 @@ public class HomePresenter implements HomeContract.Presenter {
     public void loadMoreCityContsList() {
         cityStart += 10;
         Disposable disposable = RetrofitManager.getInstance().createReq(Api.class)
-                .getLocalChannelConts("110100", cityStart)
+                .getLocalChannelConts("320100", cityStart)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(this::convertCityConts)
@@ -174,7 +174,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     private Disposable loadCityContsList(@Constants.LoadType int loadType) {
         return RetrofitManager.getInstance().createReq(Api.class)
-                .getLocalChannelConts("110100")
+                .getLocalChannelConts("320100")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(this::convertCityConts)
@@ -195,13 +195,18 @@ public class HomePresenter implements HomeContract.Presenter {
         List<LocalContsBean.DataListBean> dataList = localContsBean.getDataList();
         List<LocalContEntity> contEntities = new ArrayList<>();
         for (LocalContsBean.DataListBean dataListBean : dataList) {
-            int nodeType = Integer.parseInt(dataListBean.getNodeType());
-            if (LocalContEntity.ITEM_TYPE_13 == nodeType ||
-                    LocalContEntity.ITEM_TYPE_17 == nodeType) {
-                LocalContEntity entity = new LocalContEntity();
-                entity.setItemType(nodeType);
-                entity.setCont(dataListBean);
-                contEntities.add(entity);
+            int nodeType;
+            try {
+                nodeType = Integer.parseInt(dataListBean.getNodeType());
+                if (LocalContEntity.ITEM_TYPE_13 == nodeType ||
+                        LocalContEntity.ITEM_TYPE_17 == nodeType) {
+                    LocalContEntity entity = new LocalContEntity();
+                    entity.setItemType(nodeType);
+                    entity.setCont(dataListBean);
+                    contEntities.add(entity);
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
             }
         }
         return contEntities;
@@ -210,7 +215,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     private Disposable loadRecommendList(@Constants.LoadType int loadType) {
         return RetrofitManager.getInstance().createReq(Api.class)
-                .getHome(1, "110100")
+                .getHome(1, "320100")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(this::convertRecommendData)
@@ -230,12 +235,18 @@ public class HomePresenter implements HomeContract.Presenter {
         for (RecommendBean.DataListBean dataListBean : dataList) {
             RecommendEntity entity = new RecommendEntity();
             entity.setDataBean(dataListBean);
-            String nodeType = dataListBean.getNodeType();
-            if ("11".equals(nodeType)) {
-                continue;
+            int nodeType;
+            try {
+                nodeType = Integer.valueOf(dataListBean.getNodeType());
+                if (RecommendEntity.NODE_TYPE_1 == nodeType ||
+                        RecommendEntity.NODE_TYPE_13 == nodeType ||
+                        RecommendEntity.NODE_TYPE_4 == nodeType) {
+                    entity.setItemType(nodeType);
+                    recommendEntities.add(entity);
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
             }
-            entity.setItemType(Integer.valueOf(nodeType));
-            recommendEntities.add(entity);
         }
         return recommendEntities;
     }

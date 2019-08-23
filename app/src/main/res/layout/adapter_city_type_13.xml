@@ -9,11 +9,12 @@
     <ImageView
         android:id="@+id/iv_video_img"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+        android:scaleType="fitXY" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,15 +25,15 @@
             android:id="@+id/iv_local"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_location_on_yello_24dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            android:src="@drawable/ic_location_on_yello_24dp" />
 
         <ImageView
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="36dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:contentDescription="@null"
@@ -45,7 +46,7 @@
         <ImageView
             android:id="@+id/iv_share"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="36dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/tv_post"
@@ -59,7 +60,7 @@
         <TextView
             android:id="@+id/tv_star"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="36dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/iv_more"
@@ -74,7 +75,8 @@
         <TextView
             android:id="@+id/tv_post"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/tv_star"
             android:drawableStart="@drawable/ic_chat_bubble_outline_gray_24dp"

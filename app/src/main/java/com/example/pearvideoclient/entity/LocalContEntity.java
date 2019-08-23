@@ -18,7 +18,7 @@ public class LocalContEntity implements MultiItemEntity {
 
     @Override
     public int getItemType() {
-        return 0;
+        return itemType;
     }
 
     public LocalContsBean.DataListBean getCont() {
