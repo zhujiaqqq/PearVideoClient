@@ -37,6 +37,9 @@
         <activity
             android:name=".author.AuthorActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".home.CityListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

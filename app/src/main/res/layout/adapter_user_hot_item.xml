@@ -40,7 +40,7 @@
     <TextView
         android:id="@+id/tv_follow"
         android:text="@string/tv_follow"
-        android:background="@drawable/bg_round_yellow"
+        android:background="@drawable/bg_round_50_yellow"
         android:paddingStart="15dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/tv_user_signature"

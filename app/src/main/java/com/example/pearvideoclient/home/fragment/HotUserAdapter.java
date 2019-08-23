@@ -1,8 +1,6 @@
 package com.example.pearvideoclient.home.fragment;
 
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -32,7 +30,7 @@ public class HotUserAdapter extends BaseQuickAdapter<LocalContsBean.DataListBean
         GlideUtils.loadCircleImage(item.getPic(), ivUserImg);
         if ("0".equals(item.getIsFollow())) {
             helper.setText(R.id.tv_follow, mContext.getString(R.string.tv_follow));
-            helper.setBackgroundRes(R.id.tv_follow, R.drawable.bg_round_yellow);
+            helper.setBackgroundRes(R.id.tv_follow, R.drawable.bg_round_50_yellow);
             helper.addOnClickListener(R.id.tv_follow);
         } else {
             helper.setText(R.id.tv_follow, mContext.getString(R.string.tv_followed));

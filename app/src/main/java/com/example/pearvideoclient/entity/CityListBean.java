@@ -1,5 +1,6 @@
 package com.example.pearvideoclient.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,8 +9,9 @@ import java.util.List;
  * @Date: 2019-08-23 14:13
  * @ClassName: CityListBean
  */
-public class CityListBean {
+public class CityListBean implements Serializable {
 
+    private static final long serialVersionUID = 6986707788130272606L;
     /**
      * resultCode : 1
      * resultMsg : success
@@ -84,7 +86,8 @@ public class CityListBean {
         this.channelList = channelList;
     }
 
-    public static class AutoLocalChannelInfoBean {
+    public static class AutoLocalChannelInfoBean implements Serializable {
+        private static final long serialVersionUID = 3199699752787586342L;
         /**
          * channelCode : 320100
          * name : 南京
@@ -151,8 +154,9 @@ public class CityListBean {
     }
 
 
+    public static class ChannelListBean implements Serializable {
 
-    public static class ChannelListBean {
+        private static final long serialVersionUID = -2728322252509826470L;
         /**
          * channelCode : 513200
          * name : 阿坝

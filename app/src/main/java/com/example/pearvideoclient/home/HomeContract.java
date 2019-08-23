@@ -2,6 +2,7 @@ package com.example.pearvideoclient.home;
 
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
+import com.example.pearvideoclient.entity.CityListBean;
 import com.example.pearvideoclient.entity.LocalContEntity;
 import com.example.pearvideoclient.entity.NewsEntity;
 import com.example.pearvideoclient.entity.RecommendEntity;
@@ -67,6 +68,13 @@ public interface HomeContract {
          * @param pageType  页面
          */
         void refreshFinish(boolean isSuccess, @HomePresenter.PageType String pageType);
+
+        /**
+         * 跳转城市列表页面
+         *
+         * @param cityListBean 城市列表bean
+         */
+        void toCityList(CityListBean cityListBean);
     }
 
     interface Presenter extends BasePresenter {
@@ -114,5 +122,10 @@ public interface HomeContract {
          * 加载城市页面数据
          */
         void loadCityContsList();
+
+        /**
+         * 获取城市数据
+         */
+        void loadLocalChannel();
     }
 }

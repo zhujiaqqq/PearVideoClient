@@ -66,19 +66,18 @@ public class UserPostFragment extends Fragment {
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> ((AuthorActivity) getActivity()).userPostsLoadMore());
         mRefreshLayout.setOnRefreshListener(refreshLayout -> ((AuthorActivity) getActivity()).userPostsRefresh());
         addHeadView();
-
     }
 
+    /**
+     * 添加headerView
+     */
     private void addHeadView() {
-        View headView = getLayoutInflater().inflate(R.layout.item_post_head_layout, null);
-        headView.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        headView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        View headerView = getLayoutInflater().inflate(R.layout.item_post_head_layout, null);
+        headerView.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        headerView.setOnClickListener(v -> {
 
-            }
         });
-        mUserPostAdapter.addHeaderView(headView);
+        mUserPostAdapter.addHeaderView(headerView);
     }
 
     public void loadPostsList(List<UserPostsBean.PostListBean> postsList) {

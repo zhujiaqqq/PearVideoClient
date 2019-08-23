@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.example.pearvideoclient.CommonCallBack;
 import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.LocalContEntity;
+import com.example.pearvideoclient.utils.ScreenUtils;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
@@ -33,10 +35,11 @@ public class CityFragment extends Fragment {
 
     private CityAdapter mCityAdapter;
 
-    private CommonCallBack<Integer, Void> mRefreshCallBack;
+    private CommonCallBack<Integer, Void> mCityFragmentCallBack;
+    private Context mContext;
 
-    public void setRefreshCallBack(CommonCallBack<Integer, Void> refreshCallBack) {
-        mRefreshCallBack = refreshCallBack;
+    public void setCityFragmentCallBack(CommonCallBack<Integer, Void> cityFragmentCallBack) {
+        mCityFragmentCallBack = cityFragmentCallBack;
     }
 
     public static CityFragment newInstance() {
@@ -65,21 +68,37 @@ public class CityFragment extends Fragment {
     }
 
     private void initData() {
-        Context context = getActivity();
-        mRvCityList.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
+        mContext = getActivity();
+        mRvCityList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mCityAdapter = new CityAdapter(new ArrayList<>());
         mRvCityList.setAdapter(mCityAdapter);
 
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            if (mRefreshCallBack != null) {
-                mRefreshCallBack.todo(Constants.LOAD_MORE);
+            if (mCityFragmentCallBack != null) {
+                mCityFragmentCallBack.todo(Constants.LOAD_MORE);
             }
         });
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
         });
-        if (mRefreshCallBack != null) {
-            mRefreshCallBack.todo(Constants.LOAD_REFRESH);
+        if (mCityFragmentCallBack != null) {
+            mCityFragmentCallBack.todo(Constants.LOAD_REFRESH);
         }
+
+        addHeaderView();
+    }
+
+    /**
+     * 添加headerView
+     */
+    private void addHeaderView() {
+        View headerView = getLayoutInflater().inflate(R.layout.item_city_header_layout, null);
+        headerView.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dip2px(mContext, 48)));
+        headerView.setOnClickListener(v -> {
+            if (mCityFragmentCallBack!=null) {
+                mCityFragmentCallBack.todo(Constants.HEADER_CLICK);
+            }
+        });
+        mCityAdapter.setHeaderView(headerView);
     }
 
     public void addData(List<LocalContEntity> data) {

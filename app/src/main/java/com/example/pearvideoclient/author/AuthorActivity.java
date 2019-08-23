@@ -346,6 +346,11 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
         //
     }
 
+    @Override
+    public void showErrorToast(String loadingFail) {
+
+    }
+
     public void userHomeRefresh() {
         mPresenter.refreshUserHomeList();
     }

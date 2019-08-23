@@ -188,6 +188,11 @@ public class FollowFragment extends Fragment implements FollowContract.View, Loc
     }
 
     @Override
+    public void showErrorToast(String loadingFail) {
+        
+    }
+
+    @Override
     public void showFollowUser(List<MyFollowContBean.FollowUserListBean> list) {
         mFollowUserListAdapter.replaceData(list);
     }

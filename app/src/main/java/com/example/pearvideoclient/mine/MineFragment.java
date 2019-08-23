@@ -191,6 +191,11 @@ public class MineFragment extends Fragment implements MineContract.View {
         mLoadingView.hide();
     }
 
+    @Override
+    public void showErrorToast(String loadingFail) {
+
+    }
+
 
     @Override
     public void showUserInfo(LoginBean.UserInfoBean userInfoBean) {

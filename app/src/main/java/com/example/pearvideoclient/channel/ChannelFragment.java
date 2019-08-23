@@ -157,6 +157,11 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
     }
 
     @Override
+    public void showErrorToast(String loadingFail) {
+
+    }
+
+    @Override
     public void showCategoryList(ArrayList<CategoryBean.CategoryListBean> beans) {
         currentCategoryList = beans;
         mTlCategoryList.removeAllTabs();

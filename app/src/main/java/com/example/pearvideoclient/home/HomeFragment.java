@@ -1,5 +1,6 @@
 package com.example.pearvideoclient.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.FixPagerAdapter;
+import com.example.pearvideoclient.entity.CityListBean;
 import com.example.pearvideoclient.entity.LocalContEntity;
 import com.example.pearvideoclient.entity.NewsEntity;
 import com.example.pearvideoclient.entity.RecommendEntity;
@@ -34,6 +36,8 @@ import static com.example.pearvideoclient.home.HomePresenter.RECOMMEND;
  * @date 2019-07-11
  */
 public class HomeFragment extends Fragment implements HomeContract.View {
+    public static final int REQUEST_CODE = 1;
+    public static final int RESULT_CODE = 2;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -188,11 +192,13 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mFragments.add(mRecommendFragment);
 
         mCityFragment = CityFragment.newInstance();
-        mCityFragment.setRefreshCallBack(integer -> {
+        mCityFragment.setCityFragmentCallBack(integer -> {
             if (integer == Constants.LOAD_REFRESH) {
                 mPresenter.refreshCityContsList();
             } else if (integer == Constants.LOAD_MORE) {
                 mPresenter.loadMoreCityContsList();
+            } else if (integer == Constants.HEADER_CLICK) {
+                mPresenter.loadLocalChannel();
             }
             return null;
         });
@@ -212,6 +218,11 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void cancelLoading() {
         //
+    }
+
+    @Override
+    public void showErrorToast(String loading_fail) {
+
     }
 
     @Override
@@ -278,4 +289,19 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         }
     }
 
+    @Override
+    public void toCityList(CityListBean cityListBean) {
+        Intent intent = new Intent(mActivity, CityListActivity.class);
+        intent.putExtra("cityList", cityListBean);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (REQUEST_CODE == requestCode && RESULT_CODE == resultCode) {
+            data.getSerializableExtra("city");
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 }

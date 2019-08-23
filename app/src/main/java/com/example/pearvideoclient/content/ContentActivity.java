@@ -1,6 +1,5 @@
 package com.example.pearvideoclient.content;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -38,6 +37,7 @@ import com.example.pearvideoclient.entity.content.RelateConts;
 import com.example.pearvideoclient.entity.content.Tags;
 import com.example.pearvideoclient.entity.content.Videos;
 import com.example.pearvideoclient.utils.GlideUtils;
+import com.example.pearvideoclient.utils.ScreenUtils;
 import com.example.pearvideoclient.view.FlowLayout;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -348,6 +348,11 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     @Override
+    public void showErrorToast(String loadingFail) {
+
+    }
+
+    @Override
     public void showVideoInfo(Content content) {
         mTvVideoName.setText(content.getName());
         mTvVideoPubTime.setText(content.getPubTime());
@@ -426,7 +431,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     public void toggleAttention() {
         mTvAttention.setText(isAttention ? "已关注" : "关注");
         mTvAttention.setBackground(isAttention ?
-                getDrawable(R.drawable.bg_round_f2) : getDrawable(R.drawable.bg_round_yellow));
+                getDrawable(R.drawable.bg_round_f2) : getDrawable(R.drawable.bg_round_50_yellow));
     }
 
     private String starAdded() {
@@ -480,14 +485,9 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
 
             ViewGroup.LayoutParams layoutParams1 = mVideoView.getLayoutParams();
-            layoutParams1.height = dip2px(this, 200);
+            layoutParams1.height = ScreenUtils.dip2px(this, 200);
             mVideoView.setLayoutParams(layoutParams1);
         }
-    }
-
-    public static int dip2px(Context context, float dipValue) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5F);
     }
 
     private void initFullScreen() {
