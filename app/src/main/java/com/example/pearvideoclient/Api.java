@@ -10,6 +10,7 @@ import com.example.pearvideoclient.entity.MsgMarkBean;
 import com.example.pearvideoclient.entity.MyFollowContBean;
 import com.example.pearvideoclient.entity.MyReadHisListBean;
 import com.example.pearvideoclient.entity.NewsBean;
+import com.example.pearvideoclient.entity.RecommendBean;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.entity.UserConts;
 import com.example.pearvideoclient.entity.UserFollowBean;
@@ -18,6 +19,7 @@ import com.example.pearvideoclient.entity.UserPostsBean;
 import com.example.pearvideoclient.entity.content.ContentBean;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -187,10 +189,33 @@ public interface Api {
     /**
      * 获取万象页面数据
      * http://app.pearvideo.com/clt/jsp/v4/getNewsList.jsp
+     *
      * @return
      */
     @GET("clt/jsp/v4/getNewsList.jsp")
     Observable<NewsBean> getNewsList();
 
+    /**
+     * 获取推荐页面数据
+     * http://app.pearvideo.com/clt/jsp/v4/home.jsp?isHome=1&channelCode=110100
+     *
+     * @param isHome      1
+     * @param channelCode 城市
+     * @return
+     */
+    @GET("clt/jsp/v4/home.jsp")
+    Observable<RecommendBean> getHome(@Query("isHome") int isHome, @Query("channelCode") String channelCode);
+
+    /**
+     * 获取推荐页面数据
+     * http://app.pearvideo.com/clt/jsp/v4/home.jsp?isHome=1&channelCode=110100&start=10&isHome=1&channelCode=110100
+     *
+     * @param isHome      1
+     * @param channelCode 城市
+     * @param start       索引
+     * @return
+     */
+    @GET("clt/jsp/v4/home.jsp")
+    Observable<RecommendBean> getHome(@Query("isHome") int isHome, @Query("channelCode") String channelCode, @Query("start") int start);
 
 }

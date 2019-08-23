@@ -1,14 +1,25 @@
 package com.example.pearvideoclient.home.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pearvideoclient.CommonCallBack;
+import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.entity.RecommendEntity;
+import com.example.pearvideoclient.entity.content.Content;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Description: java类作用描述
@@ -17,6 +28,15 @@ import com.example.pearvideoclient.R;
  * @ClassName: RecommendFragment
  */
 public class RecommendFragment extends Fragment {
+
+    private RefreshLayout mRefreshLayout;
+    private RecyclerView mRvRecommendList;
+
+    private RecommendAdapter mRecommendAdapter;
+
+    private Context mContext;
+
+    private CommonCallBack<Integer, Void> refreshCallBack;
 
     public static RecommendFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -29,5 +49,55 @@ public class RecommendFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_recommend, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        initData();
+    }
+
+    private void initView(View view) {
+        mRefreshLayout = view.findViewById(R.id.refresh_layout);
+        mRvRecommendList = view.findViewById(R.id.rv_recommend_list);
+    }
+
+    private void initData() {
+        mContext = getActivity();
+        mRvRecommendList.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecommendAdapter = new RecommendAdapter(new ArrayList<>());
+        mRvRecommendList.setAdapter(mRecommendAdapter);
+
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            if (refreshCallBack != null) {
+                refreshCallBack.todo(Constants.LOAD_MORE);
+            }
+        });
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (refreshCallBack != null) {
+                refreshCallBack.todo(Constants.LOAD_REFRESH);
+            }
+        });
+    }
+
+    public void replaceData(List<RecommendEntity> list) {
+        mRecommendAdapter.replaceData(list);
+    }
+
+    public void addData(List<RecommendEntity> list) {
+        mRecommendAdapter.addData(list);
+    }
+
+    public void loadMoreFinish(boolean isSuccess) {
+        mRefreshLayout.finishLoadMore(isSuccess);
+    }
+
+    public void refreshFinish(boolean isSuccess) {
+        mRefreshLayout.finishRefresh(isSuccess);
+    }
+
+    public void setRefreshCallBack(CommonCallBack<Integer, Void> refreshCallBack) {
+        this.refreshCallBack = refreshCallBack;
     }
 }

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.example.pearvideoclient.CommonCallBack;
 import com.example.pearvideoclient.Constants;
-import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.NewsEntity;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -31,8 +30,6 @@ public class VientianeFragment extends Fragment {
 
     private RecyclerView mRvVientianeList;
     private RefreshLayout mRefreshLayout;
-
-    private Context mContext;
 
     private VientianeAdapter mVientianeAdapter;
 
@@ -64,7 +61,7 @@ public class VientianeFragment extends Fragment {
     }
 
     private void initData() {
-        mContext = getActivity();
+        Context context = getActivity();
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             if (refreshCallBack != null) {
                 refreshCallBack.todo(Constants.LOAD_REFRESH);
@@ -77,7 +74,7 @@ public class VientianeFragment extends Fragment {
             }
         });
 
-        mRvVientianeList.setLayoutManager(new LinearLayoutManager(mContext));
+        mRvVientianeList.setLayoutManager(new LinearLayoutManager(context));
         mVientianeAdapter = new VientianeAdapter(new ArrayList<>());
         mRvVientianeList.setAdapter(mVientianeAdapter);
     }

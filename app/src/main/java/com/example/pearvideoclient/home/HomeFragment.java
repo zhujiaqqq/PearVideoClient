@@ -16,6 +16,7 @@ import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.FixPagerAdapter;
 import com.example.pearvideoclient.entity.NewsEntity;
+import com.example.pearvideoclient.entity.RecommendEntity;
 import com.example.pearvideoclient.home.fragment.CityFragment;
 import com.example.pearvideoclient.home.fragment.RecommendFragment;
 import com.example.pearvideoclient.home.fragment.VientianeFragment;
@@ -126,6 +127,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                         mPresenter.loadVientianeList();
                         break;
                     case 1:
+                        mPresenter.loadRecommendList();
                         break;
                     case 2:
                         break;
@@ -171,8 +173,18 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         });
 
         mFragments.add(mVientianeFragment);
+
         mRecommendFragment = RecommendFragment.newInstance();
+        mRecommendFragment.setRefreshCallBack(integer -> {
+            if (integer == Constants.LOAD_REFRESH) {
+                mPresenter.refreshRecommendList();
+            } else if (integer == Constants.LOAD_MORE) {
+                mPresenter.loadMoreRecommendList();
+            }
+            return null;
+        });
         mFragments.add(mRecommendFragment);
+
         mCityFragment = CityFragment.newInstance();
         mFragments.add(mCityFragment);
     }
@@ -203,12 +215,23 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
+    public void showRecommendList(List<RecommendEntity> data) {
+        mRecommendFragment.replaceData(data);
+    }
+
+    @Override
+    public void loadMoreRecommendList(List<RecommendEntity> data) {
+        mRecommendFragment.addData(data);
+    }
+
+    @Override
     public void loadMoreFinish(boolean isSuccess, String pageType) {
         switch (pageType) {
             case NEWS:
                 mVientianeFragment.loadMoreFinish(isSuccess);
                 break;
             case RECOMMEND:
+                mRecommendFragment.loadMoreFinish(isSuccess);
                 break;
             case CITY:
                 break;
@@ -224,6 +247,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                 mVientianeFragment.refreshFinish(isSuccess);
                 break;
             case RECOMMEND:
+                mRecommendFragment.refreshFinish(isSuccess);
                 break;
             case CITY:
                 break;

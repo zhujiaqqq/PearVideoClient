@@ -6,6 +6,8 @@ import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.entity.NewsBean;
 import com.example.pearvideoclient.entity.NewsEntity;
+import com.example.pearvideoclient.entity.RecommendBean;
+import com.example.pearvideoclient.entity.RecommendEntity;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +37,7 @@ public class HomePresenter implements HomeContract.Presenter {
     private String mFilterIds;
 
     private int newsStart = 0;
+    private int recommendStart = 0;
 
 
     HomePresenter(HomeContract.View view) {
@@ -65,7 +68,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 .getNewsList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(this::convertData)
+                .map(this::convertNewsData)
                 .subscribe(newsEntities -> mView.showVientianeList(newsEntities), throwable -> {
                     if (Constants.LOAD_REFRESH == loadType) {
                         mView.refreshFinish(false, NEWS);
@@ -77,7 +80,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 });
     }
 
-    private List<NewsEntity> convertData(NewsBean newsBean) {
+    private List<NewsEntity> convertNewsData(NewsBean newsBean) {
         String nextUrl = newsBean.getNextUrl();
         mFilterIds = nextUrl.substring(nextUrl.indexOf("filterIds=") + 9, nextUrl.indexOf('&'));
         List<NewsBean.DataListBean> dataList = newsBean.getDataList();
@@ -85,7 +88,12 @@ public class HomePresenter implements HomeContract.Presenter {
         for (int i = 0; i < dataList.size(); i++) {
             NewsEntity entity = new NewsEntity();
             entity.setDataEntity(dataList.get(i));
-            entity.setItemType(i % 4 == 0 ? TYPE_BIG : TYPE_SMALL);
+            if ("1".equals(dataList.get(i).getNewsInfo().getCardType())) {
+                entity.setItemType(TYPE_BIG);
+            } else {
+                entity.setItemType(TYPE_SMALL);
+            }
+
             newsEntities.add(entity);
         }
         return newsEntities;
@@ -93,6 +101,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void refreshVientianeList() {
+        newsStart = 0;
         Disposable disposable = loadNewsList(Constants.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
     }
@@ -104,12 +113,71 @@ public class HomePresenter implements HomeContract.Presenter {
         mCompositeDisposable.add(disposable);
     }
 
+    @Override
+    public void loadRecommendList() {
+        Disposable disposable = loadRecommendList(Constants.COMMON);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void refreshRecommendList() {
+        recommendStart = 0;
+        Disposable disposable = loadRecommendList(Constants.LOAD_REFRESH);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void loadMoreRecommendList() {
+        recommendStart += 10;
+        Disposable disposable = RetrofitManager.getInstance().createReq(Api.class)
+                .getHome(1, "110100", recommendStart)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::convertRecommendData)
+                .subscribe(recommendEntities -> mView.loadMoreRecommendList(recommendEntities)
+                        , throwable -> mView.loadMoreFinish(false, RECOMMEND)
+                        , () -> mView.loadMoreFinish(true, RECOMMEND));
+        mCompositeDisposable.add(disposable);
+    }
+
+    private Disposable loadRecommendList(@Constants.LoadType int loadType) {
+        return RetrofitManager.getInstance().createReq(Api.class)
+                .getHome(1, "110100")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::convertRecommendData)
+                .subscribe(recommendEntities -> mView.showRecommendList(recommendEntities)
+                        , throwable -> {
+                            if (Constants.LOAD_REFRESH == loadType) {
+                                mView.refreshFinish(false, RECOMMEND);
+                            }
+                        }
+                        , () -> mView.refreshFinish(true, RECOMMEND));
+    }
+
+    @NotNull
+    private List<RecommendEntity> convertRecommendData(RecommendBean recommendBean) {
+        List<RecommendEntity> recommendEntities = new ArrayList<>();
+        List<RecommendBean.DataListBean> dataList = recommendBean.getDataList();
+        for (RecommendBean.DataListBean dataListBean : dataList) {
+            RecommendEntity entity = new RecommendEntity();
+            entity.setDataBean(dataListBean);
+            String nodeType = dataListBean.getNodeType();
+            if ("11".equals(nodeType)) {
+                continue;
+            }
+            entity.setItemType(Integer.valueOf(nodeType));
+            recommendEntities.add(entity);
+        }
+        return recommendEntities;
+    }
+
     private Disposable loadVientianeList(String filterIds, int start, int pstart) {
         return RetrofitManager.getInstance().createReq(Api.class)
                 .getNewsList(filterIds, start, pstart)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(this::convertData)
+                .map(this::convertNewsData)
                 .subscribe(newsEntities -> mView.loadMoreVientianeList(newsEntities), throwable -> mView.loadMoreFinish(false, NEWS), () -> mView.loadMoreFinish(true, NEWS));
     }
 

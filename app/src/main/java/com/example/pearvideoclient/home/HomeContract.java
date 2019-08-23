@@ -3,6 +3,7 @@ package com.example.pearvideoclient.home;
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
 import com.example.pearvideoclient.entity.NewsEntity;
+import com.example.pearvideoclient.entity.RecommendEntity;
 
 import java.util.List;
 
@@ -21,6 +22,20 @@ public interface HomeContract {
          * @param data 列表数据
          */
         void loadMoreVientianeList(List<NewsEntity> data);
+
+        /**
+         * 显示推荐页面数据
+         *
+         * @param data 列表数据
+         */
+        void showRecommendList(List<RecommendEntity> data);
+
+        /**
+         * 显示更多推荐页面数据
+         *
+         * @param data 列表数据
+         */
+        void loadMoreRecommendList(List<RecommendEntity> data);
 
         /**
          * 加载更多完成
@@ -54,5 +69,20 @@ public interface HomeContract {
          * 加载更多万象页面数据
          */
         void loadMoreVientianeList();
+
+        /**
+         * 加载推荐页面数据
+         */
+        void loadRecommendList();
+
+        /**
+         * 刷新推荐页面数据
+         */
+        void refreshRecommendList();
+
+        /**
+         * 加载更多推荐页面数据
+         */
+        void loadMoreRecommendList();
     }
 }
