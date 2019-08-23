@@ -15,7 +15,6 @@ import com.example.pearvideoclient.CommonCallBack;
 import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.RecommendEntity;
-import com.example.pearvideoclient.entity.content.Content;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
@@ -33,8 +32,6 @@ public class RecommendFragment extends Fragment {
     private RecyclerView mRvRecommendList;
 
     private RecommendAdapter mRecommendAdapter;
-
-    private Context mContext;
 
     private CommonCallBack<Integer, Void> refreshCallBack;
 
@@ -64,8 +61,8 @@ public class RecommendFragment extends Fragment {
     }
 
     private void initData() {
-        mContext = getActivity();
-        mRvRecommendList.setLayoutManager(new LinearLayoutManager(mContext));
+        Context context = getActivity();
+        mRvRecommendList.setLayoutManager(new LinearLayoutManager(context));
         mRecommendAdapter = new RecommendAdapter(new ArrayList<>());
         mRvRecommendList.setAdapter(mRecommendAdapter);
 

@@ -2,6 +2,7 @@ package com.example.pearvideoclient.home;
 
 import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
+import com.example.pearvideoclient.entity.LocalContEntity;
 import com.example.pearvideoclient.entity.NewsEntity;
 import com.example.pearvideoclient.entity.RecommendEntity;
 
@@ -36,6 +37,20 @@ public interface HomeContract {
          * @param data 列表数据
          */
         void loadMoreRecommendList(List<RecommendEntity> data);
+
+        /**
+         * 显示城市页面数据
+         *
+         * @param data 列表数据
+         */
+        void showCityContsList(List<LocalContEntity> data);
+
+        /**
+         * 显示更多城市页面数据
+         *
+         * @param data 列表数据
+         */
+        void loadMoreCityContsList(List<LocalContEntity> data);
 
         /**
          * 加载更多完成
@@ -84,5 +99,20 @@ public interface HomeContract {
          * 加载更多推荐页面数据
          */
         void loadMoreRecommendList();
+
+        /**
+         * 刷新城市页面数据
+         */
+        void refreshCityContsList();
+
+        /**
+         * 加载更多城市页面数据
+         */
+        void loadMoreCityContsList();
+
+        /**
+         * 加载城市页面数据
+         */
+        void loadCityContsList();
     }
 }

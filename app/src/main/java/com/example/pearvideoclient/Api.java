@@ -3,7 +3,9 @@ package com.example.pearvideoclient;
 import com.example.pearvideoclient.entity.AuthorHomeBean;
 import com.example.pearvideoclient.entity.CategoryBean;
 import com.example.pearvideoclient.entity.CategoryContsBean;
+import com.example.pearvideoclient.entity.CityListBean;
 import com.example.pearvideoclient.entity.ContPraise;
+import com.example.pearvideoclient.entity.LocalContsBean;
 import com.example.pearvideoclient.entity.LoginBean;
 import com.example.pearvideoclient.entity.LogoutBean;
 import com.example.pearvideoclient.entity.MsgMarkBean;
@@ -218,4 +220,30 @@ public interface Api {
     @GET("clt/jsp/v4/home.jsp")
     Observable<RecommendBean> getHome(@Query("isHome") int isHome, @Query("channelCode") String channelCode, @Query("start") int start);
 
+    /**
+     * 获取第一页城市页面数据
+     *
+     * @param channelCode 城市编码
+     * @return
+     */
+    @GET("clt/jsp/v4/localChannelConts.jsp")
+    Observable<LocalContsBean> getLocalChannelConts(@Query("channelCode") String channelCode);
+
+    /**
+     * 获取第二页以及往后城市页面数据
+     *
+     * @param channelCode 城市编码
+     * @param start       索引 +10
+     * @return
+     */
+    @GET("clt/jsp/v4/localChannelConts2.jsp")
+    Observable<LocalContsBean> getLocalChannelConts(@Query("channelCode") String channelCode, @Query("start") int start);
+
+    /**
+     * 获取城市列表
+     *
+     * @return
+     */
+    @GET("clt/jsp/v4/localChannels.jsp")
+    Observable<CityListBean> localChannels();
 }

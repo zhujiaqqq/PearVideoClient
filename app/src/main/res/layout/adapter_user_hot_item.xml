@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="200dp">
+
+    <ImageView
+        android:id="@+id/iv_user_img"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_user_img"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:lines="1"
+        android:textColor="@color/black"
+        tools:text="老板联播" />
+
+    <TextView
+        android:id="@+id/tv_user_signature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_user_name"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:textSize="11sp"
+        tools:text="我拍到了老板！"
+        android:layout_marginEnd="15dp"
+        android:gravity="center_horizontal"
+        android:lines="1" />
+
+    <TextView
+        android:id="@+id/tv_follow"
+        android:text="@string/tv_follow"
+        android:background="@drawable/bg_round_yellow"
+        android:paddingStart="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_user_signature"
+        android:layout_marginTop="15dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

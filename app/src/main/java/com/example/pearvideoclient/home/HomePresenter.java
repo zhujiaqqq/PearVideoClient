@@ -4,6 +4,8 @@ import android.support.annotation.StringDef;
 
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.Constants;
+import com.example.pearvideoclient.entity.LocalContEntity;
+import com.example.pearvideoclient.entity.LocalContsBean;
 import com.example.pearvideoclient.entity.NewsBean;
 import com.example.pearvideoclient.entity.NewsEntity;
 import com.example.pearvideoclient.entity.RecommendBean;
@@ -20,6 +22,8 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.pearvideoclient.entity.NewsEntity.TYPE_BIG;
@@ -38,6 +42,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     private int newsStart = 0;
     private int recommendStart = 0;
+    private int cityStart = 0;
 
 
     HomePresenter(HomeContract.View view) {
@@ -139,6 +144,69 @@ public class HomePresenter implements HomeContract.Presenter {
                         , () -> mView.loadMoreFinish(true, RECOMMEND));
         mCompositeDisposable.add(disposable);
     }
+
+    @Override
+    public void refreshCityContsList() {
+        cityStart = 0;
+        Disposable disposable = loadCityContsList(Constants.LOAD_REFRESH);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void loadMoreCityContsList() {
+        cityStart += 10;
+        Disposable disposable = RetrofitManager.getInstance().createReq(Api.class)
+                .getLocalChannelConts("110100", cityStart)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::convertCityConts)
+                .subscribe(localContEntities -> mView.loadMoreCityContsList(localContEntities)
+                        , throwable -> mView.loadMoreFinish(false, CITY)
+                        , () -> mView.loadMoreFinish(true, CITY));
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void loadCityContsList() {
+        Disposable disposable = loadCityContsList(Constants.COMMON);
+        mCompositeDisposable.add(disposable);
+    }
+
+    private Disposable loadCityContsList(@Constants.LoadType int loadType) {
+        return RetrofitManager.getInstance().createReq(Api.class)
+                .getLocalChannelConts("110100")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::convertCityConts)
+                .subscribe(localContEntities -> mView.showCityContsList(localContEntities)
+                        , throwable -> {
+                            if (Constants.LOAD_REFRESH == loadType) {
+                                mView.refreshFinish(false, CITY);
+                            }
+                        }, () -> {
+                            if (Constants.LOAD_REFRESH == loadType) {
+                                mView.refreshFinish(true, CITY);
+                            }
+                        });
+    }
+
+    @NotNull
+    private List<LocalContEntity> convertCityConts(LocalContsBean localContsBean) {
+        List<LocalContsBean.DataListBean> dataList = localContsBean.getDataList();
+        List<LocalContEntity> contEntities = new ArrayList<>();
+        for (LocalContsBean.DataListBean dataListBean : dataList) {
+            int nodeType = Integer.parseInt(dataListBean.getNodeType());
+            if (LocalContEntity.ITEM_TYPE_13 == nodeType ||
+                    LocalContEntity.ITEM_TYPE_17 == nodeType) {
+                LocalContEntity entity = new LocalContEntity();
+                entity.setItemType(nodeType);
+                entity.setCont(dataListBean);
+                contEntities.add(entity);
+            }
+        }
+        return contEntities;
+    }
+
 
     private Disposable loadRecommendList(@Constants.LoadType int loadType) {
         return RetrofitManager.getInstance().createReq(Api.class)
