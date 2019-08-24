@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pearvideoclient.Constants;
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.FixPagerAdapter;
 import com.example.pearvideoclient.entity.CityListBean;
@@ -23,6 +24,7 @@ import com.example.pearvideoclient.entity.RecommendEntity;
 import com.example.pearvideoclient.home.fragment.CityFragment;
 import com.example.pearvideoclient.home.fragment.RecommendFragment;
 import com.example.pearvideoclient.home.fragment.VientianeFragment;
+import com.example.pearvideoclient.utils.MyToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,8 +223,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void showErrorToast(String loading_fail) {
-
+    public void showErrorToast(String loadingFail) {
+        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
     }
 
     @Override

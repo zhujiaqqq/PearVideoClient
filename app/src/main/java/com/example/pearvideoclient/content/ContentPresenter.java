@@ -149,7 +149,7 @@ public class ContentPresenter implements ContentContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        //
+        mCompositeDisposable.dispose();
     }
 
 }

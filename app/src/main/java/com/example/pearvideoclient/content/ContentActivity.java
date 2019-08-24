@@ -29,6 +29,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.pearvideoclient.LocalHandler;
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.content.Content;
@@ -37,6 +38,7 @@ import com.example.pearvideoclient.entity.content.RelateConts;
 import com.example.pearvideoclient.entity.content.Tags;
 import com.example.pearvideoclient.entity.content.Videos;
 import com.example.pearvideoclient.utils.GlideUtils;
+import com.example.pearvideoclient.utils.MyToast;
 import com.example.pearvideoclient.utils.ScreenUtils;
 import com.example.pearvideoclient.view.FlowLayout;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -349,7 +351,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     @Override
     public void showErrorToast(String loadingFail) {
-
+        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
     }
 
     @Override

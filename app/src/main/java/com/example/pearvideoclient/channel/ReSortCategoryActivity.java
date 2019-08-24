@@ -26,9 +26,6 @@ public class ReSortCategoryActivity extends AppCompatActivity {
     private ImageView mIvClose;
     private RecyclerView mRvCategoryList;
 
-    private CategoryListAdapter mCategoryListAdapter;
-    private ItemTouchHelper mItemTouchHelper;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +44,11 @@ public class ReSortCategoryActivity extends AppCompatActivity {
         ArrayList<CategoryBean.CategoryListBean> categoryList = getIntent().getParcelableArrayListExtra("categoryList");
 
         mRvCategoryList.setLayoutManager(new GridLayoutManager(ReSortCategoryActivity.this, 5));
-        mCategoryListAdapter = new CategoryListAdapter(ReSortCategoryActivity.this, categoryList);
-        mRvCategoryList.setAdapter(mCategoryListAdapter);
+        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(ReSortCategoryActivity.this, categoryList);
+        mRvCategoryList.setAdapter(categoryListAdapter);
 
-        mItemTouchHelper = new ItemTouchHelper(new IHCallback(mCategoryListAdapter));
-        mItemTouchHelper.attachToRecyclerView(mRvCategoryList);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new IHCallback(categoryListAdapter));
+        itemTouchHelper.attachToRecyclerView(mRvCategoryList);
         mIvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,20 +58,5 @@ public class ReSortCategoryActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }

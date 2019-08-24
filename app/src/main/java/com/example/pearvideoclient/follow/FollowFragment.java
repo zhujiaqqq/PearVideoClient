@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.pearvideoclient.LocalHandler;
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.MyFollowContBean;
+import com.example.pearvideoclient.utils.MyToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
@@ -189,7 +191,7 @@ public class FollowFragment extends Fragment implements FollowContract.View, Loc
 
     @Override
     public void showErrorToast(String loadingFail) {
-        
+        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
     }
 
     @Override

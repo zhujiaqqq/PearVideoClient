@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pearvideoclient.LocalHandler;
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.fragment.UserAlbumsFragment;
 import com.example.pearvideoclient.author.fragment.UserContsFragment;
@@ -28,6 +29,7 @@ import com.example.pearvideoclient.entity.UserConts;
 import com.example.pearvideoclient.entity.UserInfoBean;
 import com.example.pearvideoclient.entity.UserPostsBean;
 import com.example.pearvideoclient.utils.GlideUtils;
+import com.example.pearvideoclient.utils.MyToast;
 import com.example.pearvideoclient.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -348,7 +350,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
     @Override
     public void showErrorToast(String loadingFail) {
-
+        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
     }
 
     public void userHomeRefresh() {

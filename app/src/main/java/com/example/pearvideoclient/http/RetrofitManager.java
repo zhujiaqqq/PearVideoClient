@@ -50,7 +50,7 @@ public class RetrofitManager {
 
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            interceptor.level(HttpLoggingInterceptor.Level.BODY);
             builder.addNetworkInterceptor(interceptor);
         }
         return builder.build();

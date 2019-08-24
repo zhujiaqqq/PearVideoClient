@@ -4,7 +4,6 @@ import android.support.annotation.StringDef;
 
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.Constants;
-import com.example.pearvideoclient.entity.CityListBean;
 import com.example.pearvideoclient.entity.LocalContEntity;
 import com.example.pearvideoclient.entity.LocalContsBean;
 import com.example.pearvideoclient.entity.NewsBean;
@@ -23,9 +22,6 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.pearvideoclient.entity.NewsEntity.TYPE_BIG;
@@ -175,7 +171,7 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void loadLocalChannel() {
+    public void  loadLocalChannel() {
         Disposable disposable = RetrofitManager.getInstance().createReq(Api.class)
                 .localChannels()
                 .subscribeOn(Schedulers.io())

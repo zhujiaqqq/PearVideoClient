@@ -5,10 +5,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.pearvideoclient.Api;
-import com.example.pearvideoclient.utils.Md5Util;
-import com.example.pearvideoclient.utils.SharedPreferencesHelper;
 import com.example.pearvideoclient.entity.LoginBean;
 import com.example.pearvideoclient.http.RetrofitManager;
+import com.example.pearvideoclient.utils.Md5Util;
+import com.example.pearvideoclient.utils.SharedPreferencesHelper;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -123,7 +123,7 @@ public class MinePresenter implements MineContract.Presenter {
                             Log.d(TAG, "accept: " + msgMarkBean.toString());
                             if (msgMarkBean.getData().getUserId() != null) {
                                 userId = msgMarkBean.getData().getUserId();
-                                helper.put("userId",userId);
+                                helper.put("userId", userId);
                             }
                         },
                         throwable -> mView.cancelLoading(),
@@ -140,7 +140,7 @@ public class MinePresenter implements MineContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        mCompositeDisposable.clear();
+        mCompositeDisposable.dispose();
     }
 }
 

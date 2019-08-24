@@ -105,11 +105,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        return super.dispatchKeyEvent(event);
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mLastIndex != 0) {

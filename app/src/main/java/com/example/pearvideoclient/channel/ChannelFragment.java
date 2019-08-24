@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.CategoryBean;
 import com.example.pearvideoclient.entity.CategoryContsBean;
+import com.example.pearvideoclient.utils.MyToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -30,7 +32,6 @@ import java.util.List;
  * @ClassName: ChannelFragment
  */
 public class ChannelFragment extends Fragment implements ChannelContract.View {
-    private static final String TAG = "ChannelFragment";
 
     private ChannelContract.Presenter mPresenter;
 
@@ -43,7 +44,6 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
     private ImageView mIvSort;
 
     private CategoryContsAdapter mCategoryContsAdapter;
-    private List<CategoryContsBean.ContListBean> contListBeans;
     private ArrayList<CategoryBean.CategoryListBean> currentCategoryList;
 
     public static ChannelFragment newInstance() {
@@ -56,7 +56,7 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       return inflater.inflate(R.layout.fragment_channel, container, false);
+        return inflater.inflate(R.layout.fragment_channel, container, false);
     }
 
     @Override
@@ -80,8 +80,7 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
     private void initData() {
 
         mRvCategoryConts.setLayoutManager(new GridLayoutManager(mContext, 2));
-        contListBeans = new ArrayList<>();
-        mCategoryContsAdapter = new CategoryContsAdapter(R.layout.adapter_category_conts_item, contListBeans);
+        mCategoryContsAdapter = new CategoryContsAdapter(R.layout.adapter_category_conts_item, new ArrayList<>());
         mCategoryContsAdapter.setListener(bean -> {
 
         });
@@ -125,17 +124,6 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         mPresenter.unsubscribe();
@@ -158,7 +146,7 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
 
     @Override
     public void showErrorToast(String loadingFail) {
-
+        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
     }
 
     @Override

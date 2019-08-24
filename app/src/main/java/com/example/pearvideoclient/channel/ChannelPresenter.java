@@ -30,7 +30,7 @@ public class ChannelPresenter implements ChannelContract.Presenter {
 
     @Override
     public void loadCategory() {
-        mCompositeDisposable.clear();
+
         mView.showLoading();
         Disposable subscribe = RetrofitManager.getInstance().createReq(Api.class).getCategory()
                 .subscribeOn(Schedulers.io())
@@ -80,7 +80,7 @@ public class ChannelPresenter implements ChannelContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        mCompositeDisposable.clear();
+        mCompositeDisposable.dispose();
     }
 
     private Disposable loadCategoryConts(String hotPageidx,

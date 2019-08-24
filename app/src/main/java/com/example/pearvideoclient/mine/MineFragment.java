@@ -16,10 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.LoginBean;
 import com.example.pearvideoclient.entity.UserInfoBean;
 import com.example.pearvideoclient.utils.GlideUtils;
+import com.example.pearvideoclient.utils.MyToast;
 import com.example.pearvideoclient.view.MenuPopWindow;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -193,7 +195,7 @@ public class MineFragment extends Fragment implements MineContract.View {
 
     @Override
     public void showErrorToast(String loadingFail) {
-
+        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
     }
 
 

@@ -26,9 +26,9 @@ public class CityListBean implements Serializable {
     private String resultMsg;
     private String reqId;
     private String systemTime;
-    private AutoLocalChannelInfoBean autoLocalChannelInfo;
-    private List<ChannelListBean> hotChannelList;
-    private List<ChannelListBean> channelList;
+    private ChannelBean autoLocalChannelInfo;
+    private List<ChannelBean> hotChannelList;
+    private List<ChannelBean> channelList;
 
     public String getResultCode() {
         return resultCode;
@@ -62,99 +62,34 @@ public class CityListBean implements Serializable {
         this.systemTime = systemTime;
     }
 
-    public AutoLocalChannelInfoBean getAutoLocalChannelInfo() {
+    public ChannelBean getAutoLocalChannelInfo() {
         return autoLocalChannelInfo;
     }
 
-    public void setAutoLocalChannelInfo(AutoLocalChannelInfoBean autoLocalChannelInfo) {
+    public void setAutoLocalChannelInfo(ChannelBean autoLocalChannelInfo) {
         this.autoLocalChannelInfo = autoLocalChannelInfo;
     }
 
-    public List<ChannelListBean> getHotChannelList() {
+    public List<ChannelBean> getHotChannelList() {
         return hotChannelList;
     }
 
-    public void setHotChannelList(List<ChannelListBean> hotChannelList) {
+    public void setHotChannelList(List<ChannelBean> hotChannelList) {
         this.hotChannelList = hotChannelList;
     }
 
-    public List<ChannelListBean> getChannelList() {
+    public List<ChannelBean> getChannelList() {
         return channelList;
     }
 
-    public void setChannelList(List<ChannelListBean> channelList) {
+    public void setChannelList(List<ChannelBean> channelList) {
         this.channelList = channelList;
     }
 
-    public static class AutoLocalChannelInfoBean implements Serializable {
-        private static final long serialVersionUID = 3199699752787586342L;
-        /**
-         * channelCode : 320100
-         * name : 南京
-         * nameSpell : nanjing
-         * aliasName : 南京·生活圈
-         * isLocal : 1
-         * isLifeCircle : 0
-         */
-
-        private String channelCode;
-        private String name;
-        private String nameSpell;
-        private String aliasName;
-        private String isLocal;
-        private String isLifeCircle;
-
-        public String getChannelCode() {
-            return channelCode;
-        }
-
-        public void setChannelCode(String channelCode) {
-            this.channelCode = channelCode;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getNameSpell() {
-            return nameSpell;
-        }
-
-        public void setNameSpell(String nameSpell) {
-            this.nameSpell = nameSpell;
-        }
-
-        public String getAliasName() {
-            return aliasName;
-        }
-
-        public void setAliasName(String aliasName) {
-            this.aliasName = aliasName;
-        }
-
-        public String getIsLocal() {
-            return isLocal;
-        }
-
-        public void setIsLocal(String isLocal) {
-            this.isLocal = isLocal;
-        }
-
-        public String getIsLifeCircle() {
-            return isLifeCircle;
-        }
-
-        public void setIsLifeCircle(String isLifeCircle) {
-            this.isLifeCircle = isLifeCircle;
-        }
-    }
 
 
-    public static class ChannelListBean implements Serializable {
+
+    public static class ChannelBean implements Serializable {
 
         private static final long serialVersionUID = -2728322252509826470L;
         /**
@@ -172,6 +107,15 @@ public class CityListBean implements Serializable {
         private String aliasName;
         private String isLocal;
         private String isLifeCircle;
+
+        public ChannelBean(String channelCode, String name, String nameSpell, String aliasName, String isLocal, String isLifeCircle) {
+            this.channelCode = channelCode;
+            this.name = name;
+            this.nameSpell = nameSpell;
+            this.aliasName = aliasName;
+            this.isLocal = isLocal;
+            this.isLifeCircle = isLifeCircle;
+        }
 
         public String getChannelCode() {
             return channelCode;
