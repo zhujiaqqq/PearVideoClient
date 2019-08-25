@@ -1,5 +1,6 @@
 package com.example.pearvideoclient.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import com.example.pearvideoclient.entity.CityListBean;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.pearvideoclient.home.HomeFragment.RESULT_CODE;
 
 /**
  * @Description: java类作用描述
@@ -48,6 +51,7 @@ public class CityListActivity extends AppCompatActivity {
         try {
             Bundle bundle = getIntent().getExtras();
             CityListBean cityList = (CityListBean) bundle.getSerializable("cityList");
+            String currentCity = bundle.getString("currentCity");
             CityListBean.ChannelBean autoLocalChannelInfo = cityList.getAutoLocalChannelInfo();
             List<CityListBean.ChannelBean> hotChannelList = cityList.getHotChannelList();
             List<CityListBean.ChannelBean> channelList = cityList.getChannelList();
@@ -55,15 +59,48 @@ public class CityListActivity extends AppCompatActivity {
             List<CityEntity> entities = new ArrayList<>();
             addAbleLocalCity(autoLocalChannelInfo, entities);
             addHotChannels(hotChannelList, entities);
+            addChannels(channelList, entities);
 
+
+            mRvCityList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            mCityListAdapter = new CityListAdapter(entities);
+            mCityListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+                if (view.getId() == R.id.rl_parent) {
+                    CityEntity entity = entities.get(position);
+                    CityListBean.ChannelBean channelBean = entity.getChannelBean();
+                    Intent intent = new Intent();
+                    intent.putExtra("city", channelBean);
+                    setResult(RESULT_CODE, intent);
+                    finish();
+                }
+            });
+            mRvCityList.setAdapter(mCityListAdapter);
+
+            mTvChooseCity.setText(getString(R.string.tv_current_city, currentCity));
+
+            mIvback.setOnClickListener(v -> finish());
 
         } catch (Exception e) {
             Log.e(TAG, "initData: " + e.getMessage());
         }
+    }
 
-        mRvCityList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mCityListAdapter = new CityListAdapter(new ArrayList<>());
-        mRvCityList.setAdapter(mCityListAdapter);
+    private void addChannels(List<CityListBean.ChannelBean> channelList, List<CityEntity> entities) {
+        String currentIndex = null;
+        for (CityListBean.ChannelBean channel : channelList) {
+            String temp = channel.getNameSpell().substring(0, 1);
+            if (!temp.equals(currentIndex)) {
+                CityEntity entity = new CityEntity();
+                entity.setItemType(1);
+                entity.setIndex(temp);
+                entities.add(entity);
+                currentIndex = temp;
+            }
+            CityEntity cityEntity = new CityEntity();
+            cityEntity.setItemType(0);
+            cityEntity.setChannelBean(channel);
+            entities.add(cityEntity);
+        }
     }
 
     private void addHotChannels(List<CityListBean.ChannelBean> hotChannelList, List<CityEntity> entities) {
@@ -87,5 +124,6 @@ public class CityListActivity extends AppCompatActivity {
         CityEntity cityEntity = new CityEntity();
         cityEntity.setItemType(0);
         cityEntity.setChannelBean(autoLocalChannelInfo);
+        entities.add(cityEntity);
     }
 }

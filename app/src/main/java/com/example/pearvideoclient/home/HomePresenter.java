@@ -4,6 +4,7 @@ import android.support.annotation.StringDef;
 
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.Constants;
+import com.example.pearvideoclient.entity.CityListBean;
 import com.example.pearvideoclient.entity.LocalContEntity;
 import com.example.pearvideoclient.entity.LocalContsBean;
 import com.example.pearvideoclient.entity.NewsBean;
@@ -41,6 +42,8 @@ public class HomePresenter implements HomeContract.Presenter {
     private int newsStart = 0;
     private int recommendStart = 0;
     private int cityStart = 0;
+    private CityListBean.ChannelBean mCity;
+    private CityListBean mCityList;
 
 
     HomePresenter(HomeContract.View view) {
@@ -144,7 +147,8 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void refreshCityContsList() {
+    public void refreshCityContsList(CityListBean.ChannelBean currentCity) {
+        mCity = currentCity;
         cityStart = 0;
         Disposable disposable = loadCityContsList(Constants.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
@@ -154,7 +158,7 @@ public class HomePresenter implements HomeContract.Presenter {
     public void loadMoreCityContsList() {
         cityStart += 10;
         Disposable disposable = RetrofitManager.getInstance().createReq(Api.class)
-                .getLocalChannelConts("320100", cityStart)
+                .getLocalChannelConts(mCity.getChannelCode(), cityStart)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(this::convertCityConts)
@@ -165,27 +169,33 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void loadCityContsList() {
+    public void loadCityContsList(CityListBean.ChannelBean currentCity) {
+        mCity = currentCity;
         Disposable disposable = loadCityContsList(Constants.COMMON);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
-    public void  loadLocalChannel() {
+    public void loadLocalChannel() {
+        if (mCityList != null) {
+            mView.toCityList(mCityList);
+            return;
+        }
         Disposable disposable = RetrofitManager.getInstance().createReq(Api.class)
                 .localChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(cityListBean -> mView.toCityList(cityListBean)
-                        , throwable -> {
-                            mView.showErrorToast("loading Fail");
-                        });
+                .subscribe(cityListBean -> {
+                            mCityList = cityListBean;
+                            mView.toCityList(mCityList);
+                        }
+                        , throwable -> mView.showErrorToast("loading Fail"));
         mCompositeDisposable.add(disposable);
     }
 
     private Disposable loadCityContsList(@Constants.LoadType int loadType) {
         return RetrofitManager.getInstance().createReq(Api.class)
-                .getLocalChannelConts("320100")
+                .getLocalChannelConts(mCity.getChannelCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(this::convertCityConts)
@@ -217,7 +227,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     contEntities.add(entity);
                 }
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                mView.showErrorToast(e.getMessage());
             }
         }
         return contEntities;
@@ -256,7 +266,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     recommendEntities.add(entity);
                 }
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                mView.showErrorToast(e.getMessage());
             }
         }
         return recommendEntities;

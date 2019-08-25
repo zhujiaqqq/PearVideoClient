@@ -111,7 +111,7 @@ public interface HomeContract {
         /**
          * 刷新城市页面数据
          */
-        void refreshCityContsList();
+        void refreshCityContsList(CityListBean.ChannelBean currentCity);
 
         /**
          * 加载更多城市页面数据
@@ -121,7 +121,7 @@ public interface HomeContract {
         /**
          * 加载城市页面数据
          */
-        void loadCityContsList();
+        void loadCityContsList(CityListBean.ChannelBean currentCity);
 
         /**
          * 获取城市数据

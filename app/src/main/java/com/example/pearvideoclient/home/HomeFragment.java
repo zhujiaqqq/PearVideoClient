@@ -38,6 +38,7 @@ import static com.example.pearvideoclient.home.HomePresenter.RECOMMEND;
  * @date 2019-07-11
  */
 public class HomeFragment extends Fragment implements HomeContract.View {
+    private static final String TAG = "HomeFragment";
     public static final int REQUEST_CODE = 1;
     public static final int RESULT_CODE = 2;
     private TabLayout mTabLayout;
@@ -57,6 +58,16 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private VientianeFragment mVientianeFragment;
     private RecommendFragment mRecommendFragment;
     private CityFragment mCityFragment;
+
+    private CityListBean.ChannelBean mCurrentCity;
+
+    private CityListBean.ChannelBean defaultCity = new CityListBean.ChannelBean(
+            "320100",
+            "南京",
+            "nanjing",
+            "南京·生活圈",
+            "1",
+            "0");
 
     public static HomeFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -84,6 +95,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     private void initData() {
+        mCurrentCity = defaultCity;
         new HomePresenter(this);
         mActivity = (AppCompatActivity) getActivity();
         mPresenter.subscribe();
@@ -117,9 +129,9 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private void initViewPager() {
         createFragment();
 
-        FixPagerAdapter mFixPagerAdapter = new FixPagerAdapter(mActivity.getSupportFragmentManager(), mFragments);
-        mFixPagerAdapter.setTitles(mTitle);
-        mViewPager.setAdapter(mFixPagerAdapter);
+        FixPagerAdapter fixPagerAdapter = new FixPagerAdapter(mActivity.getSupportFragmentManager(), mFragments);
+        fixPagerAdapter.setTitles(mTitle);
+        mViewPager.setAdapter(fixPagerAdapter);
         mViewPager.setOffscreenPageLimit(mFragments.size());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -137,7 +149,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                         mPresenter.loadRecommendList();
                         break;
                     case 2:
-                        mPresenter.loadCityContsList();
+                        mPresenter.loadCityContsList(mCurrentCity);
                         break;
                     default:
                         break;
@@ -163,7 +175,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         }
         mTitle.add("万象");
         mTitle.add("推荐");
-        mTitle.add("南京");
+        mTitle.add(mCurrentCity.getName());
 
         if (mFragments == null) {
             mFragments = new ArrayList<>();
@@ -196,7 +208,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mCityFragment = CityFragment.newInstance();
         mCityFragment.setCityFragmentCallBack(integer -> {
             if (integer == Constants.LOAD_REFRESH) {
-                mPresenter.refreshCityContsList();
+                mPresenter.refreshCityContsList(mCurrentCity);
             } else if (integer == Constants.LOAD_MORE) {
                 mPresenter.loadMoreCityContsList();
             } else if (integer == Constants.HEADER_CLICK) {
@@ -295,13 +307,17 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public void toCityList(CityListBean cityListBean) {
         Intent intent = new Intent(mActivity, CityListActivity.class);
         intent.putExtra("cityList", cityListBean);
+        intent.putExtra("currentCity", mCurrentCity.getName());
         startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REQUEST_CODE == requestCode && RESULT_CODE == resultCode) {
-            data.getSerializableExtra("city");
+            mCurrentCity = (CityListBean.ChannelBean) data.getSerializableExtra("city");
+            mPresenter.loadCityContsList(mCurrentCity);
+            TabLayout.Tab cityTab = mTabLayout.getTabAt(2);
+            cityTab.setText(mCurrentCity.getName());
         }
         super.onActivityResult(requestCode, resultCode, data);
 

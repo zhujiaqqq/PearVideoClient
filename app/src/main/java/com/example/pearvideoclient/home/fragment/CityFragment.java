@@ -94,7 +94,7 @@ public class CityFragment extends Fragment {
         View headerView = getLayoutInflater().inflate(R.layout.item_city_header_layout, null);
         headerView.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dip2px(mContext, 48)));
         headerView.setOnClickListener(v -> {
-            if (mCityFragmentCallBack!=null) {
+            if (mCityFragmentCallBack != null) {
                 mCityFragmentCallBack.todo(Constants.HEADER_CLICK);
             }
         });
