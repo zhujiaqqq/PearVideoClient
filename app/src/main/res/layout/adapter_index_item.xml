@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="24dp"
-    android:background="#999999">
+    android:background="#C2BFBF">
 
     <TextView
         android:id="@+id/tv_index"

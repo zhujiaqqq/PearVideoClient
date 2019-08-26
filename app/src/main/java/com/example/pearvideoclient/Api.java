@@ -12,6 +12,7 @@ import com.example.pearvideoclient.entity.MsgMarkBean;
 import com.example.pearvideoclient.entity.MyFollowContBean;
 import com.example.pearvideoclient.entity.MyReadHisListBean;
 import com.example.pearvideoclient.entity.NewsBean;
+import com.example.pearvideoclient.entity.PaikeFineVideoBean;
 import com.example.pearvideoclient.entity.RecommendBean;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.entity.UserConts;
@@ -246,4 +247,12 @@ public interface Api {
      */
     @GET("clt/jsp/v4/localChannels.jsp")
     Observable<CityListBean> localChannels();
+
+    /**
+     * 获取拍客页面数据
+     *
+     * @return
+     */
+    @GET("clt/jsp/v4/getPaikeFineVideos.jsp")
+    Observable<PaikeFineVideoBean> getPaikeFineVideos();
 }
