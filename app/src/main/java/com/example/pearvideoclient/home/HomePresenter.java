@@ -1,6 +1,6 @@
 package com.example.pearvideoclient.home;
 
-import android.support.annotation.StringDef;
+import androidx.annotation.StringDef;
 
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.Constants;

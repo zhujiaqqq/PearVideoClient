@@ -2,10 +2,12 @@ package com.example.pearvideoclient.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,10 +30,8 @@ import static com.example.pearvideoclient.home.HomeFragment.RESULT_CODE;
 public class CityListActivity extends AppCompatActivity {
     private static final String TAG = "CityListActivity";
     private TextView mTvChooseCity;
-    private ImageView mIvback;
+    private ImageView mIvBack;
     private RecyclerView mRvCityList;
-
-    private CityListAdapter mCityListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class CityListActivity extends AppCompatActivity {
 
     private void initView() {
         mTvChooseCity = findViewById(R.id.tv_choose_city);
-        mIvback = findViewById(R.id.iv_back);
+        mIvBack = findViewById(R.id.iv_back);
         mRvCityList = findViewById(R.id.rv_city_list);
     }
 
@@ -63,8 +63,8 @@ public class CityListActivity extends AppCompatActivity {
 
 
             mRvCityList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            mCityListAdapter = new CityListAdapter(entities);
-            mCityListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CityListAdapter cityListAdapter = new CityListAdapter(entities);
+            cityListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                 if (view.getId() == R.id.rl_parent) {
                     CityEntity entity = entities.get(position);
                     CityListBean.ChannelBean channelBean = entity.getChannelBean();
@@ -74,11 +74,11 @@ public class CityListActivity extends AppCompatActivity {
                     finish();
                 }
             });
-            mRvCityList.setAdapter(mCityListAdapter);
+            mRvCityList.setAdapter(cityListAdapter);
 
             mTvChooseCity.setText(getString(R.string.tv_current_city, currentCity));
 
-            mIvback.setOnClickListener(v -> finish());
+            mIvBack.setOnClickListener(v -> finish());
 
         } catch (Exception e) {
             Log.e(TAG, "initData: " + e.getMessage());
@@ -117,6 +117,9 @@ public class CityListActivity extends AppCompatActivity {
     }
 
     private void addAbleLocalCity(CityListBean.ChannelBean autoLocalChannelInfo, List<CityEntity> entities) {
+        if (autoLocalChannelInfo == null) {
+            return;
+        }
         CityEntity indexEntity = new CityEntity();
         indexEntity.setItemType(1);
         indexEntity.setIndex("您当前可能在");

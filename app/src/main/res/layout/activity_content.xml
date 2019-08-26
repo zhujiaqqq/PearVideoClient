@@ -14,7 +14,7 @@
         android:layout_height="200dp"
         android:contentDescription="@null" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/nsv_video_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +23,7 @@
         <include
             android:id="@+id/video_info_layout"
             layout="@layout/view_video_info_layout" />
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading_view"

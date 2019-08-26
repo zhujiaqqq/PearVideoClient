@@ -18,7 +18,7 @@
         android:textSize="18sp"
         tools:text="热门" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_hot_user_list"
         android:layout_width="match_parent"
         android:layout_height="200dp"
