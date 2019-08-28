@@ -20,6 +20,8 @@ import com.example.pearvideoclient.utils.GlideUtils;
 
 import java.util.List;
 
+import static androidx.core.app.ActivityOptionsCompat.*;
+
 /**
  * @author zhujiaqqq
  * @date 2019-07-18
@@ -53,21 +55,18 @@ public class CategoryContsAdapter
         TextView textView = helper.getView(R.id.tv_video_name);
         textView.setTransitionName("textView");
 
-        helper.getView(R.id.rl_parent).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onClick(item);
+        helper.getView(R.id.rl_parent).setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onClick(item);
 
-                    Intent intent = new Intent(mContext, ContentActivity.class);
-                    intent.putExtra("contId", item.getContId());
-                    intent.putExtra("userId", item.getUserInfo().getUserId());
-                    Pair<View, String> namePair = new Pair<>(textView, ViewCompat.getTransitionName(textView));
+                Intent intent = new Intent(mContext, ContentActivity.class);
+                intent.putExtra("contId", item.getContId());
+                intent.putExtra("userId", item.getUserInfo().getUserId());
+                Pair<View, String> namePair = new Pair<>(textView, ViewCompat.getTransitionName(textView));
 
-                    ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            (Activity) mContext, namePair);
-                    mContext.startActivity(intent, option.toBundle());
-                }
+                ActivityOptionsCompat option = makeSceneTransitionAnimation(
+                        (Activity) mContext, namePair);
+                mContext.startActivity(intent, option.toBundle());
             }
         });
     }

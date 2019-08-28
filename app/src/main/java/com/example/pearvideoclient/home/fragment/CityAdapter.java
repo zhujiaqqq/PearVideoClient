@@ -1,17 +1,28 @@
 package com.example.pearvideoclient.home.fragment;
 
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.LocalContEntity;
 import com.example.pearvideoclient.entity.LocalContsBean;
 import com.example.pearvideoclient.utils.GlideUtils;
 
 import java.util.List;
+
+import static androidx.core.app.ActivityOptionsCompat.makeSceneTransitionAnimation;
 
 /**
  * @Description: java类作用描述
@@ -55,11 +66,24 @@ public class CityAdapter extends BaseMultiItemQuickAdapter<LocalContEntity, Base
         ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
         GlideUtils.loadWithPlaceHolder(contListBean.getPic(), ivVideoImg, null, null);
 
-        helper.addOnClickListener(R.id.rl_parent)
-                .addOnClickListener(R.id.iv_share)
+        helper.addOnClickListener(R.id.iv_share)
                 .addOnClickListener(R.id.iv_more)
                 .addOnClickListener(R.id.tv_star)
                 .addOnClickListener(R.id.tv_post);
+
+        TextView textView = helper.getView(R.id.tv_video_name);
+        textView.setTransitionName("textView");
+        helper.getView(R.id.rl_parent).setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, ContentActivity.class);
+            LocalContsBean.DataListBean.ContListBean bean = item.getCont().getContList().get(0);
+            intent.putExtra("contId", bean.getContId());
+            intent.putExtra("userId", bean.getUserInfo().getUserId());
+            Pair<View, String> namePair = new Pair<>(textView, ViewCompat.getTransitionName(textView));
+
+            ActivityOptionsCompat option = makeSceneTransitionAnimation(
+                    (Activity) mContext, namePair);
+            mContext.startActivity(intent, option.toBundle());
+        });
     }
 
     private void convert17(BaseViewHolder helper, LocalContEntity item) {

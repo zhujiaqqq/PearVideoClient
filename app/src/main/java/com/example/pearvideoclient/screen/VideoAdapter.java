@@ -19,7 +19,7 @@ import java.util.List;
  * @ClassName: VideoAdapter
  */
 public class VideoAdapter extends BaseQuickAdapter<PaikeFineVideoBean.VideoBean, BaseViewHolder> {
-    public VideoAdapter(int layoutResId, @Nullable List<PaikeFineVideoBean.VideoBean> data) {
+    VideoAdapter(int layoutResId, @Nullable List<PaikeFineVideoBean.VideoBean> data) {
         super(layoutResId, data);
     }
 
