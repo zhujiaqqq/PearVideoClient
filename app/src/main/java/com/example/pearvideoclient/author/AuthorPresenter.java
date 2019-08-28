@@ -20,10 +20,9 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.example.pearvideoclient.Constants.SUCCESS;
 import static com.example.pearvideoclient.author.AuthorActivity.MSG_INIT_VIEWPAGER;
 
 /**
@@ -33,7 +32,7 @@ import static com.example.pearvideoclient.author.AuthorActivity.MSG_INIT_VIEWPAG
  * @ClassName: AuthorPresenter
  */
 public class AuthorPresenter implements AuthorContract.Presenter {
-    public static final String HAS_ALBUM = "1";
+    private static final String HAS_ALBUM = "1";
     private AuthorContract.View mView;
     private LocalHandler mHandler;
 
@@ -41,13 +40,13 @@ public class AuthorPresenter implements AuthorContract.Presenter {
 
     private String userId;
     private String userHomeStart;
-    private String userContsStart;
-    private String userAlbumsStast;
+    private String userContStart;
+    private String userAlbumsStart;
     private String userPostsStart;
     private String mPostsNextUrl;
 
 
-    public AuthorPresenter(AuthorContract.View view, LocalHandler handler, String userId) {
+    AuthorPresenter(AuthorContract.View view, LocalHandler handler, String userId) {
         this.userId = userId;
         this.mView = view;
         this.mHandler = handler;
@@ -62,23 +61,9 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                 .getUserInfo(authorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<UserInfoBean>() {
-                    @Override
-                    public void accept(UserInfoBean userInfoBean) throws Exception {
-                        setUserInfo(userInfoBean);
-                        setFragments(userInfoBean);
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-
-                    }
+                .subscribe(userInfoBean -> {
+                    setUserInfo(userInfoBean);
+                    setFragments(userInfoBean);
                 });
         mCompositeDisposable.add(disposable);
     }
@@ -106,43 +91,43 @@ public class AuthorPresenter implements AuthorContract.Presenter {
 
     @Override
     public void loadUserContsInfo(String authorId) {
-        userContsStart = "0";
-        Disposable disposable = loadUserContsInfo(userContsStart, authorId, Constants.COMMON);
+        userContStart = "0";
+        Disposable disposable = loadUserContsInfo(userContStart, authorId, Constants.COMMON);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void refreshUserContsList() {
-        userContsStart = "0";
-        Disposable disposable = loadUserContsInfo(userContsStart, userId, Constants.LOAD_REFRESH);
+        userContStart = "0";
+        Disposable disposable = loadUserContsInfo(userContStart, userId, Constants.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void loadMoreUserContsList() {
-        userContsStart = String.valueOf(Integer.valueOf(userContsStart) + 10);
-        Disposable disposable = loadUserContsInfo(userContsStart, userId, Constants.LOAD_MORE);
+        userContStart = String.valueOf(Integer.valueOf(userContStart) + 10);
+        Disposable disposable = loadUserContsInfo(userContStart, userId, Constants.LOAD_MORE);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void loadUserAlbumsInfo(String authorId) {
-        userAlbumsStast = "0";
-        Disposable disposable = loadUserAlbumsInfo(userAlbumsStast, authorId, Constants.COMMON);
+        userAlbumsStart = "0";
+        Disposable disposable = loadUserAlbumsInfo(userAlbumsStart, authorId, Constants.COMMON);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void refreshUserAlbumsList() {
-        userAlbumsStast = "0";
-        Disposable disposable = loadUserAlbumsInfo(userAlbumsStast, userId, Constants.LOAD_REFRESH);
+        userAlbumsStart = "0";
+        Disposable disposable = loadUserAlbumsInfo(userAlbumsStart, userId, Constants.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
     public void loadMoreUserAlbumsList() {
-        userAlbumsStast = String.valueOf(Integer.valueOf(userAlbumsStast) + 10);
-        Disposable disposable = loadUserAlbumsInfo(userAlbumsStast, userId, Constants.LOAD_MORE);
+        userAlbumsStart = String.valueOf(Integer.valueOf(userAlbumsStart) + 10);
+        Disposable disposable = loadUserAlbumsInfo(userAlbumsStart, userId, Constants.LOAD_MORE);
         mCompositeDisposable.add(disposable);
     }
 
@@ -165,6 +150,19 @@ public class AuthorPresenter implements AuthorContract.Presenter {
         userPostsStart = String.valueOf(Integer.valueOf(userPostsStart) + 10);
         String score = mPostsNextUrl.substring(mPostsNextUrl.indexOf("score=") + 6);
         Disposable disposable = loadUserPostsInfo(userPostsStart, userId, score, Constants.LOAD_MORE);
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void toOptUserFollow(String opt, String userId) {
+        Disposable disposable = RetrofitManager.getInstance().createReq(Api.class).optUserFollow(opt, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userFollowBean -> {
+                    if (SUCCESS.equals(userFollowBean.getResultMsg())) {
+                        mView.toggleAttention();
+                    }
+                });
         mCompositeDisposable.add(disposable);
     }
 
@@ -228,15 +226,15 @@ public class AuthorPresenter implements AuthorContract.Presenter {
                     }
                 }, throwable -> {
                     if (loadType == Constants.LOAD_MORE) {
-                        mView.loadMoreFinish(CONTS, false);
+                        mView.loadMoreFinish(CONT, false);
                     } else if (loadType == Constants.LOAD_REFRESH) {
-                        mView.loadRefreshFinish(CONTS, false);
+                        mView.loadRefreshFinish(CONT, false);
                     }
                 }, () -> {
                     if (loadType == Constants.LOAD_MORE) {
-                        mView.loadMoreFinish(CONTS, true);
+                        mView.loadMoreFinish(CONT, true);
                     } else if (loadType == Constants.LOAD_REFRESH) {
-                        mView.loadRefreshFinish(CONTS, true);
+                        mView.loadRefreshFinish(CONT, true);
                     }
                 });
     }
@@ -356,13 +354,13 @@ public class AuthorPresenter implements AuthorContract.Presenter {
 
 
     @Retention(value = RetentionPolicy.SOURCE)
-    @StringDef(value = {HOME, CONTS, ALBUMS, POST})
+    @StringDef(value = {HOME, CONT, ALBUMS, POST})
     @interface PageType {
 
     }
 
     static final String HOME = "动态";
-    static final String CONTS = "视频";
+    static final String CONT = "视频";
     static final String ALBUMS = "专辑";
     static final String POST = "评论";
 

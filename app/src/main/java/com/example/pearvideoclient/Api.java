@@ -1,5 +1,6 @@
 package com.example.pearvideoclient;
 
+import com.example.pearvideoclient.entity.AlbumContBean;
 import com.example.pearvideoclient.entity.AuthorHomeBean;
 import com.example.pearvideoclient.entity.CategoryBean;
 import com.example.pearvideoclient.entity.CategoryContsBean;
@@ -255,4 +256,8 @@ public interface Api {
      */
     @GET("clt/jsp/v4/getPaikeFineVideos.jsp")
     Observable<PaikeFineVideoBean> getPaikeFineVideos();
+
+    @POST("clt/jsp/v4/getAlbumConts.jsp")
+    @FormUrlEncoded
+    Observable<AlbumContBean> getAlbumConts(@Field("albumId") String albumId, @Query("start") int start);
 }

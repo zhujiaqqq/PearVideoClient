@@ -1,14 +1,17 @@
 package com.example.pearvideoclient.author.fragment;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.author.AlbumActivity;
 import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.utils.GlideUtils;
@@ -35,7 +39,7 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
     private Context mContext;
     private List<UserAlbumsBean.AlbumListBean> mList;
 
-    public UserAlbumsAdapter(Context context, List<UserAlbumsBean.AlbumListBean> list) {
+    UserAlbumsAdapter(Context context, List<UserAlbumsBean.AlbumListBean> list) {
         mContext = context;
         mList = list;
     }
@@ -59,7 +63,9 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
         holder.ivArrowExpend.setVisibility(contList.size() < 4 ? View.GONE : View.VISIBLE);
         holder.rlToExpend.setOnClickListener(v -> {
             if (contList.size() == 4) {
-                // TODO: 2019-08-17 跳转专辑页面
+                Intent intent = new Intent(mContext, AlbumActivity.class);
+                intent.putExtra("albumId", bean.getAlbumId());
+                mContext.startActivity(intent);
             }
         });
 

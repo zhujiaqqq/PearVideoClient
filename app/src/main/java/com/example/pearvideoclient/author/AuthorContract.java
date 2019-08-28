@@ -111,6 +111,11 @@ public interface AuthorContract {
          * @param postsList 评论列表
          */
         void loadMorePostsList(List<UserPostsBean.PostListBean> postsList);
+
+        /**
+         * 切换关注状态
+         */
+        void toggleAttention();
     }
 
     interface Presenter extends BasePresenter {
@@ -188,6 +193,14 @@ public interface AuthorContract {
          * 加载更多评论fragment页面数据
          */
         void loadMoreUserPostsList();
+
+        /**
+         * 关注/取关
+         *
+         * @param opt    1：关注  2：取关
+         * @param userId 用户ID
+         */
+        void toOptUserFollow(String opt, String userId);
     }
 
 }

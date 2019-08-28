@@ -5,12 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Message;
-import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.transition.ChangeBounds;
 import android.transition.ChangeTransform;
 import android.transition.Fade;
@@ -27,6 +21,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.MyApplication;
@@ -213,7 +214,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
      * 是否关注作者
      */
     private boolean isAttention;
-    private boolean mBackPressed;
     private RelativeLayout mVideoView;
 
     @Override
@@ -317,12 +317,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     @Override
-    public void onBackPressed() {
-        mBackPressed = true;
-        super.onBackPressed();
-    }
-
-    @Override
     protected void onStop() {
         mPresenter.unsubscribe();
         mVideoPlayer.stop();
@@ -365,7 +359,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         GlideUtils.load(content.getPic(), mIvVideoImg);
         GlideUtils.loadCircleImage(content.getUserInfo().getPic(), mIvSmallUserImage);
 
-        if (content.getUserInfo().getIsFollow() != null && "1".equals(content.getUserInfo().getIsFollow())) {
+        if (content.getUserInfo().getIsFollow() != null && FOLLOW_USER.equals(content.getUserInfo().getIsFollow())) {
             isAttention = true;
             toggleAttention();
         }

@@ -4,17 +4,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.pearvideoclient.LocalHandler;
 import com.example.pearvideoclient.MyApplication;
@@ -31,14 +29,18 @@ import com.example.pearvideoclient.entity.UserPostsBean;
 import com.example.pearvideoclient.utils.GlideUtils;
 import com.example.pearvideoclient.utils.MyToast;
 import com.example.pearvideoclient.utils.StatusBarUtil;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.pearvideoclient.author.AuthorPresenter.ALBUMS;
-import static com.example.pearvideoclient.author.AuthorPresenter.CONTS;
+import static com.example.pearvideoclient.author.AuthorPresenter.CONT;
 import static com.example.pearvideoclient.author.AuthorPresenter.HOME;
 import static com.example.pearvideoclient.author.AuthorPresenter.POST;
+import static com.example.pearvideoclient.content.ContentPresenter.FOLLOW_USER;
+import static com.example.pearvideoclient.content.ContentPresenter.UN_FOLLOW_USER;
 
 /**
  * @Description: java类作用描述
@@ -48,13 +50,12 @@ import static com.example.pearvideoclient.author.AuthorPresenter.POST;
  */
 public class AuthorActivity extends AppCompatActivity implements LocalHandler.IHandler, AuthorContract.View {
     public static final int MSG_INIT_VIEWPAGER = 1;
-    private ImageView mIvUserBackgroud;
+    private ImageView mIvUserBackground;
     private ImageView mIvUserImg;
     private TextView mTvUserSignature;
     private TextView mTvAttention;
     private TabLayout mTlTabLayout;
     private ViewPager mVpPager;
-    private Toolbar mToolbar;
     private CollapsingToolbarLayout mToolbarLayout;
 
     /**
@@ -74,8 +75,13 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     private UserHomeFragment mUserHomeFragment;
     private UserPostFragment mUserPostFragment;
     private UserAlbumsFragment mUserAlbumsFragment;
+    /**
+     * 关注标志
+     */
+    private boolean isAttention;
 
     @Override
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_author);
@@ -89,19 +95,19 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
         //
         StatusBarUtil.setTranslucentStatus(this);
 
-        mIvUserBackgroud = findViewById(R.id.iv_user_background);
+        mIvUserBackground = findViewById(R.id.iv_user_background);
         mIvUserImg = findViewById(R.id.iv_user_img);
         mTvUserSignature = findViewById(R.id.tv_user_signature);
         mTvAttention = findViewById(R.id.tv_attention);
         mTlTabLayout = findViewById(R.id.tl_tab_layout);
         mVpPager = findViewById(R.id.vp_pager);
-        mToolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         mToolbarLayout = findViewById(R.id.toolbar_layout);
         mToolbarLayout.setExpandedTitleColor(Color.WHITE);
         mToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         mToolbarLayout.setExpandedTitleGravity(Gravity.CENTER);
         mToolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(toolbar);
 
     }
 
@@ -115,11 +121,9 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
         new AuthorPresenter(this, mLocalHandler, userId);
 
-        mTvAttention.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 2019-08-13 调用关注
-            }
+        mTvAttention.setOnClickListener(v -> {
+            mPresenter.toOptUserFollow(isAttention ? UN_FOLLOW_USER : FOLLOW_USER, userId);
+            isAttention = !isAttention;
         });
 
 
@@ -243,8 +247,8 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     public void setAuthorTitle(UserInfoBean.InfoBean infoBean) {
         mToolbarLayout.setTitle(infoBean.getNickname());
         mTvUserSignature.setText(infoBean.getSignature());
-        GlideUtils.load(infoBean.getBackgroundImg(), mIvUserBackgroud);
-        mIvUserBackgroud.setImageAlpha(150);
+        GlideUtils.load(infoBean.getBackgroundImg(), mIvUserBackground);
+        mIvUserBackground.setImageAlpha(150);
         GlideUtils.loadCircleImage(infoBean.getPic(), mIvUserImg);
     }
 
@@ -267,7 +271,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
             case ALBUMS:
                 mUserAlbumsFragment.loadMoreFinish(isSuccess);
                 break;
-            case CONTS:
+            case CONT:
                 mUserContsFragment.loadMoreFinish(isSuccess);
                 break;
             case POST:
@@ -287,7 +291,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
             case ALBUMS:
                 mUserAlbumsFragment.loadRefreshFinish(isSuccess);
                 break;
-            case CONTS:
+            case CONT:
                 mUserContsFragment.loadRefreshFinish(isSuccess);
                 break;
             case POST:
@@ -331,6 +335,13 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
     @Override
     public void loadMorePostsList(List<UserPostsBean.PostListBean> postsList) {
         mUserPostFragment.loadMorePostsList(postsList);
+    }
+
+    @Override
+    public void toggleAttention() {
+        mTvAttention.setText(isAttention ? "已关注" : "关注");
+        mTvAttention.setBackground(isAttention ?
+                getDrawable(R.drawable.bg_round_f2) : getDrawable(R.drawable.bg_round_50_yellow));
     }
 
     @Override
