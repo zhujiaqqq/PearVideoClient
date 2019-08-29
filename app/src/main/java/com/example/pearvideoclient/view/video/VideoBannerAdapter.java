@@ -1,4 +1,4 @@
-package com.example.pearvideoclient.view;
+package com.example.pearvideoclient.view.video;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;

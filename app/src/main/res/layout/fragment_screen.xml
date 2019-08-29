@@ -64,7 +64,7 @@
                 android:background="@color/white"
                 android:layout_height="200dp">
 
-                <com.example.pearvideoclient.content.VideoPlayerIJK
+                <com.example.pearvideoclient.view.video.VideoPlayerIJK
                     android:id="@+id/video_player_tech"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />

@@ -31,8 +31,6 @@ public class UserAlbumsFragment extends Fragment {
 
     private UserAlbumsAdapter mUserAlbumsAdapter;
 
-    private Context mContext;
-
     public static UserAlbumsFragment newInstance() {
         Bundle bundle = new Bundle();
         UserAlbumsFragment fragment = new UserAlbumsFragment();
@@ -59,10 +57,10 @@ public class UserAlbumsFragment extends Fragment {
     }
 
     private void initData() {
-        mContext = getActivity();
-        mRvUserAlbumsList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        Context context = getActivity();
+        mRvUserAlbumsList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
-        mUserAlbumsAdapter = new UserAlbumsAdapter(mContext, new ArrayList<>());
+        mUserAlbumsAdapter = new UserAlbumsAdapter(context, new ArrayList<>());
         mRvUserAlbumsList.setAdapter(mUserAlbumsAdapter);
 
         mRefreshLayout.setEnableRefresh(false);

@@ -29,7 +29,7 @@ import java.util.List;
 public class UserContsAdapter extends
         BaseQuickAdapter<UserConts.ContListBean, BaseViewHolder> {
 
-    public UserContsAdapter(int layoutResId, @Nullable List<UserConts.ContListBean> data) {
+    UserContsAdapter(int layoutResId, @Nullable List<UserConts.ContListBean> data) {
         super(layoutResId, data);
     }
 

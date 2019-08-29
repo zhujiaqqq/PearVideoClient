@@ -1,17 +1,8 @@
 package com.example.pearvideoclient.author.fragment;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AlbumActivity;
@@ -64,7 +62,7 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
         holder.rlToExpend.setOnClickListener(v -> {
             if (contList.size() == 4) {
                 Intent intent = new Intent(mContext, AlbumActivity.class);
-                intent.putExtra("albumId", bean.getAlbumId());
+                intent.putExtra(AlbumActivity.ALBUM_ID, bean.getAlbumId());
                 mContext.startActivity(intent);
             }
         });
@@ -114,7 +112,7 @@ public class UserAlbumsAdapter extends RecyclerView.Adapter<UserAlbumsAdapter.Us
         private Context mContext;
         private List<UserAlbumsBean.AlbumListBean.ContListBean> mList;
 
-        public InnerVideoAdapter(Context context, List<UserAlbumsBean.AlbumListBean.ContListBean> list) {
+        InnerVideoAdapter(Context context, List<UserAlbumsBean.AlbumListBean.ContListBean> list) {
             mContext = context;
             mList = list;
         }

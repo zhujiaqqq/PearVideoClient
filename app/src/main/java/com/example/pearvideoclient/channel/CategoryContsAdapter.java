@@ -2,10 +2,12 @@ package com.example.pearvideoclient.channel;
 
 import android.app.Activity;
 import android.content.Intent;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.core.view.ViewCompat;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,13 +31,7 @@ import static androidx.core.app.ActivityOptionsCompat.*;
 public class CategoryContsAdapter
         extends BaseQuickAdapter<CategoryContsBean.ContListBean, BaseViewHolder> {
 
-    private MyListener listener;
-
-    public void setListener(MyListener listener) {
-        this.listener = listener;
-    }
-
-    public CategoryContsAdapter(int layoutResId, @Nullable List<CategoryContsBean.ContListBean> data) {
+    CategoryContsAdapter(int layoutResId, @Nullable List<CategoryContsBean.ContListBean> data) {
         super(layoutResId, data);
     }
 
@@ -56,18 +52,14 @@ public class CategoryContsAdapter
         textView.setTransitionName("textView");
 
         helper.getView(R.id.rl_parent).setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onClick(item);
+            Intent intent = new Intent(mContext, ContentActivity.class);
+            intent.putExtra("contId", item.getContId());
+            intent.putExtra("userId", item.getUserInfo().getUserId());
+            Pair<View, String> namePair = new Pair<>(textView, ViewCompat.getTransitionName(textView));
 
-                Intent intent = new Intent(mContext, ContentActivity.class);
-                intent.putExtra("contId", item.getContId());
-                intent.putExtra("userId", item.getUserInfo().getUserId());
-                Pair<View, String> namePair = new Pair<>(textView, ViewCompat.getTransitionName(textView));
-
-                ActivityOptionsCompat option = makeSceneTransitionAnimation(
-                        (Activity) mContext, namePair);
-                mContext.startActivity(intent, option.toBundle());
-            }
+            ActivityOptionsCompat option = makeSceneTransitionAnimation(
+                    (Activity) mContext, namePair);
+            mContext.startActivity(intent, option.toBundle());
         });
     }
 

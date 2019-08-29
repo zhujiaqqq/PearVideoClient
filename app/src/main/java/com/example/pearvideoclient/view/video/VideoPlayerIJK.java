@@ -1,19 +1,20 @@
-package com.example.pearvideoclient.content;
+package com.example.pearvideoclient.view.video;
 
 /**
  * Created by ZTH on 2018/3/8.
  */
 
 import android.content.Context;
-import androidx.annotation.AttrRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 

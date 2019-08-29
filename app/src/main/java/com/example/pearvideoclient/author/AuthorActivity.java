@@ -174,6 +174,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
 
             @Override
             public void onPageSelected(int i) {
+                int maxTabSize = 4;
                 switch (i) {
                     case 0:
                         mPresenter.loadUserHomeInfo(userId);
@@ -182,7 +183,7 @@ public class AuthorActivity extends AppCompatActivity implements LocalHandler.IH
                         mPresenter.loadUserContsInfo(userId);
                         break;
                     case 2:
-                        if (mFragments.size() == 4) {
+                        if (mFragments.size() == maxTabSize) {
                             mPresenter.loadUserAlbumsInfo(userId);
                         } else {
                             mPresenter.loadUserPostsInfo(userId);

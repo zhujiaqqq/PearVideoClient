@@ -1,4 +1,4 @@
-package com.example.pearvideoclient.content;
+package com.example.pearvideoclient.view.video;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 

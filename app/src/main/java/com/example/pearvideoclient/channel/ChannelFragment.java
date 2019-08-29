@@ -81,9 +81,6 @@ public class ChannelFragment extends Fragment implements ChannelContract.View {
 
         mRvCategoryConts.setLayoutManager(new GridLayoutManager(mContext, 2));
         mCategoryContsAdapter = new CategoryContsAdapter(R.layout.adapter_category_conts_item, new ArrayList<>());
-        mCategoryContsAdapter.setListener(bean -> {
-
-        });
         mRvCategoryConts.setAdapter(mCategoryContsAdapter);
 
         mTlCategoryList.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

@@ -41,7 +41,9 @@ import com.example.pearvideoclient.entity.content.Videos;
 import com.example.pearvideoclient.utils.GlideUtils;
 import com.example.pearvideoclient.utils.MyToast;
 import com.example.pearvideoclient.utils.ScreenUtils;
+import com.example.pearvideoclient.view.video.AbstractVideoPlayerListener;
 import com.example.pearvideoclient.view.FlowLayout;
+import com.example.pearvideoclient.view.video.VideoPlayerIJK;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
@@ -218,6 +220,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
         new ContentPresenter(this, localHandler);
@@ -226,6 +229,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     private void initView() {
+        Log.i(TAG, "initView: ");
         mVideoPlayer = findViewById(R.id.video_player);
         mTvVideoName = findViewById(R.id.tv_video_name);
         mTvVideoPubTime = findViewById(R.id.tv_video_pub_time);
@@ -266,7 +270,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     }
 
     private void initData() {
-
+        Log.i(TAG, "initData: ");
         contId = getIntent().getStringExtra("contId");
         userId = getIntent().getStringExtra("userId");
 
@@ -301,6 +305,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     @Override
     protected void onStart() {
+        Log.i(TAG, "onStart: ");
         super.onStart();
         //加载so文件
         try {
@@ -311,6 +316,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         }
         mPresenter.subscribe();
         mPresenter.loadContent(this.contId);
+        Log.i(TAG, "onStart: contId " + contId);
 
         mVideoPlayer.setListener(playerListener);
         mSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
@@ -318,7 +324,8 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     @Override
     protected void onStop() {
-        mPresenter.unsubscribe();
+        Log.i(TAG, "onStop: ");
+
         mVideoPlayer.stop();
         mVideoPlayer.release();
 
@@ -326,6 +333,12 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         localHandler.removeCallbacksAndMessages(null);
         super.onStop();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.unsubscribe();
+        super.onDestroy();
     }
 
     @Override
@@ -459,12 +472,13 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     @Override
     protected void onNewIntent(Intent intent) {
+        Log.i(TAG, "onNewIntent: ");
         super.onNewIntent(intent);
         contId = intent.getStringExtra("contId");
         userId = intent.getStringExtra("userId");
 
-        mPresenter.subscribe();
-        mPresenter.loadContent(this.contId);
+//        mPresenter.subscribe();
+//        mPresenter.loadContent(this.contId);
 
     }
 

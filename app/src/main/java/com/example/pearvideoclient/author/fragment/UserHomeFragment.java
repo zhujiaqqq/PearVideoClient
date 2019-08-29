@@ -2,15 +2,18 @@ package com.example.pearvideoclient.author.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.AuthorHomeBean;
@@ -65,6 +68,21 @@ public class UserHomeFragment extends Fragment {
         ));
         mUserHomeAdapter = new UserHomeAdapter(R.layout.adapter_user_home_item, null);
         mRvUserHomeList.setAdapter(mUserHomeAdapter);
+        mUserHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.ll_comment:
+                    // TODO: 2019-08-29 评论跳转
+                    break;
+                case R.id.ll_favour:
+                    // TODO: 2019-08-29 star
+                    break;
+                case R.id.ll_share:
+                    // TODO: 2019-08-29 分享
+                    break;
+                default:
+                    break;
+            }
+        });
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> ((AuthorActivity) getActivity()).userHomeRefresh());
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> ((AuthorActivity) getActivity()).userHomeLoadMore());

@@ -12,7 +12,7 @@ import com.example.pearvideoclient.content.ContentActivity;
 import com.example.pearvideoclient.entity.RecommendBean;
 import com.example.pearvideoclient.entity.RecommendEntity;
 import com.example.pearvideoclient.utils.GlideUtils;
-import com.example.pearvideoclient.view.VideoBanner;
+import com.example.pearvideoclient.view.video.VideoBanner;
 
 import java.util.ArrayList;
 import java.util.List;

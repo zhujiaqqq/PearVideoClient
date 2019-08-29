@@ -1,16 +1,16 @@
 package com.example.pearvideoclient.author;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.AlbumContBean;
+import com.example.pearvideoclient.utils.MyToast;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.List;
  * @ClassName: AlbumActivity
  */
 public class AlbumActivity extends AppCompatActivity implements AlbumContract.View {
-
+    public static final String ALBUM_ID = "albumId";
     private TextView mTvTitle;
     private RefreshLayout mRefreshLayout;
     private RecyclerView mRvAlbumList;
@@ -45,13 +45,11 @@ public class AlbumActivity extends AppCompatActivity implements AlbumContract.Vi
         mRefreshLayout = findViewById(R.id.refresh_layout);
         mRvAlbumList = findViewById(R.id.rv_album_list);
 
-        findViewById(R.id.iv_back).setOnClickListener(v -> {
-            finish();
-        });
+        findViewById(R.id.iv_back).setOnClickListener(v -> finish());
     }
 
     private void initData() {
-        String albumId = getIntent().getStringExtra("albumId");
+        String albumId = getIntent().getStringExtra(ALBUM_ID);
 
         new AlbumPresenter(this);
 
@@ -73,16 +71,17 @@ public class AlbumActivity extends AppCompatActivity implements AlbumContract.Vi
 
     @Override
     public void showLoading() {
-
+        //
     }
 
     @Override
     public void cancelLoading() {
-
+        //
     }
 
     @Override
     public void showErrorToast(String loadingFail) {
+        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
 
     }
 

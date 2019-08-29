@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.content.VideoPlayerIJK;
+import com.example.pearvideoclient.view.video.VideoPlayerIJK;
 import com.example.pearvideoclient.entity.PaikeFineVideoBean;
 import com.example.pearvideoclient.utils.MyToast;
 

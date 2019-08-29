@@ -1,20 +1,13 @@
 package com.example.pearvideoclient.content;
 
 import android.os.Handler;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import com.example.pearvideoclient.Api;
-import com.example.pearvideoclient.MyApplication;
-import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.entity.ContPraise;
-import com.example.pearvideoclient.entity.UserFollowBean;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.pearvideoclient.Constants.SUCCESS;
@@ -33,8 +26,6 @@ public class ContentPresenter implements ContentContract.Presenter {
     private Handler mHandler;
     private CompositeDisposable mCompositeDisposable;
     private boolean isShowDetail;
-    private boolean isShowController;
-    private long time;
 
     private boolean isStar;
 
@@ -75,12 +66,9 @@ public class ContentPresenter implements ContentContract.Presenter {
         Disposable disposable = RetrofitManager.getInstance().createReq(Api.class).toStar(contId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ContPraise>() {
-                    @Override
-                    public void accept(ContPraise contPraise) throws Exception {
-                        if (SUCCESS.equals(contPraise.getResultMsg())) {
-                            mView.showStar(true);
-                        }
+                .subscribe(contPraise -> {
+                    if (SUCCESS.equals(contPraise.getResultMsg())) {
+                        mView.showStar(true);
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -122,7 +110,6 @@ public class ContentPresenter implements ContentContract.Presenter {
 
     @Override
     public void hidePlayController() {
-        isShowController = false;
         mView.showOrHideController();
     }
 
@@ -131,12 +118,9 @@ public class ContentPresenter implements ContentContract.Presenter {
         Disposable disposable = RetrofitManager.getInstance().createReq(Api.class).optUserFollow(opt, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<UserFollowBean>() {
-                    @Override
-                    public void accept(UserFollowBean userFollowBean) throws Exception {
-                        if (SUCCESS.equals(userFollowBean.getResultMsg())) {
-                            mView.toggleAttention();
-                        }
+                .subscribe(userFollowBean -> {
+                    if (SUCCESS.equals(userFollowBean.getResultMsg())) {
+                        mView.toggleAttention();
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -145,6 +129,7 @@ public class ContentPresenter implements ContentContract.Presenter {
     @Override
     public void subscribe() {
         hidePlayController();
+        mCompositeDisposable.clear();
     }
 
     @Override

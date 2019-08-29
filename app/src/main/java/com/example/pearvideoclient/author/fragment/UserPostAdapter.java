@@ -18,7 +18,7 @@ import java.util.List;
  * @ClassName: UserPostAdapter
  */
 public class UserPostAdapter extends BaseQuickAdapter<UserPostsBean.PostListBean, BaseViewHolder> {
-    public UserPostAdapter(int layoutResId, @Nullable List<UserPostsBean.PostListBean> data) {
+    UserPostAdapter(int layoutResId, @Nullable List<UserPostsBean.PostListBean> data) {
         super(layoutResId, data);
     }
 

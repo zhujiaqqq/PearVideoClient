@@ -9,8 +9,8 @@ import android.widget.SeekBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.pearvideoclient.R;
-import com.example.pearvideoclient.content.AbstractVideoPlayerListener;
-import com.example.pearvideoclient.content.VideoPlayerIJK;
+import com.example.pearvideoclient.view.video.AbstractVideoPlayerListener;
+import com.example.pearvideoclient.view.video.VideoPlayerIJK;
 import com.example.pearvideoclient.entity.MyFollowContBean;
 import com.example.pearvideoclient.utils.GlideUtils;
 

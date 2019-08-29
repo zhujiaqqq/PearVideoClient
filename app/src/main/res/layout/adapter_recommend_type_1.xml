@@ -5,7 +5,7 @@
     android:layout_marginBottom="10dp"
     android:layout_height="wrap_content">
 
-    <com.example.pearvideoclient.view.VideoBanner
+    <com.example.pearvideoclient.view.video.VideoBanner
         android:id="@+id/video_banner"
         android:layout_width="match_parent"
         android:layout_height="360dp" />

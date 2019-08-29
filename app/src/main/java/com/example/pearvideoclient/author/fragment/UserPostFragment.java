@@ -75,7 +75,7 @@ public class UserPostFragment extends Fragment {
         View headerView = getLayoutInflater().inflate(R.layout.item_post_head_layout, null);
         headerView.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         headerView.setOnClickListener(v -> {
-
+            // TODO: 2019-08-29 评论
         });
         mUserPostAdapter.addHeaderView(headerView);
     }

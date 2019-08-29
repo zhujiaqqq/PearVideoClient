@@ -1,4 +1,4 @@
-package com.example.pearvideoclient.view;
+package com.example.pearvideoclient.view.video;
 
 import android.content.Context;
 import android.os.Message;
@@ -10,8 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.pearvideoclient.LocalHandler;
-import com.example.pearvideoclient.content.AbstractVideoPlayerListener;
-import com.example.pearvideoclient.content.VideoPlayerIJK;
 
 import java.util.ArrayList;
 import java.util.List;

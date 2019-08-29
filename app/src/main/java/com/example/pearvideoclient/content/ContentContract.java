@@ -83,11 +83,15 @@ public interface ContentContract {
     interface Presenter extends BasePresenter {
         /**
          * 加载页面信息
+         *
+         * @param id ContId
          */
         void loadContent(String id);
 
         /**
          * 加Star
+         *
+         * @param contId ContId
          */
         void star(String contId);
 
