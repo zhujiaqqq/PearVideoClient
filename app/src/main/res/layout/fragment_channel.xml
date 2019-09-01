@@ -31,29 +31,11 @@
         android:layout_below="@id/tl_category_list"
         android:background="@color/common_divide_line" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refresh_layout"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_pager"
         android:layout_width="match_parent"
+        android:layout_below="@id/tl_category_list"
         android:layout_height="match_parent"
-        android:layout_below="@id/tl_category_list">
+        android:layout_marginTop="10dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_category_conts_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white" />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/loading_view"
-        style="@style/AVLoadingIndicatorView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="visible"
-        app:indicatorColor="#ff0000"
-        app:indicatorName="BallPulseIndicator" />
 </RelativeLayout>

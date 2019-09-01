@@ -2,7 +2,17 @@ package com.example.pearvideoclient.channel;
 
 import com.example.pearvideoclient.Api;
 import com.example.pearvideoclient.Constants;
+import com.example.pearvideoclient.entity.CategoryContsBean;
+import com.example.pearvideoclient.entity.ContEntity;
 import com.example.pearvideoclient.http.RetrofitManager;
+import com.example.pearvideoclient.utils.CollectionUtil;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -19,13 +29,13 @@ public class ChannelPresenter implements ChannelContract.Presenter {
 
     private ChannelContract.View mView;
     private CompositeDisposable mCompositeDisposable;
-    private String currentCategoryId;
-    private String currentIndex;
+    private Map<String, Integer> categoryMap;
 
     public ChannelPresenter(ChannelContract.View view) {
         this.mView = view;
         this.mView.setPresenter(this);
         this.mCompositeDisposable = new CompositeDisposable();
+        categoryMap = new HashMap<>();
     }
 
     @Override
@@ -42,32 +52,35 @@ public class ChannelPresenter implements ChannelContract.Presenter {
     }
 
     @Override
-    public void loadCategoryConts(String hotPageidx, String categoryId, String start) {
-        currentCategoryId = categoryId;
-        currentIndex = start;
+    public void loadCategoryConts(int hotPageidx, String categoryId, int start) {
+        categoryMap.put(categoryId, 0);
         Disposable disposable = loadCategoryConts(hotPageidx,
-                currentCategoryId,
-                currentIndex,
+                categoryId,
+                categoryMap.get(categoryId),
                 Constants.COMMON);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
-    public void loadCategoryContsMore() {
-        currentIndex = String.valueOf(Integer.valueOf(currentIndex) + 10);
-        Disposable disposable = loadCategoryConts("",
-                currentCategoryId,
-                currentIndex,
+    public void loadCategoryContsMore(String categoryId) {
+        if (categoryMap.containsKey(categoryId)) {
+            categoryMap.put(categoryId, categoryMap.get(categoryId) + 10);
+        } else {
+            categoryMap.put(categoryId, 0);
+        }
+        Disposable disposable = loadCategoryConts(1,
+                categoryId,
+                categoryMap.get(categoryId),
                 Constants.LOAD_MORE);
         mCompositeDisposable.add(disposable);
     }
 
     @Override
-    public void loadCategoryContsRefresh() {
-        currentIndex = "0";
-        Disposable disposable = loadCategoryConts("1",
-                currentCategoryId,
-                currentIndex,
+    public void loadCategoryContsRefresh(String categoryId) {
+        categoryMap.put(categoryId, 0);
+        Disposable disposable = loadCategoryConts(1,
+                categoryId,
+                categoryMap.get(categoryId),
                 Constants.LOAD_REFRESH);
         mCompositeDisposable.add(disposable);
     }
@@ -83,9 +96,9 @@ public class ChannelPresenter implements ChannelContract.Presenter {
         mCompositeDisposable.dispose();
     }
 
-    private Disposable loadCategoryConts(String hotPageidx,
+    private Disposable loadCategoryConts(int hotPageidx,
                                          String categoryId,
-                                         String start,
+                                         int start,
                                          @Constants.LoadType int type) {
         mView.showLoading();
         return RetrofitManager.getInstance()
@@ -93,30 +106,69 @@ public class ChannelPresenter implements ChannelContract.Presenter {
                 .getCategoryConts(hotPageidx, categoryId, start)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(categoryContsBean -> {
+                .map(this::convertEntity)
+                .subscribe(contEntities -> {
                     if (type == Constants.COMMON || type == Constants.LOAD_REFRESH) {
-//                            如果是普通情况或者刷新的情况
-                        mView.showList(categoryContsBean.getContList());
+                        mView.showList(contEntities, categoryId);
                     } else if (type == Constants.LOAD_MORE) {
-//                            如果是加载更多的情况
-                        mView.loadMoreList(categoryContsBean.getContList());
+                        mView.loadMoreList(contEntities, categoryId);
                     }
                 }, throwable -> {
                     mView.cancelLoading();
                     if (type == Constants.LOAD_MORE) {
-                        mView.loadMoreFinish(false);
+                        mView.loadMoreFinish(false, categoryId);
                     } else if (type == Constants.LOAD_REFRESH) {
-                        mView.loadRefreshFinish(false);
+                        mView.loadRefreshFinish(false, categoryId);
                     }
                 }, () -> {
                     mView.cancelLoading();
                     if (type == Constants.LOAD_MORE) {
-                        mView.loadMoreFinish(true);
+                        mView.loadMoreFinish(true, categoryId);
                     } else if (type == Constants.LOAD_REFRESH) {
-                        mView.loadRefreshFinish(true);
+                        mView.loadRefreshFinish(true, categoryId);
                     }
                 });
+    }
 
+    @NotNull
+    private List<ContEntity> convertEntity(CategoryContsBean categoryContsBean) {
+        List<CategoryContsBean.ContListBean> newContsList = categoryContsBean.getContList();
+        List<CategoryContsBean.ContListBean> hotContsList = categoryContsBean.getHotList();
+        List<CategoryContsBean.HotTagListBean> hotTagList = categoryContsBean.getHotTagList();
+        List<CategoryContsBean.HotUserBean> hotUserList = categoryContsBean.getHotUserList();
+        List<CategoryContsBean.ContListBean> rankContsList = categoryContsBean.getRankList();
+        List<ContEntity> contEntities = new ArrayList<>();
+        if (!CollectionUtil.isEmpty(hotContsList)) {
+            ContEntity entity = new ContEntity();
+            entity.setContListBeans(hotContsList);
+            entity.setItemType(ContEntity.TYPE_HOT_CONT);
+            contEntities.add(entity);
+        }
+        if (!CollectionUtil.isEmpty(rankContsList)) {
+            ContEntity entity = new ContEntity();
+            entity.setContListBeans(rankContsList);
+            entity.setItemType(ContEntity.TYPE_RANK_CONT);
+            contEntities.add(entity);
+        }
+        if (!CollectionUtil.isEmpty(hotTagList)) {
+            ContEntity entity = new ContEntity();
+            entity.setHotTagListBeans(hotTagList);
+            entity.setItemType(ContEntity.TYPE_HOT_TAG);
+            contEntities.add(entity);
+        }
+        if (!CollectionUtil.isEmpty(newContsList)) {
+            ContEntity entity = new ContEntity();
+            entity.setContListBeans(newContsList);
+            entity.setItemType(ContEntity.TYPE_NEW_CONT);
+            contEntities.add(entity);
+        }
+        if (!CollectionUtil.isEmpty(hotUserList)) {
+            ContEntity entity = new ContEntity();
+            entity.setHotUserBeans(hotUserList);
+            entity.setItemType(ContEntity.TYPE_HOT_USER);
+            contEntities.add(entity);
+        }
+        return contEntities;
     }
 
 }

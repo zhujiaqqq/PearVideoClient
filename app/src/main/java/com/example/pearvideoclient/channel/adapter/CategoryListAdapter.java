@@ -1,4 +1,4 @@
-package com.example.pearvideoclient.channel;
+package com.example.pearvideoclient.channel.adapter;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.channel.IOperationData;
 import com.example.pearvideoclient.entity.CategoryBean;
 
 import java.util.Collections;

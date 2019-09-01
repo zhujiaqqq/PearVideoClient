@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.pearvideoclient.R;
+import com.example.pearvideoclient.channel.adapter.CategoryListAdapter;
 import com.example.pearvideoclient.entity.CategoryBean;
 
 import java.util.ArrayList;

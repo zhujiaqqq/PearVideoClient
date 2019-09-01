@@ -4,6 +4,7 @@ import com.example.pearvideoclient.BasePresenter;
 import com.example.pearvideoclient.BaseView;
 import com.example.pearvideoclient.entity.CategoryBean;
 import com.example.pearvideoclient.entity.CategoryContsBean;
+import com.example.pearvideoclient.entity.ContEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,10 @@ public interface ChannelContract {
         /**
          * 显示列表页面
          *
-         * @param beans 列表数据
+         * @param beans      列表数据
+         * @param categoryId ID
          */
-        void showList(List<CategoryContsBean.ContListBean> beans);
+        void showList(List<ContEntity> beans, String categoryId);
 
         /**
          * 加载分类数据
@@ -33,23 +35,26 @@ public interface ChannelContract {
         /**
          * 加载更多列表数据
          *
-         * @param beans 列表数据
+         * @param beans      列表数据
+         * @param categoryId ID
          */
-        void loadMoreList(List<CategoryContsBean.ContListBean> beans);
+        void loadMoreList(List<ContEntity> beans, String categoryId);
 
         /**
          * 完成加载更多
          *
-         * @param isSuccess true：成功
+         * @param isSuccess  true：成功
+         * @param categoryId ID
          */
-        void loadMoreFinish(boolean isSuccess);
+        void loadMoreFinish(boolean isSuccess, String categoryId);
 
         /**
          * 完成刷新
          *
-         * @param isSuccess true：成功
+         * @param isSuccess  true：成功
+         * @param categoryId ID
          */
-        void loadRefreshFinish(boolean isSuccess);
+        void loadRefreshFinish(boolean isSuccess, String categoryId);
     }
 
     interface Presenter extends BasePresenter {
@@ -65,19 +70,23 @@ public interface ChannelContract {
          * @param categoryId 分类编码
          * @param start      页码索引
          */
-        void loadCategoryConts(String hotPageidx,
+        void loadCategoryConts(int hotPageidx,
                                String categoryId,
-                               String start);
+                               int start);
 
         /**
          * 获取更多列表
+         *
+         * @param categoryId ID
          */
-        void loadCategoryContsMore();
+        void loadCategoryContsMore(String categoryId);
 
         /**
          * 刷新列表
+         *
+         * @param categoryId ID
          */
-        void loadCategoryContsRefresh();
+        void loadCategoryContsRefresh(String categoryId);
 
     }
 }

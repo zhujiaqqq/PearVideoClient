@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
+import com.example.pearvideoclient.channel.adapter.CategoryListAdapter;
+
 /**
  * @Description: java类作用描述
  * @Author: jiazhu

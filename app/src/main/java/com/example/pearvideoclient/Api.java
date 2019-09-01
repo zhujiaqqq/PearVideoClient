@@ -53,9 +53,9 @@ public interface Api {
      */
     @GET("clt/jsp/v4/getCategoryConts.jsp")
     Observable<CategoryContsBean> getCategoryConts(
-            @Query("hotPageidx") String hotPageidx,
+            @Query("hotPageidx") int hotPageidx,
             @Query("categoryId") String categoryId,
-            @Query("start") String start);
+            @Query("start") int start);
 
     /**
      * 获取我的浏览数据
