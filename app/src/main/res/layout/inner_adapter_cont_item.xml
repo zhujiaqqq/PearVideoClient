@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/iv_video_img"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="100dp"
         android:layout_marginStart="7.5dp"
         android:layout_marginEnd="7.5dp"
         android:contentDescription="@null"

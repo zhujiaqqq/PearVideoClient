@@ -6,6 +6,8 @@ import com.example.pearvideoclient.entity.CategoryBean;
 import com.example.pearvideoclient.entity.CategoryContsBean;
 import com.example.pearvideoclient.entity.CityListBean;
 import com.example.pearvideoclient.entity.ContPraise;
+import com.example.pearvideoclient.entity.DomainListBean;
+import com.example.pearvideoclient.entity.FollowUsersBean;
 import com.example.pearvideoclient.entity.LocalContsBean;
 import com.example.pearvideoclient.entity.LoginBean;
 import com.example.pearvideoclient.entity.LogoutBean;
@@ -23,7 +25,6 @@ import com.example.pearvideoclient.entity.UserPostsBean;
 import com.example.pearvideoclient.entity.content.ContentBean;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -260,4 +261,26 @@ public interface Api {
     @POST("clt/jsp/v4/getAlbumConts.jsp")
     @FormUrlEncoded
     Observable<AlbumContBean> getAlbumConts(@Field("albumId") String albumId, @Query("start") int start);
+
+    /**
+     * 获取关注类型
+     *
+     * @param type ALL
+     * @return
+     */
+    @GET("clt/jsp/v4/domainList.jsp")
+    Observable<DomainListBean> getDomainList(@Query("type") String type);
+
+    /**
+     * 获取关注用户
+     * /clt/jsp/v4/getUsers.jsp?domainId=null&userId=&type=1        推荐
+     * /clt/jsp/v4/getUsers.jsp?domainId=&userId=&type=0            最新
+     * /clt/jsp/v4/getUsers.jsp?domainId=5&userId=&type=3           资讯
+     * @param domainId
+     * @param userId
+     * @param type
+     * @return
+     */
+    @GET("clt/jsp/v4/getUsers.jsp")
+    Observable<FollowUsersBean> getUsers(@Query("domainId") String domainId, @Query("userId") String userId, @Query("type") Integer type);
 }

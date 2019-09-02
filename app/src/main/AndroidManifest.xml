@@ -43,6 +43,9 @@
         <activity
             android:name=".home.CityListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".follow.addfollow.AddFollowActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

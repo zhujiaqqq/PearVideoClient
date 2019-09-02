@@ -24,4 +24,5 @@
     <string name="tv_followed">已关注</string>
     <string name="tv_click_to_change_city">点击切换城市</string>
     <string name="tv_current_city">当前城市 - %s</string>
+    <string name="tv_loading">Loading ...</string>
 </resources>

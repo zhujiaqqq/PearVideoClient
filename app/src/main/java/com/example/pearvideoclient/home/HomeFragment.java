@@ -129,7 +129,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private void initViewPager() {
         createFragment();
 
-        FixPagerAdapter fixPagerAdapter = new FixPagerAdapter(mActivity.getSupportFragmentManager(), mFragments);
+        FixPagerAdapter fixPagerAdapter = new FixPagerAdapter(getChildFragmentManager(), mFragments);
         fixPagerAdapter.setTitles(mTitle);
         mViewPager.setAdapter(fixPagerAdapter);
         mViewPager.setOffscreenPageLimit(mFragments.size());
