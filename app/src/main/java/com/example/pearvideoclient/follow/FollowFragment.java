@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.MyFollowContBean;
+import com.example.pearvideoclient.follow.addfollow.AddFollowActivity;
 import com.example.pearvideoclient.utils.MyToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -95,7 +98,8 @@ public class FollowFragment extends Fragment implements FollowContract.View, Loc
         mRvFollowUserList.setAdapter(mFollowUserListAdapter);
 
         mTvAddFollow.setOnClickListener(v -> {
-            // TODO: 2019-07-17 跳转添加关注页面
+            Intent intent = new Intent(mContext, AddFollowActivity.class);
+            mContext.startActivity(intent);
         });
 
         mPresenter.loadMyFollowList();

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="domain"
+            type="com.example.pearvideoclient.entity.DomainListBean.DomainBean" />
+
+        <variable
+            name="callback"
+            type="com.example.pearvideoclient.follow.addfollow.DomainClickCallback" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="2dp"
+        android:background="@{domain.checked?@color/yellow:@color/white}"
+        android:onClick="@{()->callback.onClick(domain)}">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@{domain.name}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/common_divide_line" />
+    </RelativeLayout>
+</layout>

@@ -9,6 +9,10 @@
         <variable
             name="isLoading"
             type="boolean" />
+
+        <variable
+            name="isLoadingUser"
+            type="boolean" />
     </data>
 
     <LinearLayout
@@ -42,17 +46,16 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/tv_loading"
-            android:visibility="@{isLoading?View.VISIBLE : View.GONE}" />
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="@string/tv_loading"-->
+        <!--            android:visibility="@{isLoading?View.VISIBLE : View.GONE}" />-->
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:visibility="@{!isLoading?View.VISIBLE : View.GONE}">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -61,11 +64,27 @@
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+            <View
+                android:id="@+id/divide_line"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/rv_category_list" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_user_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_toEndOf="@id/divide_line"
+                android:visibility="@{isLoadingUser?View.GONE:View.VISIBLE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/divide_line"
+                android:gravity="center"
+                android:text="@string/tv_loading"
+                android:visibility="@{isLoadingUser?View.VISIBLE:View.GONE}" />
+        </RelativeLayout>
     </LinearLayout>
 </layout>

@@ -91,6 +91,18 @@ public class DomainListBean {
          * type = 3 其他类别
          */
         private Integer type;
+        /**
+         * 添加字段 选中
+         */
+        private boolean checked;
+
+        public boolean isChecked() {
+            return checked;
+        }
+
+        public void setChecked(boolean checked) {
+            this.checked = checked;
+        }
 
         public Integer getType() {
             return type;

@@ -24,7 +24,7 @@ public class FollowUsersBean {
     private String reqId;
     private String systemTime;
     private String nextUrl;
-    private List<UserListBean> userList;
+    private List<UserBean> userList;
 
     public String getResultCode() {
         return resultCode;
@@ -66,15 +66,17 @@ public class FollowUsersBean {
         this.nextUrl = nextUrl;
     }
 
-    public List<UserListBean> getUserList() {
+    public List<UserBean> getUserList() {
         return userList;
     }
 
-    public void setUserList(List<UserListBean> userList) {
+    public void setUserList(List<UserBean> userList) {
         this.userList = userList;
     }
 
-    public static class UserListBean {
+    public static class UserBean {
+        public static final String FOLLOW = "关注";
+        public static final String FOLLOWED = "已关注";
         /**
          * userId : 10736549
          * nickname : 咪咕动漫
