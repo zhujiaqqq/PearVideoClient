@@ -24,4 +24,33 @@ PearVideoClient，一款仿梨视频的Android客户端，基于MVP+RxJava+Retro
 
 ![](https://raw.githubusercontent.com/zhujiaqqq/daily-pic/master/img/20190904233412.png)
 
+**目前模块包括：**
 
+- 首页：万象、推荐、城市（可选城市列表）
+
+- 频道：社会、体育、生活、科技。。。
+- 报料：报料视频
+- 关注：关注用户视频列表页面、推荐关注列表页面
+- 我的：登录
+
+**项目亮点：**
+
+- mvp模式：解耦model、view层，契约类管理mvp，一目了然，实现纵向解耦，基类完美封装，避免频繁new对象
+
+- 响应式编程，对服务器请求、缓存、变换、线程调度进行封装
+
+- 尝试在部分页面使用MVVM、DataBinding模式
+
+- 封装多种工具类
+
+- 后期将拆分视频播放功能组成单独的模块
+
+**用到的开源库：**
+
+- 'com.squareup.okhttp3:okhttp:4.0.0'
+- 'com.squareup.retrofit2:retrofit:2.4.0'
+- 'io.reactivex.rxjava2:rxjava:2.2.2'
+- 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
+- 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-31'
+- 'com.github.bumptech.glide:glide:4.3.1'
+- 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
