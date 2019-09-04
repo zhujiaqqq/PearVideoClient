@@ -102,6 +102,7 @@ public class ScreenFragment extends Fragment implements ScreenContract.View {
     public void onDestroy() {
         mPresenter.unsubscribe();
         super.onDestroy();
+        MyApplication.getRefWatcher(getActivity()).watch(this);
     }
 
     @Override

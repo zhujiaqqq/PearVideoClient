@@ -2,16 +2,19 @@ package com.example.pearvideoclient.author.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.UserConts;
@@ -101,5 +104,11 @@ public class UserContsFragment extends Fragment {
 
     public void loadMoreFinish(boolean isSuccess) {
         mRefreshLayout.finishLoadMore(isSuccess);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyApplication.getRefWatcher(getActivity()).watch(this);
     }
 }

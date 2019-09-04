@@ -231,4 +231,10 @@ public class FollowFragment extends Fragment implements FollowContract.View, Loc
             mHandler.removeMessages(MSG_SET_PLAY);
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        MyApplication.getRefWatcher(getActivity()).watch(this);
+    }
 }

@@ -2,17 +2,20 @@ package com.example.pearvideoclient.home.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pearvideoclient.CommonCallBack;
 import com.example.pearvideoclient.Constants;
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.NewsEntity;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -99,4 +102,9 @@ public class VientianeFragment extends Fragment {
         this.refreshCallBack = refreshCallBack;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyApplication.getRefWatcher(getActivity()).watch(this);
+    }
 }

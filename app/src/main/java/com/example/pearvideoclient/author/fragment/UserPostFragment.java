@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.UserPostsBean;
@@ -94,5 +95,11 @@ public class UserPostFragment extends Fragment {
 
     public void loadMoreFinish(boolean isSuccess) {
         mRefreshLayout.finishLoadMore(isSuccess);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyApplication.getRefWatcher(getActivity()).watch(this);
     }
 }

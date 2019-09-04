@@ -26,9 +26,9 @@ public class GlideUtils {
     }
 
     private static RequestOptions sRequestOptions =
-            RequestOptions.bitmapTransform(new CircleCrop()).diskCacheStrategy(DiskCacheStrategy.NONE);
+            RequestOptions.bitmapTransform(new CircleCrop()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
     private static RequestOptions sPlaceholder =
-            new RequestOptions().placeholder(R.drawable.ic_placeholder);
+            new RequestOptions().placeholder(R.drawable.ic_placeholder).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
     private static DrawableCrossFadeFactory sDrawableCrossFadeFactory =
             new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
 

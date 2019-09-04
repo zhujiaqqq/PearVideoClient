@@ -90,6 +90,7 @@ public class MineFragment extends Fragment implements MineContract.View {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        MyApplication.getRefWatcher(getActivity()).watch(this);
         mPresenter.unsubscribe();
     }
 

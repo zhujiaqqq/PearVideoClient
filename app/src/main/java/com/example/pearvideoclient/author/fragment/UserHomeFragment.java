@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.AuthorActivity;
 import com.example.pearvideoclient.entity.AuthorHomeBean;
@@ -103,5 +104,11 @@ public class UserHomeFragment extends Fragment {
 
     public void loadRefreshFinish(boolean isSuccess) {
         mRefreshLayout.finishRefresh(isSuccess);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyApplication.getRefWatcher(getActivity()).watch(this);
     }
 }
