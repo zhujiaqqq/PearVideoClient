@@ -149,12 +149,13 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             String time = sdf.format(new Date());
             String fileName = "crash-" + time + "-" + timestamp + ".log";
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                String path = "/sdcard/";
+                String path = Environment.getExternalStorageDirectory().getPath();
                 File dir = new File(path);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                fos = new FileOutputStream(path + fileName);
+                File file = new File(path + fileName);
+                fos = new FileOutputStream(file);
                 fos.write(sb.toString().getBytes());
 
             }

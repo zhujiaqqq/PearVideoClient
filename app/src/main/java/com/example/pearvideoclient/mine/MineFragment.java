@@ -1,12 +1,16 @@
 package com.example.pearvideoclient.mine;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
 import androidx.fragment.app.Fragment;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,11 +170,8 @@ public class MineFragment extends Fragment implements MineContract.View {
                 v -> showBottom());
 
 
-        mLlEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 2019-07-21 点击跳转修改资料页面
-            }
+        mLlEdit.setOnClickListener(v -> {
+            // TODO: 2019-07-21 点击跳转修改资料页面
         });
 
         mTvLogin.setOnClickListener(

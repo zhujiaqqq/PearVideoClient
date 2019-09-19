@@ -1,10 +1,15 @@
 package com.example.pearvideoclient;
 
 import android.os.Bundle;
+
+import com.example.annotations.BindPath;
+import com.example.route.Route;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.KeyEvent;
 
 import com.example.pearvideoclient.channel.ChannelFragment;
@@ -25,6 +30,7 @@ import java.util.List;
  * @Date: 2019-08-10 15:45
  * @ClassName: MainActivity
  */
+@BindPath(value = "app/main")
 public class MainActivity extends AppCompatActivity {
 
     private List<Fragment> mFragments;
@@ -52,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
                     setFragmentPosition(1);
                     break;
                 case R.id.screen:
-                    setFragmentPosition(2);
+//                    setFragmentPosition(2);
+                    Route.getInstance().jumpActivity( "member/main", null);
                     break;
                 case R.id.follow:
                     setFragmentPosition(3);

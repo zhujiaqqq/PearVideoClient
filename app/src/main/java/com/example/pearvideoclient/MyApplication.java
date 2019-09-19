@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.example.route.Route;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -19,6 +20,7 @@ import com.squareup.leakcanary.RefWatcher;
  */
 public class MyApplication extends Application {
     private RefWatcher mRefWatcher;
+
     //static 代码段可以防止内存泄露
     static {
         //设置全局的Header构建器
@@ -43,6 +45,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Route.getInstance().init(this);
         instance = this;
         activityLifecycleCallbacks = new ActivityLifecycleCallbacks() {
             @Override
@@ -93,7 +96,7 @@ public class MyApplication extends Application {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return RefWatcher.DISABLED;
         }
-      return   LeakCanary.install(this);
+        return LeakCanary.install(this);
     }
 
     public static RefWatcher getRefWatcher(Context context) {
