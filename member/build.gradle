@@ -5,7 +5,7 @@ if (MEMBER_IS_APPLICATION.toBoolean()) {
 }
 
 android {
-    compileSdkVersion COMPLIER_SDK_VERSION.toInteger()
+    compileSdkVersion = 28
     buildToolsVersion "29.0.1"
 
 
