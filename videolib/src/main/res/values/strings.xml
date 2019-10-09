@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">videolib</string>
+    <string name="tv_show_time">00:%1$02d:%2$01d</string>
 </resources>

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.widget.TextView;
 
-import com.example.pearvideoclient.LocalHandler;
+import com.example.apublic.LocalHandler;
 import com.example.pearvideoclient.MainActivity;
 import com.example.pearvideoclient.R;
 

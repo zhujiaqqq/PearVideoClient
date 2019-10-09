@@ -1,9 +1,7 @@
 package com.example.pearvideoclient.content;
 
-import android.view.animation.Animation;
-
-import com.example.pearvideoclient.BasePresenter;
-import com.example.pearvideoclient.BaseView;
+import com.example.apublic.BasePresenter;
+import com.example.apublic.BaseView;
 import com.example.pearvideoclient.entity.content.Content;
 import com.example.pearvideoclient.entity.content.HotConts;
 import com.example.pearvideoclient.entity.content.RelateConts;

@@ -54,4 +54,5 @@ dependencies {
     implementation project(path: ':route')
     implementation project(path: ':annotations')
     annotationProcessor project(path: ':annotations_compiler')
+    implementation project(path: ':public')
 }

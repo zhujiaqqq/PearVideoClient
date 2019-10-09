@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.example.apublic.CommonCallBack;
 import com.example.pearvideoclient.Api;
-import com.example.pearvideoclient.CommonCallBack;
 import com.example.pearvideoclient.entity.DomainListBean;
 import com.example.pearvideoclient.entity.FollowUsersBean;
 import com.example.pearvideoclient.http.RetrofitManager;

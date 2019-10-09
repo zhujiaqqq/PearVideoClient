@@ -1,1 +1,1 @@
-include ':app', ':videolib', ':member', ':route', ':annotations', ':annotations_compiler'
+include ':app', ':videolib', ':member', ':route', ':annotations', ':annotations_compiler', ':public'

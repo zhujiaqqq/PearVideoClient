@@ -1,9 +1,8 @@
 package com.example.pearvideoclient.channel;
 
-import com.example.pearvideoclient.BasePresenter;
-import com.example.pearvideoclient.BaseView;
+import com.example.apublic.BasePresenter;
+import com.example.apublic.BaseView;
 import com.example.pearvideoclient.entity.CategoryBean;
-import com.example.pearvideoclient.entity.CategoryContsBean;
 import com.example.pearvideoclient.entity.ContEntity;
 
 import java.util.ArrayList;

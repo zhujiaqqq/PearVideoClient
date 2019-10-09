@@ -67,12 +67,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation project(path: ':videolib')
-    implementation project(path: ':member')
     implementation project(path: ':route')
     implementation project(path: ':annotations')
     annotationProcessor project(path: ':annotations_compiler')
+    implementation project(path: ':public')
     if (!MEMBER_IS_APPLICATION.toBoolean()) {
         implementation project(path: ':member')
+    }
+    if (!VIDEO_LIB_IS_APPLICATION.toBoolean()) {
+        implementation project(path: ':videolib')
     }
 }

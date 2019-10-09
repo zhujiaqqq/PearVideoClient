@@ -1,4 +1,4 @@
-package com.example.pearvideoclient;
+package com.example.apublic;
 
 public interface BasePresenter {
 

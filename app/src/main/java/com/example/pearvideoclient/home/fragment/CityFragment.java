@@ -14,8 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.pearvideoclient.CommonCallBack;
+import com.example.apublic.CommonCallBack;
 import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.entity.LocalContEntity;

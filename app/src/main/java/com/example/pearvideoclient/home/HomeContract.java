@@ -1,7 +1,7 @@
 package com.example.pearvideoclient.home;
 
-import com.example.pearvideoclient.BasePresenter;
-import com.example.pearvideoclient.BaseView;
+import com.example.apublic.BasePresenter;
+import com.example.apublic.BaseView;
 import com.example.pearvideoclient.entity.CityListBean;
 import com.example.pearvideoclient.entity.LocalContEntity;
 import com.example.pearvideoclient.entity.NewsEntity;

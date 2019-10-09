@@ -1,7 +1,7 @@
 package com.example.pearvideoclient.mine;
 
-import com.example.pearvideoclient.BasePresenter;
-import com.example.pearvideoclient.BaseView;
+import com.example.apublic.BasePresenter;
+import com.example.apublic.BaseView;
 import com.example.pearvideoclient.entity.LoginBean;
 import com.example.pearvideoclient.entity.UserInfoBean;
 

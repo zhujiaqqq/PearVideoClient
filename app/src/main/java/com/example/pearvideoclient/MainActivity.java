@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                     setFragmentPosition(1);
                     break;
                 case R.id.screen:
-//                    setFragmentPosition(2);
-                    Route.getInstance().jumpActivity( "member/main", null);
+                    setFragmentPosition(2);
+//                    Route.getInstance().jumpActivity( "member/main", null);
                     break;
                 case R.id.follow:
                     setFragmentPosition(3);

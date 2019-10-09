@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.pearvideoclient.LocalHandler;
+import com.example.apublic.LocalHandler;
 import com.example.pearvideoclient.MyApplication;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.author.fragment.UserAlbumsFragment;

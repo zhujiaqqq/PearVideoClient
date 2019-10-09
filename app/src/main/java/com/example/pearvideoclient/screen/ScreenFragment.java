@@ -18,6 +18,7 @@ import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.view.video.VideoPlayerIJK;
 import com.example.pearvideoclient.entity.PaikeFineVideoBean;
 import com.example.pearvideoclient.utils.MyToast;
+import com.example.route.Route;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ScreenFragment extends Fragment implements ScreenContract.View {
     private View.OnClickListener mClickListener = v -> {
         switch (v.getId()) {
             case R.id.tv_start_video:
+                Route.getInstance().jumpActivity("videolib/recordVideo", null);
                 break;
             case R.id.tv_see_detail:
                 break;

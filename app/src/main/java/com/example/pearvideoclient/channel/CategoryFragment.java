@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pearvideoclient.CommonCallBack;
+import com.example.apublic.CommonCallBack;
 import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.R;
 import com.example.pearvideoclient.channel.adapter.ContListAdapter;

@@ -1,7 +1,7 @@
 package com.example.pearvideoclient.author;
 
-import com.example.pearvideoclient.BasePresenter;
-import com.example.pearvideoclient.BaseView;
+import com.example.apublic.BasePresenter;
+import com.example.apublic.BaseView;
 import com.example.pearvideoclient.entity.AuthorHomeBean;
 import com.example.pearvideoclient.entity.UserAlbumsBean;
 import com.example.pearvideoclient.entity.UserConts;
