@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.annotations.BindPath
 import com.example.apublic.LocalHandler
 import com.example.videolib.databinding.ActivityRecordVideoBinding
 import com.example.videolib.model.record.KtOnRecordListener
@@ -15,6 +16,7 @@ import com.example.videolib.model.record.KtRecorderControllerImpl.Companion.MSG_
 import com.example.videolib.model.record.KtRecorderControllerImpl.Companion.MSG_REFRESH_TIME
 import com.example.videolib.viewmodel.KtRecordVideoViewModel
 
+@BindPath("videolib/recordVideo")
 class KtRecordVideoActivity : AppCompatActivity(), LocalHandler.IHandler {
     override fun handlerMessage(msg: Message?) {
         if (msg!!.what == MSG_REFRESH_TIME) {
@@ -47,10 +49,10 @@ class KtRecordVideoActivity : AppCompatActivity(), LocalHandler.IHandler {
                 Toast.makeText(this@KtRecordVideoActivity, "finish", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onRecordProgress(progress: Int) {
+            override fun onRecordProgress(process: Int) {
                 val message = mHandler.obtainMessage()
                 message.what = MSG_REFRESH_TIME
-                message.arg1 = progress
+                message.arg1 = process
                 mHandler.sendMessage(message)
             }
         })
@@ -92,7 +94,7 @@ class KtRecordVideoActivity : AppCompatActivity(), LocalHandler.IHandler {
         mBinding.ivCancel.setOnClickListener { mRecordViewModel.cancelRecorder() }
     }
 
-    fun countRecord(time: Int): String {
+    private fun countRecord(time: Int): String {
         val second = time / 10
         val lSecond = time % 10
         return getString(R.string.tv_show_time, second, lSecond)

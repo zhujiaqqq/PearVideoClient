@@ -16,5 +16,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun jumpToPlay(view: View) {
+        val intent = Intent(this, PlayerActivity::class.java)
+        startActivity(intent)
+    }
+
 
 }

@@ -7,9 +7,93 @@
     tools:context=".PlayerActivity">
 
     <com.example.apublic.MySurfaceView
+        android:id="@+id/surface_view"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_screen"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@id/surface_view"
+        app:layout_constraintEnd_toEndOf="@id/surface_view"
+        app:layout_constraintStart_toStartOf="@id/surface_view"
+        app:layout_constraintTop_toTopOf="@id/surface_view" />
+
+    <View
+        android:id="@+id/v_background"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#3f000000"
+        app:layout_constraintBottom_toBottomOf="@id/surface_view" />
+
+    <ImageView
+        android:id="@+id/iv_player"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_play_circle_outline_24dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/surface_view"
+        app:layout_constraintEnd_toEndOf="@id/surface_view"
+        app:layout_constraintStart_toStartOf="@id/surface_view"
+        app:layout_constraintTop_toTopOf="@id/surface_view" />
+
+    <TextView
+        android:id="@+id/tv_current_time"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="10dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@id/iv_full_screen"
+        app:layout_constraintStart_toStartOf="@id/surface_view"
+        app:layout_constraintTop_toTopOf="@id/iv_full_screen"
+        tools:text="00:00" />
+
+    <ImageView
+        android:id="@+id/iv_full_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_fullscreen_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/surface_view"
+        app:layout_constraintEnd_toEndOf="@id/surface_view" />
+
+    <TextView
+        android:id="@+id/tv_total_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_full_screen"
+        app:layout_constraintEnd_toStartOf="@id/iv_full_screen"
+        app:layout_constraintTop_toTopOf="@id/iv_full_screen"
+        tools:text="00:00" />
+
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:max="100"
+        android:progress="0"
+        app:layout_constraintBottom_toBottomOf="@id/tv_total_time"
+        app:layout_constraintEnd_toStartOf="@id/tv_total_time"
+        app:layout_constraintStart_toEndOf="@id/tv_current_time"
+        app:layout_constraintTop_toTopOf="@id/tv_total_time" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="iv_player,v_background,tv_total_time,iv_full_screen,seek_bar,tv_current_time" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

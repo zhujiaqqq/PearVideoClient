@@ -11,18 +11,18 @@ import java.io.File
 import java.lang.Exception
 
 class KtRecorderControllerImpl(private var mHolder: SurfaceHolder,
-                                      private var mHandler: LocalHandler,
-                                      private var mOnRecordListener: KtOnRecordListener)
+                               private var mHandler: LocalHandler,
+                               private var mOnRecordListener: KtOnRecordListener)
     : MediaRecorder.OnErrorListener, KtIRecorderController {
 
 
     companion object {
-        @JvmField
-        val MAX_TIME = 600
-        @JvmField
-        val MSG_REFRESH_TIME = 1;
-        @JvmField
-        val MSG_FINISH_RECORD = 2;
+
+        const val MAX_TIME = 600
+
+        const val MSG_REFRESH_TIME = 1;
+
+        const val MSG_FINISH_RECORD = 2;
     }
 
     private var mFrontIndex: Int = 0
