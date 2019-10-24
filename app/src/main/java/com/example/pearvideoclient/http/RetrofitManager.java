@@ -1,6 +1,7 @@
 package com.example.pearvideoclient.http;
 
 import com.example.pearvideoclient.BuildConfig;
+import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.MyApplication;
 
 import java.util.concurrent.TimeUnit;
@@ -20,7 +21,7 @@ public class RetrofitManager {
 
     private RetrofitManager() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(com.example.pearvideoclient.Constants.BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

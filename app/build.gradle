@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion = 28
     buildToolsVersion "29.0.1"
@@ -77,4 +79,6 @@ dependencies {
     if (!VIDEO_LIB_IS_APPLICATION.toBoolean()) {
         implementation project(path: ':videolib')
     }
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
 }

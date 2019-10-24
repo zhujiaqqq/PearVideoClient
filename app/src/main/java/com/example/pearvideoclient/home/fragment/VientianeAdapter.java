@@ -44,6 +44,6 @@ public class VientianeAdapter extends BaseMultiItemQuickAdapter<NewsEntity, Base
         } else {
             tvTopping.setVisibility(View.GONE);
         }
-        GlideUtils.loadWithPlaceHolder(bean.getNewsInfo().getPic(), ivVideoImg, null, null);
+        GlideUtils.INSTANCE.loadWithPlaceHolder(bean.getNewsInfo().getPic(), ivVideoImg, null, null);
     }
 }

@@ -64,4 +64,5 @@ dependencies {
     annotationProcessor project(path: ':annotations_compiler')
     implementation project(path: ':public')
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
 }

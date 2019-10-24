@@ -37,7 +37,7 @@ public class RelatedVideoAdapter extends BaseQuickAdapter<AbstractConts, BaseVie
             helper.setText(R.id.tv_video_name, ((RelateConts) item).getName());
             helper.setText(R.id.tv_user_name, ((RelateConts) item).getUserInfo().getNickname());
             ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-            GlideUtils.load(((RelateConts) item).getPic(), ivVideoImg);
+            GlideUtils.INSTANCE.load(((RelateConts) item).getPic(), ivVideoImg);
             RelativeLayout rlParent = helper.getView(R.id.rl_parent);
             rlParent.setOnClickListener(v -> {
                 if (listener != null) {
@@ -48,7 +48,7 @@ public class RelatedVideoAdapter extends BaseQuickAdapter<AbstractConts, BaseVie
             helper.setText(R.id.tv_video_name, ((HotConts) item).getName());
             helper.setText(R.id.tv_user_name, ((HotConts) item).getUserInfo().getNickname());
             ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-            GlideUtils.load(((HotConts) item).getPic(), ivVideoImg);
+            GlideUtils.INSTANCE.load(((HotConts) item).getPic(), ivVideoImg);
             RelativeLayout rlParent = helper.getView(R.id.rl_parent);
             rlParent.setOnClickListener(v -> {
                 if (listener != null) {

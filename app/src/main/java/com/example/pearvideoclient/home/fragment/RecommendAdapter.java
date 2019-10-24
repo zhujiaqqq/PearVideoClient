@@ -90,8 +90,8 @@ public class RecommendAdapter extends BaseMultiItemQuickAdapter<RecommendEntity,
 
         ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
         ImageView ivUserImg = helper.getView(R.id.iv_user_img);
-        GlideUtils.loadCircleImage(cont.getUserInfo().getPic(), ivUserImg);
-        GlideUtils.loadWithPlaceHolder(cont.getPic(), ivVideoImg, null, null);
+        GlideUtils.INSTANCE.loadCircleImage(cont.getUserInfo().getPic(), ivUserImg);
+        GlideUtils.INSTANCE.loadWithPlaceHolder(cont.getPic(), ivVideoImg, null, null);
 
         helper.getView(R.id.rl_parent).setOnClickListener(v -> {
             Intent intent = new Intent(mContext, ContentActivity.class);

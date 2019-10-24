@@ -236,7 +236,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     @Override
     public void showErrorToast(String loadingFail) {
-        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
+        MyToast.Companion.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
     }
 
     @Override

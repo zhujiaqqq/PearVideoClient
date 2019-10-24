@@ -21,8 +21,10 @@
         android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="@id/surface_view"
         app:layout_constraintEnd_toEndOf="@id/surface_view"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/surface_view"
-        app:layout_constraintTop_toTopOf="@id/surface_view" />
+        app:layout_constraintTop_toTopOf="@id/surface_view"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/v_background"

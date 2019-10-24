@@ -358,7 +358,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     @Override
     public void showErrorToast(String loadingFail) {
-        MyToast.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
+        MyToast.Companion.getInstance(MyApplication.getInstance()).show(loadingFail, 3000);
     }
 
     @Override
@@ -369,8 +369,8 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         mTvDetailInfo.setText(content.getSummary());
         mTvUserName.setText(content.getUserInfo().getNickname());
         mTvUserSingle.setText(content.getUserInfo().getSignature());
-        GlideUtils.load(content.getPic(), mIvVideoImg);
-        GlideUtils.loadCircleImage(content.getUserInfo().getPic(), mIvSmallUserImage);
+        GlideUtils.INSTANCE.load(content.getPic(), mIvVideoImg);
+        GlideUtils.INSTANCE.loadCircleImage(content.getUserInfo().getPic(), mIvSmallUserImage);
 
         if (content.getUserInfo().getIsFollow() != null && FOLLOW_USER.equals(content.getUserInfo().getIsFollow())) {
             isAttention = true;

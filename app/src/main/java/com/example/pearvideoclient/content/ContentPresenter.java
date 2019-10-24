@@ -3,6 +3,7 @@ package com.example.pearvideoclient.content;
 import android.os.Handler;
 
 import com.example.pearvideoclient.Api;
+import com.example.pearvideoclient.Constants;
 import com.example.pearvideoclient.http.RetrofitManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

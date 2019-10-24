@@ -27,7 +27,7 @@ public class HotUserAdapter extends BaseQuickAdapter<LocalContsBean.DataListBean
         helper.setText(R.id.tv_user_name, item.getNickname())
                 .setText(R.id.tv_user_signature, item.getSignature());
         ImageView ivUserImg = helper.getView(R.id.iv_user_img);
-        GlideUtils.loadCircleImage(item.getPic(), ivUserImg);
+        GlideUtils.INSTANCE.loadCircleImage(item.getPic(), ivUserImg);
         if ("0".equals(item.getIsFollow())) {
             helper.setText(R.id.tv_follow, mContext.getString(R.string.tv_follow));
             helper.setBackgroundRes(R.id.tv_follow, R.drawable.bg_round_50_yellow);

@@ -80,7 +80,7 @@ public class HomePresenter implements HomeContract.Presenter {
                         mView.refreshFinish(false, NEWS);
                     }
                 }, () -> {
-                    if (Constants.LOAD_REFRESH == loadType) {
+                    if (Constants.LOAD_REFRESH== loadType) {
                         mView.refreshFinish(false, NEWS);
                     }
                 });

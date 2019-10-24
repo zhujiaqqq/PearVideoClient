@@ -28,7 +28,7 @@ public class ContListAdapter extends BaseQuickAdapter<RecommendBean.DataListBean
                 .setText(R.id.tv_video_author_duration, item.getUserInfo().getNickname() + " | " + item.getDuration());
 
         ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-        GlideUtils.loadWithPlaceHolder(item.getPic(), ivVideoImg, null, null);
+        GlideUtils.INSTANCE.loadWithPlaceHolder(item.getPic(), ivVideoImg, null, null);
         helper.addOnClickListener(R.id.rl_parent);
     }
 }

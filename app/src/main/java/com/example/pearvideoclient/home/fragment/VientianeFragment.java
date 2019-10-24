@@ -105,6 +105,6 @@ public class VientianeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MyApplication.getRefWatcher(getActivity()).watch(this);
+        MyApplication.Companion.getRefWatcher(getActivity()).watch(this);
     }
 }

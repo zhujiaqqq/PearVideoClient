@@ -64,7 +64,7 @@ public class CityAdapter extends BaseMultiItemQuickAdapter<LocalContEntity, Base
                 .setText(R.id.tv_local, contListBean.getGeo().getShowName())
                 .setText(R.id.tv_video_name, contListBean.getName());
         ImageView ivVideoImg = helper.getView(R.id.iv_video_img);
-        GlideUtils.loadWithPlaceHolder(contListBean.getPic(), ivVideoImg, null, null);
+        GlideUtils.INSTANCE.loadWithPlaceHolder(contListBean.getPic(), ivVideoImg, null, null);
 
         helper.addOnClickListener(R.id.iv_share)
                 .addOnClickListener(R.id.iv_more)

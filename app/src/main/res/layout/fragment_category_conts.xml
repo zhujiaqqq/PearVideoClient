@@ -13,7 +13,6 @@
             android:id="@+id/rv_category_cont_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:background="@color/white" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
