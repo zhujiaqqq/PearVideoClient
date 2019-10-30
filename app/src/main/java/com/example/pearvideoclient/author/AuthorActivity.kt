@@ -21,8 +21,8 @@ import com.example.pearvideoclient.author.fragment.UserAlbumsFragment
 import com.example.pearvideoclient.author.fragment.UserContsFragment
 import com.example.pearvideoclient.author.fragment.UserHomeFragment
 import com.example.pearvideoclient.author.fragment.UserPostFragment
-import com.example.pearvideoclient.content.ContentPresenter.FOLLOW_USER
-import com.example.pearvideoclient.content.ContentPresenter.UN_FOLLOW_USER
+import com.example.pearvideoclient.content.ContentPresenter.Companion.FOLLOW_USER
+import com.example.pearvideoclient.content.ContentPresenter.Companion.UN_FOLLOW_USER
 import com.example.pearvideoclient.entity.*
 import com.example.pearvideoclient.utils.GlideUtils
 import com.example.pearvideoclient.utils.MyToast

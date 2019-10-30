@@ -1,57 +1,55 @@
-package com.example.pearvideoclient.home;
+package com.example.pearvideoclient.home
 
-import com.example.apublic.BasePresenter;
-import com.example.apublic.BaseView;
-import com.example.pearvideoclient.entity.CityListBean;
-import com.example.pearvideoclient.entity.LocalContEntity;
-import com.example.pearvideoclient.entity.NewsEntity;
-import com.example.pearvideoclient.entity.RecommendEntity;
+import com.example.apublic.BasePresenter
+import com.example.apublic.BaseView
+import com.example.pearvideoclient.entity.CityListBean
+import com.example.pearvideoclient.entity.LocalContEntity
+import com.example.pearvideoclient.entity.NewsEntity
+import com.example.pearvideoclient.entity.RecommendEntity
 
-import java.util.List;
-
-public interface HomeContract {
-    interface View extends BaseView<Presenter> {
+interface HomeContract {
+    interface View : BaseView<Presenter> {
         /**
          * 显示万象页面数据
          *
          * @param data 列表数据
          */
-        void showVientianeList(List<NewsEntity> data);
+        fun showVientianeList(data: List<NewsEntity>)
 
         /**
          * 显示更多万象页面数据
          *
          * @param data 列表数据
          */
-        void loadMoreVientianeList(List<NewsEntity> data);
+        fun loadMoreVientianeList(data: List<NewsEntity>)
 
         /**
          * 显示推荐页面数据
          *
          * @param data 列表数据
          */
-        void showRecommendList(List<RecommendEntity> data);
+        fun showRecommendList(data: List<RecommendEntity>)
 
         /**
          * 显示更多推荐页面数据
          *
          * @param data 列表数据
          */
-        void loadMoreRecommendList(List<RecommendEntity> data);
+        fun loadMoreRecommendList(data: List<RecommendEntity>)
 
         /**
          * 显示城市页面数据
          *
          * @param data 列表数据
          */
-        void showCityContsList(List<LocalContEntity> data);
+        fun showCityContsList(data: List<LocalContEntity>)
 
         /**
          * 显示更多城市页面数据
          *
          * @param data 列表数据
          */
-        void loadMoreCityContsList(List<LocalContEntity> data);
+        fun loadMoreCityContsList(data: List<LocalContEntity>)
 
         /**
          * 加载更多完成
@@ -59,7 +57,7 @@ public interface HomeContract {
          * @param isSuccess true 成功
          * @param pageType  页面
          */
-        void loadMoreFinish(boolean isSuccess, @HomePresenter.PageType String pageType);
+        fun loadMoreFinish(isSuccess: Boolean, @HomePresenter.PageType pageType: String)
 
         /**
          * 刷新完成
@@ -67,65 +65,65 @@ public interface HomeContract {
          * @param isSuccess true 成功
          * @param pageType  页面
          */
-        void refreshFinish(boolean isSuccess, @HomePresenter.PageType String pageType);
+        fun refreshFinish(isSuccess: Boolean, @HomePresenter.PageType pageType: String)
 
         /**
          * 跳转城市列表页面
          *
          * @param cityListBean 城市列表bean
          */
-        void toCityList(CityListBean cityListBean);
+        fun toCityList(cityListBean: CityListBean)
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter : BasePresenter {
         /**
          * 加载万象页面数据
          */
-        void loadVientianeList();
+        fun loadVientianeList()
 
         /**
          * 刷新万象页面数据
          */
-        void refreshVientianeList();
+        fun refreshVientianeList()
 
         /**
          * 加载更多万象页面数据
          */
-        void loadMoreVientianeList();
+        fun loadMoreVientianeList()
 
         /**
          * 加载推荐页面数据
          */
-        void loadRecommendList();
+        fun loadRecommendList()
 
         /**
          * 刷新推荐页面数据
          */
-        void refreshRecommendList();
+        fun refreshRecommendList()
 
         /**
          * 加载更多推荐页面数据
          */
-        void loadMoreRecommendList();
+        fun loadMoreRecommendList()
 
         /**
          * 刷新城市页面数据
          */
-        void refreshCityContsList(CityListBean.ChannelBean currentCity);
+        fun refreshCityContsList(currentCity: CityListBean.ChannelBean)
 
         /**
          * 加载更多城市页面数据
          */
-        void loadMoreCityContsList();
+        fun loadMoreCityContsList()
 
         /**
          * 加载城市页面数据
          */
-        void loadCityContsList(CityListBean.ChannelBean currentCity);
+        fun loadCityContsList(currentCity: CityListBean.ChannelBean)
 
         /**
          * 获取城市数据
          */
-        void loadLocalChannel();
+        fun loadLocalChannel()
     }
 }
